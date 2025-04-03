@@ -1,0 +1,14 @@
+name: Test Repository Access
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  test-access:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Repository Access
+        run: |
+          echo "Testing access to repository"
+          curl -H "Authorization: token ${{ secrets.DEPLOY_TOKEN }}" \
+               https://api.github.com/repos/neothink-dao/neothink.io
