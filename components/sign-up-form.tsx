@@ -41,6 +41,11 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/dashboard`,
+          data: {
+            site_name: "Neothink",
+            site_url: window.location.origin,
+            platform: "neothink"
+          }
         },
       })
       if (error) throw error
