@@ -1,0 +1,28 @@
+{
+  "name": "neothink-sites",
+  "private": true,
+  "workspaces": [
+    "go.neothink.io",
+    "joinascenders.org",
+    "joinneothinkers.org",
+    "joinimmortals.org",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "latest",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "npm@10.2.4",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 

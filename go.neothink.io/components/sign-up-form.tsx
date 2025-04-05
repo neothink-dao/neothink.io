@@ -1,7 +1,6 @@
 "use client"
 
-import type React from "react"
-
+import React from "react"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -12,7 +11,11 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+interface SignUpFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string
+}
+
+export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
@@ -20,7 +23,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const supabase = createClient()
     setIsLoading(true)
@@ -37,7 +40,12 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+          data: {
+            site_name: "Neothink",
+            site_url: window.location.origin,
+            platform: "neothink"
+          }
         },
       })
       if (error) throw error
@@ -67,7 +75,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
                   placeholder="m@example.com"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -79,7 +87,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -91,7 +99,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
                   type="password"
                   required
                   value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)}
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}

@@ -1,0 +1,9 @@
+[
+  {
+    "site": "go.neothink.io",
+    "status": "success",
+    "expectedSenderName": "Neothink+",
+    "expectedSenderEmail": "team@auth.neothink.io",
+    "timestamp": "2025-04-04T04-36-40-964Z"
+  }
+]

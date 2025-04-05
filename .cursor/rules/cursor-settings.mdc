@@ -1,0 +1,86 @@
+# Cursor Settings and Best Practices
+
+## Editor Configuration
+
+1. **File Organization**
+   - Keep related files together
+   - Use consistent file naming
+   - Follow platform-specific conventions
+
+2. **Code Navigation**
+   - Use semantic search for finding code
+   - Leverage file tree for navigation
+   - Use search within files for quick finds
+
+3. **AI Assistant Usage**
+   - Provide clear context in prompts
+   - Reference specific files when needed
+   - Verify AI suggestions before applying
+
+## Development Workflow
+
+1. **File Changes**
+   - Review changes before committing
+   - Use git status to track modifications
+   - Keep changes atomic and focused
+
+2. **Code Generation**
+   - Review generated code carefully
+   - Test generated code before committing
+   - Document any AI-generated components
+
+3. **Error Handling**
+   - Use AI to help debug issues
+   - Provide error messages in prompts
+   - Check logs for context
+
+## Best Practices
+
+1. **Prompt Engineering**
+   - Be specific about requirements
+   - Include relevant file paths
+   - Specify desired output format
+
+2. **Code Review**
+   - Use AI to review changes
+   - Check for security issues
+   - Verify cross-platform compatibility
+
+3. **Documentation**
+   - Keep documentation up to date
+   - Use AI to generate docs
+   - Include examples in docs
+
+## Safety Measures
+
+1. **Sensitive Data**
+   - Never share sensitive data in prompts
+   - Use environment variables
+   - Check for exposed credentials
+
+2. **Code Protection**
+   - Review generated code for security
+   - Check for unintended side effects
+   - Verify access controls
+
+3. **Version Control**
+   - Commit changes in logical groups
+   - Write clear commit messages
+   - Use branches for features
+
+## AI Assistant Guidelines
+
+1. **Effective Communication**
+   - Be clear and concise
+   - Provide necessary context
+   - Specify desired outcomes
+
+2. **Code Generation**
+   - Review generated code
+   - Test thoroughly
+   - Document changes
+
+3. **Problem Solving**
+   - Break down complex issues
+   - Use step-by-step approach
+   - Verify solutions 
