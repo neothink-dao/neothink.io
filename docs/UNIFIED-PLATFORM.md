@@ -12,7 +12,7 @@ Neothink's mission is to unlock human potential through the synergy of prosperit
 
 Our fragmented approach using multiple third-party platforms is causing three critical problems:
 
-1. **Lost Cross-Platform Value**: Only 12% of users discover our other platforms, missing valuable connections between prosperity, happiness, and longevity.
+1. **Lost Cross-Platform Value**: Many users never discover our other platforms, missing valuable connections between prosperity, happiness, and longevity.
 
 2. **Fragmented User Experience**: Users face separate logins, inconsistent interfaces, and disconnected journeys across platforms.
 
@@ -30,7 +30,7 @@ Rather than a massive overhaul, we'll implement a sequence of focused improvemen
 
 ### Step 2: Cross-Platform Discovery
 **Value for Users**: Natural discovery of relevant content across platforms
-**Value for Business**: Increased cross-platform conversion (target: 40%)
+**Value for Business**: Increased cross-platform engagement
 **What It Takes**: Basic recommendation components between platforms
 **Foundation For**: Advanced personalization and the Superachiever bundle
 
