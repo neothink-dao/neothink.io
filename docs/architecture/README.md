@@ -1,157 +1,208 @@
-# Architecture Overview
+# Neothink Network State Architecture
 
-## System Architecture
+## System Overview
 
-The Neothink Sites monorepo follows a microservices-like architecture where each site is independently deployable but shares common resources.
+The Neothink Network State Ecosystem consists of three interconnected platforms (Ascenders, Neothinkers, Immortals) sharing a common infrastructure while maintaining platform-specific features.
 
-```mermaid
-graph TD
-    A[Hub Platform] --> D[Supabase Backend]
-    B[Ascenders Platform] --> D
-    C[Neothinkers Platform] --> D
-    E[Immortals Platform] --> D
-    
-    D --> F[Auth Service]
-    D --> G[Database]
-    D --> H[Edge Functions]
-    D --> I[Email Service]
+## Core Architecture Principles
+
+1. **Unified Authentication**
+   - Single sign-on across platforms
+   - Role-based access control
+   - Subscription management
+   - Progress tracking
+
+2. **Modular Design**
+   - Platform-specific modules
+   - Shared components library
+   - Common service layer
+   - Extensible architecture
+
+3. **Data Architecture**
+   - Centralized user profiles
+   - Platform-specific data stores
+   - Cross-platform analytics
+   - Event tracking system
+
+4. **Network State Features**
+   - Token economy integration points
+   - Governance system hooks
+   - Community interaction layers
+   - Physical/digital bridges
+
+## Technical Stack
+
+### Frontend
+- Next.js for all platforms
+- Tailwind CSS for styling
+- Shared component library
+- Platform-specific layouts
+
+### Backend
+- Supabase for core services
+  - Authentication
+  - Database
+  - Real-time features
+  - Storage
+- Platform-specific APIs
+- Shared service layer
+
+### Infrastructure
+- Vercel deployment
+- Edge functions
+- CDN integration
+- Monitoring and analytics
+
+## System Components
+
+### 1. Core Platform Services
+```
+┌─────────────────────┐
+│   Authentication    │
+│   Subscription     │
+│   User Profiles    │
+│   Analytics        │
+└─────────────────────┘
 ```
 
-## Key Components
+### 2. Platform-Specific Services
+```
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│ Ascenders   │ │ Neothinkers │ │ Immortals   │
+│ - Business  │ │ - Learning  │ │ - Health    │
+│ - FLOW      │ │ - Courses   │ │ - Life      │
+│ - Progress  │ │ - Progress  │ │ - Progress  │
+└─────────────┘ └─────────────┘ └─────────────┘
+```
 
-1. **Frontend Platforms**
-   - Each platform is a Next.js application
-   - Independent deployment through Vercel
-   - Shared components and utilities
-   - Platform-specific features and branding
-
-2. **Backend Services (Supabase)**
-   - Authentication and Authorization
-   - Database Management
-   - Edge Functions
-   - Email Templates
-   - Storage
-
-3. **Shared Resources**
-   - UI Components
-   - Authentication Logic
-   - Database Schema
-   - Email Templates
-   - Utility Functions
+### 3. Shared Components
+```
+┌─────────────────────────────┐
+│      Component Library      │
+│  - UI Components           │
+│  - Business Logic          │
+│  - Integration Points      │
+└─────────────────────────────┘
+```
 
 ## Data Flow
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Platform
-    participant Supabase
-    participant Database
-    
-    User->>Platform: Request
-    Platform->>Supabase: Auth Check
-    Supabase->>Database: Query
-    Database-->>Supabase: Response
-    Supabase-->>Platform: Auth Result
-    Platform-->>User: Response
-```
+1. **Authentication Flow**
+   - User authentication
+   - Platform access
+   - Feature authorization
+   - Progress validation
+
+2. **Content Delivery**
+   - Platform-specific content
+   - Shared resources
+   - Progress tracking
+   - Analytics
+
+3. **Community Interaction**
+   - Cross-platform communication
+   - Platform-specific forums
+   - Event management
+   - Notification system
 
 ## Security Architecture
 
 1. **Authentication**
-   - JWT-based authentication
-   - Session management per platform
-   - Secure cookie handling
-   - PKCE flow for OAuth
+   - JWT-based auth
+   - Role-based access
+   - Session management
+   - MFA support
 
-2. **Authorization**
-   - Row Level Security (RLS)
-   - Platform-specific policies
-   - Role-based access control
-   - Permission management
+2. **Data Protection**
+   - Encryption at rest
+   - Secure transmission
+   - Access logging
+   - Audit trails
 
-3. **Data Protection**
-   - Encrypted connections
-   - Secure storage
-   - Input validation
-   - Output sanitization
-
-## Performance Considerations
-
-1. **Frontend**
-   - Static site generation
-   - Incremental static regeneration
-   - Edge caching
-   - Code splitting
-
-2. **Backend**
-   - Connection pooling
-   - Query optimization
-   - Caching strategies
+3. **API Security**
    - Rate limiting
+   - Input validation
+   - Error handling
+   - Security headers
 
-## Monitoring and Logging
+## Scalability Considerations
 
-1. **Frontend**
-   - Error tracking
+1. **Horizontal Scaling**
+   - Stateless services
+   - Load balancing
+   - Cache strategies
+   - Database sharding
+
+2. **Performance Optimization**
+   - CDN usage
+   - Edge computing
+   - Caching layers
+   - Resource optimization
+
+## Guardian Controls
+
+1. **Content Management**
+   - Release controls
+   - Access rules
+   - Progress requirements
+   - Feature unlocking
+
+2. **Community Management**
+   - Moderation tools
+   - Guidelines enforcement
+   - Event management
+   - Resource allocation
+
+## Network State Evolution
+
+1. **Token Integration**
+   - Token creation points
+   - Value exchange system
+   - Reward mechanisms
+   - Economic controls
+
+2. **Governance System**
+   - Voting mechanisms
+   - Proposal system
+   - Decision tracking
+   - Implementation tools
+
+3. **Physical Integration**
+   - Location services
+   - Resource mapping
+   - Event coordination
+   - Territory management
+
+## Implementation Guidelines
+
+1. **Development Standards**
+   - Code organization
+   - Testing requirements
+   - Documentation
+   - Review process
+
+2. **Deployment Process**
+   - CI/CD pipeline
+   - Environment management
+   - Rollback procedures
+   - Monitoring setup
+
+3. **Maintenance**
+   - Update procedures
+   - Backup strategies
    - Performance monitoring
-   - User analytics
-   - Session tracking
-
-2. **Backend**
-   - Query logging
-   - Error tracking
-   - Performance metrics
-   - Audit logging
-
-## Deployment Architecture
-
-```mermaid
-graph LR
-    A[GitHub] --> B[Vercel]
-    B --> C[Production]
-    B --> D[Preview]
-    E[Supabase] --> F[Database]
-    E --> G[Edge Functions]
-    E --> H[Auth]
-```
-
-## Environment Setup
-
-1. **Development**
-   - Local Supabase instance
-   - Development environment variables
-   - Hot reloading
-   - Debug tools
-
-2. **Staging**
-   - Preview deployments
-   - Test database
-   - Staging environment variables
-   - Integration testing
-
-3. **Production**
-   - Production deployments
-   - Production database
-   - Production environment variables
-   - Monitoring and alerts
+   - Security updates
 
 ## Future Considerations
 
-1. **Scalability**
-   - Database sharding
-   - Caching strategies
-   - Load balancing
-   - CDN integration
+1. **Extensibility**
+   - New platform integration
+   - Feature expansion
+   - Protocol updates
+   - Governance evolution
 
-2. **Maintainability**
-   - Documentation
-   - Testing coverage
-   - Code quality
-   - Performance monitoring
-
-3. **Security**
-   - Regular audits
-   - Security updates
-   - Penetration testing
-   - Compliance checks 
+2. **Interoperability**
+   - External systems
+   - Data exchange
+   - API evolution
+   - Standard compliance 

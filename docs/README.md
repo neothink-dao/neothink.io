@@ -4,6 +4,8 @@ This documentation is organized to provide clear context and guidance for workin
 
 ## Quick Links
 
+- [Project Context](context/README.md)
+- [Context Rules](context/RULES.md)
 - [Architecture Overview](architecture/README.md)
 - [Authentication Flow](authentication/README.md)
 - [Database Schema](database/README.md)
@@ -17,6 +19,10 @@ This documentation is organized to provide clear context and guidance for workin
 
 ```
 docs/
+├── context/               # Core project context
+│   ├── README.md          # Project overview and concepts
+│   └── RULES.md           # Context maintenance rules
+│
 ├── architecture/           # System architecture and design
 │   ├── README.md          # Overview of system architecture
 │   ├── diagrams/          # Architecture diagrams
@@ -59,23 +65,28 @@ docs/
 
 ## How to Use This Documentation
 
-1. **For New Features**
+1. **For All Development**
+   - Start with [Project Context](context/README.md)
+   - Review [Context Rules](context/RULES.md)
+   - Follow documentation standards
+
+2. **For New Features**
    - Start with [Architecture Overview](architecture/README.md)
    - Check [Database Schema](database/README.md) for data requirements
    - Review [Components](components/README.md) for reusable code
    - Follow [Contributing Guidelines](contributing/README.md)
 
-2. **For Bug Fixes**
+3. **For Bug Fixes**
    - Check [Troubleshooting](troubleshooting/README.md)
    - Review relevant component documentation
    - Follow debugging guides
 
-3. **For Deployment**
+4. **For Deployment**
    - Follow [Deployment Guide](deployment/README.md)
    - Check environment requirements
    - Verify database migrations
 
-4. **For Authentication Changes**
+5. **For Authentication Changes**
    - Review [Authentication Flow](authentication/README.md)
    - Check [Database Schema](database/README.md)
    - Verify [Email Templates](email/README.md)

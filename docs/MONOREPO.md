@@ -6,31 +6,59 @@ This monorepo contains the source code for all Neothink platform sites and appli
 
 ```
 /
-├── go.neothink.io/           # Hub platform
-├── joinascenders.org/        # Ascenders platform
-├── joinneothinkers.org/      # Neothinkers platform
-├── joinimmortals.org/        # Immortals platform
+├── lib/                     # Shared library code
+│   ├── supabase/            # Supabase client & auth utilities
+│   ├── utils/               # Common utilities
+│   ├── hooks/               # React hooks
+│   ├── components/          # Shared UI components
+│   ├── theme/               # Theming system
+│   └── config/              # Platform configuration
+├── go.neothink.io/          # Hub platform
+├── joinascenders/           # Ascenders platform
+├── joinneothinkers/         # Neothinkers platform
+├── joinimmortals/           # Immortals platform
 ├── supabase/                # Supabase configuration
-│   ├── functions/          # Edge functions
-│   └── migrations/         # Database migrations
+│   ├── functions/           # Edge functions
+│   └── migrations/          # Database migrations
+├── scripts/                 # Utility scripts
 └── docs/                    # Documentation
 ```
 
 ## Repository Mappings
 
-Each site/app in the monorepo corresponds to its own GitHub repository:
+Each site/app in the monorepo corresponds to a Vercel project:
 
-| Local Directory | GitHub Repository | Platform | Vercel Project | Production URL |
-|----------------|-------------------|----------|----------------|----------------|
-| `/go.neothink.io` | [neothink-dao/neothink.io](https://github.com/neothink-dao/neothink.io) | Hub | neothink-io | go.neothink.io |
-| `/joinascenders.org` | [neothink-dao/ascenders](https://github.com/neothink-dao/ascenders) | Ascenders | join-ascenders | joinascenders.org |
-| `/joinneothinkers.org` | [neothink-dao/neothinkers](https://github.com/neothink-dao/neothinkers) | Neothinkers | join-neothinkers | joinneothinkers.org |
-| `/joinimmortals.org` | [neothink-dao/immortals](https://github.com/neothink-dao/immortals) | Immortals | join-immortals | joinimmortals.org |
+| Local Directory | Platform | Vercel Project | Production URL |
+|----------------|----------|----------------|----------------|
+| `/go.neothink.io` | Hub | neothink-io | go.neothink.io |
+| `/joinascenders` | Ascenders | join-ascenders | joinascenders.org |
+| `/joinneothinkers` | Neothinkers | join-neothinkers | joinneothinkers.org |
+| `/joinimmortals` | Immortals | join-immortals | joinimmortals.org |
+
+## Turborepo Configuration
+
+This monorepo uses Turborepo for dependency management and build optimization:
+
+- **turbo.json**: Defines the build pipeline and task dependencies
+- **Workspace Setup**: Each platform is a workspace in the monorepo
+- **Caching**: Build artifacts are cached for faster subsequent builds
+- **Parallel Execution**: Tasks are executed in parallel when possible
+- **Global Dependencies**: Environment variables shared across all workspaces
+
+### Turborepo Pipeline
+
+The following tasks are defined in the Turborepo pipeline:
+
+- **build**: Builds all workspaces (Next.js apps)
+- **lint**: Runs linting on all workspaces
+- **dev**: Starts the development server for each workspace
+- **clean**: Cleans build artifacts
+- **test**: Runs tests for each workspace
 
 ## Shared Resources
 
 ### Authentication & Backend
-While each site has its own GitHub repository and codebase, they all share the same Supabase backend:
+While each site has its own directory and codebase, they all share the same Supabase backend:
 - Direct integration with @supabase/ssr in each site
 - Independent session management per site
 - Platform-specific auth flows
@@ -58,49 +86,38 @@ The `supabase` directory contains the shared backend configuration that all site
    - Test changes across all sites
 2. Platform-specific changes should be made in their respective directories
 3. Database migrations affect all platforms and must be tested thoroughly
-4. Follow the established branching strategy for each repository
+4. Use the Turborepo pipeline for building and testing
 
 ## Deployment
 
 ### Platform-Specific Deployments
-Each platform is deployed independently through its respective GitHub repository and Vercel project:
+Each platform is deployed independently through its Vercel project:
 
 1. **Hub Platform (go.neothink.io)**
-   - Repository: neothink-dao/neothink.io
    - Vercel Project: neothink-io
    - Production URL: go.neothink.io
-   - Preview URL: v0-go-neothink.vercel.app
+   - Directory: `/go.neothink.io`
 
 2. **Ascenders Platform (joinascenders.org)**
-   - Repository: neothink-dao/ascenders
    - Vercel Project: join-ascenders
    - Production URL: joinascenders.org
-   - Preview URL: v0-join-ascenders.vercel.app
+   - Directory: `/joinascenders`
 
 3. **Neothinkers Platform (joinneothinkers.org)**
-   - Repository: neothink-dao/neothinkers
    - Vercel Project: join-neothinkers
    - Production URL: joinneothinkers.org
-   - Preview URL: v0-join-neothinkers.vercel.app
+   - Directory: `/joinneothinkers`
 
 4. **Immortals Platform (joinimmortals.org)**
-   - Repository: neothink-dao/immortals
    - Vercel Project: join-immortals
    - Production URL: joinimmortals.org
-   - Preview URL: v0-join-immortals.vercel.app
+   - Directory: `/joinimmortals`
 
 ### Deployment Process
-1. Each platform uses GitHub Actions for CI/CD
-2. Workflows are defined in `.github/workflows/` for each platform
-3. Environment variables are managed in Vercel
-4. Database migrations are run through Supabase CLI
-5. Edge functions are deployed through Supabase Dashboard
-
-### Shared Package Deployment
-1. The auth package is published to npm
-2. Version updates follow semantic versioning
-3. All platforms must be updated to use the latest version
-4. Changes to shared packages require testing on all platforms
+1. Each platform is deployed through Vercel
+2. Environment variables are managed in Vercel
+3. Database migrations are run through Supabase CLI
+4. Edge functions are deployed through Supabase Dashboard
 
 ### Database Migrations
 1. Migrations are run in order using Supabase CLI

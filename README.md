@@ -1,156 +1,126 @@
-# Neothink Sites Monorepo
+# Neothink Platforms Ecosystem
 
-## Overview
+A monorepo containing all Neothink platform applications with unified authentication, shared components, and platform-specific implementations.
 
-This monorepo contains the source code for all Neothink platforms:
-- Hub Platform (go.neothink.io)
-- Ascenders Platform (joinascenders)
-- Neothinkers Platform (joinneothinkers)
-- Immortals Platform (joinimmortals)
+## Platforms
 
-## Documentation
+| Platform | URL | Description |
+|----------|-----|-------------|
+| Hub | [go.neothink.io](https://go.neothink.io) | Central management platform |
+| Ascenders | [www.joinascenders.org](https://www.joinascenders.org) | Platform for future-focused thinkers |
+| Neothinkers | [www.joinneothinkers.org](https://www.joinneothinkers.org) | Community for innovative thinkers |
+| Immortals | [www.joinimmortals.org](https://www.joinimmortals.org) | Platform for longevity enthusiasts |
 
-### Quick Links
-- [Architecture Overview](docs/architecture/README.md)
-- [Authentication Flow](docs/authentication/README.md)
-- [Database Schema](docs/database/README.md)
-- [Shared Components](docs/components/README.md)
-- [Email Templates](docs/email/README.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Troubleshooting](docs/troubleshooting/README.md)
-- [Contributing Guide](docs/contributing/README.md)
+## Architecture
+
+The ecosystem is built with:
+
+- **Next.js**: React framework for all platforms
+- **Supabase**: Database, authentication, and storage
+- **Tailwind CSS**: Styling with platform-specific theming
+- **TypeScript**: Type safety across all codebases
+- **Vercel**: Hosting and deployment
+
+## Repository Structure
+
+```
+/
+├── lib/                    # Shared library code
+│   ├── supabase/           # Supabase client & auth utilities
+│   ├── utils/              # Common utilities
+│   ├── hooks/              # React hooks
+│   ├── components/         # Shared UI components 
+│   ├── theme/              # Theming system
+│   └── config/             # Platform configuration
+├── go.neothink.io/         # Hub platform
+├── joinascenders/          # Ascenders platform
+├── joinneothinkers/        # Neothinkers platform
+├── joinimmortals/          # Immortals platform
+└── supabase/               # Database migrations and functions
+```
+
+## Core Features
+
+- **Unified Authentication**: Single account across all platforms
+- **Platform Access Control**: Users can access specific platforms
+- **Guardian (Admin) Users**: Access and manage all platforms
+- **Platform Detection**: Automatic detection via domain or path
+- **Shared Components**: Core UI elements shared across platforms
+- **Platform-Specific Theming**: Each platform has its own visual identity
+
+## Key Features
+
+- **Unified Authentication**: Single sign-on across all platforms with Supabase Auth
+- **Role-Based Access Control**: Granular permissions for each platform
+- **Cross-Platform Notifications**: Unified notification system for all platforms
+- **Shared Component Library**: Consistent UI across all platforms
+- **Platform Detection**: Automatic detection of current platform
+- **Admin Management**: Centralized user and permission management
 
 ## Getting Started
 
-### Prerequisites
-- Node.js >= 18.0.0
-- npm >= 10.2.4
-- Git
+See [GETTING-STARTED.md](./GETTING-STARTED.md) for detailed setup instructions.
 
-### Installation
+Quick start:
+
 ```bash
-# Clone repository
-git clone https://github.com/neothink/sites.git
-cd sites
-
 # Install dependencies
 npm install
 
-# Set up environment
-cp .env.example .env
-```
+# Set up environment variables
+cp .env.example .env.local
 
-### Development
-```bash
-# Start development server
+# Start the development server
 npm run dev
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
 ```
 
-## Project Structure
+## Documentation
 
-```
-sites/
-├── docs/                    # Documentation
-│   ├── architecture/       # Architecture docs
-│   ├── authentication/     # Auth docs
-│   ├── database/          # Database docs
-│   ├── components/        # Component docs
-│   ├── email/            # Email template docs
-│   ├── troubleshooting/  # Troubleshooting docs
-│   └── contributing/    # Contributing docs
-├── go.neothink.io/      # Hub Platform
-├── joinascenders/       # Ascenders Platform
-├── joinneothinkers/    # Neothinkers Platform
-└── joinimmortals/     # Immortals Platform
-```
+- [Getting Started](./GETTING-STARTED.md): Development setup guide
+- [Master Plan](./MASTER-PLAN.md): Strategic roadmap
+- [Refactoring Summary](./REFACTORING-SUMMARY.md): Summary of refactoring changes
+- [Recent Improvements](./IMPROVEMENTS.md): Summary of recent improvements
+- [Strategic Value](./docs/STRATEGIC-VALUE.md): Business case for the unified platform
+- [Executive Summary](./docs/EXECUTIVE-SUMMARY.md): Concise value proposition
+- [Superachiever Concept](./docs/SUPERACHIEVER-CONCEPT.md): Multi-platform user benefits
+- [Supabase Integration](./docs/SUPABASE.md): Database and auth details
+- [Monorepo Structure](./docs/MONOREPO.md): Repository organization
+- [Notifications System](./docs/NOTIFICATIONS.md): Cross-platform notifications
 
-## Shared Resources
+## Development Workflow
 
-### Authentication
-- Supabase Auth integration
-- JWT-based sessions
-- Platform-specific policies
+1. Local Development:
+   - Path-based routing (`/hub`, `/ascenders`, etc.)
+   - Shared Supabase instance
 
-### Backend
-- Supabase database
-- Edge Functions
-- Storage
+2. Staging:
+   - Branch deployments on Vercel
+   - Branch database in Supabase
 
-### Components
-- UI components
-- Layout components
-- Form components
-- Auth components
-- Data components
-
-### Email Templates
-- Auth emails
-- Notification emails
-- Marketing emails
-- System emails
-
-## Deployment
-
-Each platform is deployed independently through Vercel:
-
-1. **Hub Platform**
-   - Production: go.neothink.io
-   - Staging: staging.go.neothink.io
-
-2. **Ascenders Platform**
-   - Production: joinascenders.com
-   - Staging: staging.joinascenders.com
-
-3. **Neothinkers Platform**
-   - Production: joinneothinkers.com
-   - Staging: staging.joinneothinkers.com
-
-4. **Immortals Platform**
-   - Production: joinimmortals.com
-   - Staging: staging.joinimmortals.com
-
-## Best Practices
-
-1. **Code Quality**
-   - Follow TypeScript best practices
-   - Write clean, maintainable code
-   - Use appropriate design patterns
-   - Keep functions small and focused
-
-2. **Security**
-   - Validate all inputs
-   - Sanitize outputs
-   - Use secure dependencies
-   - Follow security guidelines
-
-3. **Performance**
-   - Optimize database queries
-   - Minimize network requests
-   - Use caching appropriately
-   - Monitor performance metrics
-
-4. **Accessibility**
-   - Follow WCAG guidelines
-   - Test with screen readers
-   - Ensure keyboard navigation
-   - Use semantic HTML
-
-5. **Maintenance**
-   - Regular dependency updates
-   - Code cleanup
-   - Documentation updates
-   - Performance monitoring
+3. Production:
+   - Domain-specific deployments
+   - Production database
 
 ## Contributing
 
-Please read our [Contributing Guide](docs/contributing/README.md) for details on our code of conduct and the process for submitting pull requests.
+1. Create a feature branch from `main`
+2. Make your changes
+3. Submit a pull request
+4. Ensure all tests pass
+5. Request review from a team member
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+Proprietary © 2023 Neothink. All rights reserved. 
+
+## Monorepo Structure
+
+This project is set up as a monorepo using Turborepo for build orchestration and workspace management. The structure follows best practices for a Next.js-based monorepo:
+
+- All platforms are contained in their respective directories without nested git repositories
+- Workspaces are properly configured in the root package.json
+- Turborepo pipeline is defined in turbo.json
+- Shared code is located in the lib directory
+- Documentation correctly reflects the actual directory structure
+
+Each platform can be developed independently or together, with shared dependencies being managed efficiently by Turborepo. 
