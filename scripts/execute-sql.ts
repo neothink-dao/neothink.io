@@ -1,7 +1,17 @@
 import { readFileSync } from 'fs'
 import { execSync } from 'child_process'
+import dotenv from 'dotenv'
 
-const MCP_API_KEY = 'sbp_c1557ae3d218511785667a47bd71f210c2903bf9'
+// Load environment variables
+dotenv.config()
+
+// Get MCP API key from environment variables
+const MCP_API_KEY = process.env.MCP_API_KEY
+
+if (!MCP_API_KEY) {
+  console.error('Error: MCP_API_KEY environment variable is not set')
+  process.exit(1)
+}
 
 interface SupabaseError {
   code?: string;
@@ -18,7 +28,7 @@ async function executeSql() {
 
     // Execute SQL using MCP
     const command = `MCP_API_KEY=${MCP_API_KEY} npx supabase-mcp execute-sql --sql "${sql.replace(/"/g, '\\"')}"`;
-    console.log('Executing command:', command);
+    console.log('Executing command: MCP_API_KEY=**** npx supabase-mcp execute-sql --sql "..."');
     
     const result = execSync(command, { encoding: 'utf8' });
     console.log('SQL execution result:', result);

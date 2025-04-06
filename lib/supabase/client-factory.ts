@@ -45,6 +45,37 @@ const platformSettings = {
 };
 
 /**
+ * Safe localStorage operations with error handling for SSR and browser environments
+ */
+const safeStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      if (typeof window === 'undefined') return null;
+      return localStorage.getItem(key);
+    } catch (error) {
+      console.error('LocalStorage getItem error:', error);
+      return null;
+    }
+  },
+  setItem: (key: string, value: string): void => {
+    try {
+      if (typeof window === 'undefined') return;
+      localStorage.setItem(key, value);
+    } catch (error) {
+      console.error('LocalStorage setItem error:', error);
+    }
+  },
+  removeItem: (key: string): void => {
+    try {
+      if (typeof window === 'undefined') return;
+      localStorage.removeItem(key);
+    } catch (error) {
+      console.error('LocalStorage removeItem error:', error);
+    }
+  }
+};
+
+/**
  * Creates a Supabase client with platform-specific settings
  * @param platformSlug The platform identifier (hub, ascenders, neothinkers, immortals)
  * @param customOptions Additional options to merge with platform-specific settings
@@ -69,27 +100,9 @@ export function createClient(platformSlug: PlatformSlug = 'hub', customOptions =
       flowType: "pkce",
       storageKey: platformConfig.storageKey,
       storage: {
-        getItem: (key) => {
-          try {
-            return localStorage.getItem(key);
-          } catch (error) {
-            return null;
-          }
-        },
-        setItem: (key, value) => {
-          try {
-            localStorage.setItem(key, value);
-          } catch (error) {
-            // Handle storage errors
-          }
-        },
-        removeItem: (key) => {
-          try {
-            localStorage.removeItem(key);
-          } catch (error) {
-            // Handle storage errors
-          }
-        },
+        getItem: (key) => safeStorage.getItem(key),
+        setItem: (key, value) => safeStorage.setItem(key, value),
+        removeItem: (key) => safeStorage.removeItem(key),
       },
     },
     global: {

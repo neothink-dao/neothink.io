@@ -3,6 +3,7 @@
 ## 1. Title Slide
 - "The Unified Platform Advantage: Multiplying Revenue, Reducing Costs"
 - Presenter name and date
+- © 2025 Neothink
 
 ## 2. The Bottom Line (Key Takeaway)
 - 85% revenue growth through cross-platform engagement
@@ -13,6 +14,10 @@
 
 ## 3. Current State: Four Isolated Islands
 - *Visual: Four separate platform "islands" with barriers between them*
+- **Ascenders ($99/mo)**: Prosperity via Ascension + FLOW + Ascenders community
+- **Neothinkers ($99/mo)**: Happiness via Neothink + Mark Hamilton + Neothinkers community
+- **Immortals ($99/mo)**: Longevity via Immortalis + Project Life + Immortals community
+- **Hub**: Central connection point helping users "Prosper Happily Forever"
 - Pain points for users (multiple accounts, fragmented experience)
 - Pain points for our team (duplicate development, limited visibility)
 - Lost revenue opportunities (12% cross-platform conversion rate)
@@ -24,12 +29,12 @@
 - Unified development and analytics
 - 40% cross-platform conversion rate
 - **Freedom of choice**: Single-platform focus remains a valid option
-- **"Superachiever" status** for users who choose all three platforms
+- **"Superachiever" status** for users who choose all three platforms ($297/mo)
 
 ## 5. Real User Journey Comparison
 - *Visual: Side-by-side comparison of current vs. unified user journeys*
-- Current: Multiple friction points leading to 12% conversion
-- Unified: Seamless experience leading to 40% conversion
+- Current: John joins Ascenders ($99/mo), wants longevity content but faces multiple friction points leading to 12% conversion
+- Unified: John joins Ascenders ($99/mo), sees personalized Immortals recommendations about Project Life supplements, upgrades to dual-platform ($198/mo) with one click, 40% conversion
 - Concrete example with actual subscription prices
 
 ## 6. Evidence-Based Projections
@@ -101,4 +106,6 @@
   - "How do we maintain the unique identity of each platform?"
   - "What if conversion rates don't meet projections?"
 - Additional data points to support key claims
-- Visual backup slides for detailed discussions if needed 
+- Visual backup slides for detailed discussions if needed
+
+© 2025 Neothink. All rights reserved. 

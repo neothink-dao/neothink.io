@@ -59,12 +59,41 @@ interface ThemeProviderProps {
 }
 
 /**
+ * Safe localStorage operations with SSR and error handling
+ */
+const safeLocalStorage = {
+  getItem: (key: string): string | null => {
+    if (typeof window === 'undefined') return null;
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      console.error('localStorage.getItem error:', e);
+      return null;
+    }
+  },
+  setItem: (key: string, value: string): void => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      console.error('localStorage.setItem error:', e);
+    }
+  }
+};
+
+/**
  * Theme provider component
  */
 export function ThemeProvider({ platform = 'hub', children }: ThemeProviderProps) {
   const [colors, setColors] = useState<ThemeColors>(sitesConfig[platform]?.colors || defaultColors);
   const [currentPlatform, setPlatform] = useState<PlatformSlug>(platform);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Handle component mounting and avoid hydration mismatches
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Update colors when platform changes
   useEffect(() => {
@@ -76,31 +105,31 @@ export function ThemeProvider({ platform = 'hub', children }: ThemeProviderProps
   
   // Check for dark mode preference
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!isMounted) return;
     
     // Check for saved preference
-    const darkModePreference = localStorage.getItem('darkMode');
+    const darkModePreference = safeLocalStorage.getItem('darkMode');
     if (darkModePreference !== null) {
       setIsDarkMode(darkModePreference === 'true');
     } else {
       // Check for system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches || false;
       setIsDarkMode(prefersDark);
     }
-  }, []);
+  }, [isMounted]);
   
   // Apply dark mode class to document
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (!isMounted) return;
     
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
-      localStorage.setItem('darkMode', 'true');
+      safeLocalStorage.setItem('darkMode', 'true');
     } else {
       document.documentElement.classList.remove('dark');
-      localStorage.setItem('darkMode', 'false');
+      safeLocalStorage.setItem('darkMode', 'false');
     }
-  }, [isDarkMode]);
+  }, [isDarkMode, isMounted]);
   
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -109,7 +138,7 @@ export function ThemeProvider({ platform = 'hub', children }: ThemeProviderProps
   
   // Apply CSS variables for theme colors
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (!isMounted) return;
     
     const root = document.documentElement;
     
@@ -119,13 +148,13 @@ export function ThemeProvider({ platform = 'hub', children }: ThemeProviderProps
     root.style.setProperty('--color-accent', colors.accentColor);
     root.style.setProperty('--color-background', colors.backgroundColor);
     root.style.setProperty('--color-text', colors.textColor);
-    root.style.setProperty('--border-radius', colors.borderRadius);
+    root.style.setProperty('--color-border-radius', colors.borderRadius);
     root.style.setProperty('--font-family', colors.fontFamily);
     
     // Add some derived variables
     root.style.setProperty('--color-primary-light', lightenColor(colors.primaryColor, 0.2));
     root.style.setProperty('--color-primary-dark', darkenColor(colors.primaryColor, 0.2));
-  }, [colors]);
+  }, [colors, isMounted]);
   
   return (
     <ThemeContext.Provider value={{ colors, platform: currentPlatform, isDarkMode, toggleDarkMode, setPlatform }}>
