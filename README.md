@@ -6,10 +6,10 @@ A monorepo containing all Neothink platform applications with unified authentica
 
 | Platform | URL | Description |
 |----------|-----|-------------|
-| Hub | [go.neothink.io](https://go.neothink.io) | Central management platform |
-| Ascenders | [www.joinascenders.org](https://www.joinascenders.org) | Platform for future-focused thinkers |
-| Neothinkers | [www.joinneothinkers.org](https://www.joinneothinkers.org) | Community for innovative thinkers |
-| Immortals | [www.joinimmortals.org](https://www.joinimmortals.org) | Platform for longevity enthusiasts |
+| Hub | [go.neothink.io](https://go.neothink.io) | Central platform for managing all Neothink experiences |
+| Ascenders | [www.joinascenders.org](https://www.joinascenders.org) | Platform for business success and financial prosperity |
+| Neothinkers | [www.joinneothinkers.org](https://www.joinneothinkers.org) | Platform for personal growth and lasting happiness |
+| Immortals | [www.joinimmortals.org](https://www.joinimmortals.org) | Platform for health optimization and longevity |
 
 ## Architecture
 
