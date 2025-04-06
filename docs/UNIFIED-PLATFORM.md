@@ -6,8 +6,8 @@ Imagine a world where every achievement unlocks new possibilities:
 
 ```mermaid
 graph LR
-    A[💎 Business Success] --> B[🌱 Personal Growth]
-    B --> C[⚡ Health & Vitality]
+    A[💎 Greater Prosperity] --> B[🌱 Greater Happiness]
+    B --> C[⚡ Greater Longevity]
     C --> A
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
@@ -16,9 +16,11 @@ graph LR
 
 Our three powerful platforms work together to create extraordinary results:
 
-- **💎 Ascenders**: Master the art of business and achieve lasting prosperity
-- **🌱 Neothinkers**: Transform your mindset and embrace true happiness
-- **⚡ Immortals**: Optimize your health and unlock boundless vitality
+- **💎 Ascenders**: Greater Prosperity through mastery of value creation
+- **🌱 Neothinkers**: Greater Happiness through life-enhancing wisdom
+- **⚡ Immortals**: Greater Longevity through scientific living
+
+All unified through our Hub platform: **🌟 Prosper Happily Forever**
 
 ## 🌈 The Power of Connection
 
