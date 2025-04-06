@@ -1,30 +1,30 @@
 # Neothink Unified Platform Documentation
 
-## Essential Documentation
+## Core Documentation
 
-### For All Stakeholders
-- [**Unified Platform Guide**](UNIFIED-PLATFORM.md) - Complete overview of the value-unlocking approach
+### For Stakeholders
+- [**Unified Platform Overview**](UNIFIED-PLATFORM.md) - Complete overview of the value-unlocking approach
+- [**Why Modern Stack**](WHY-MODERN-STACK.md) - Benefits of our modern tech stack vs third-party tools
 
 ### For Technical Teams 
-- [**Technical Implementation**](TECHNICAL-IMPLEMENTATION.md) - Technical details and implementation sequence
+- [**Technical Implementation**](TECHNICAL-IMPLEMENTATION.md) - Complete technical details and implementation sequence
+
+## Development Guides
+
+- [**Monorepo Guide**](development/MONOREPO-GUIDE.md) - Working with the monorepo
+- [**Supabase Guide**](development/SUPABASE-GUIDE.md) - Supabase integration and best practices
+- [**Deployment Guide**](development/DEPLOYMENT-GUIDE.md) - Deployment procedures and environments
 
 ## Technical Reference
 
-### Architecture
-- [**Monorepo Structure**](MONOREPO.md) - Working with the monorepo
-- [**Multi-Tenant Architecture**](MULTI_TENANT_ARCHITECTURE.md) - Architecture overview
-
-### Features
-- [**Cross-Platform Features**](CROSS_PLATFORM_FEATURES.md) - Cross-platform capabilities
-- [**Shared Content System**](SHARED_CONTENT_SYSTEM.md) - Content sharing implementation
-- [**Subscription Management**](SUBSCRIPTION_MANAGEMENT.md) - Subscription handling
-
-### Implementation
-- [**Supabase Integration**](SUPABASE.md) - Supabase implementation details
-- [**Deployment Guide**](DEPLOYMENT.md) - Deployment procedures
+- [**Architecture Guide**](reference/ARCHITECTURE-GUIDE.md) - System architecture and design decisions
+- [**Cross-Platform Features**](reference/CROSS-PLATFORM-FEATURES.md) - Cross-platform capabilities and implementation
+- [**Subscription Reference**](reference/SUBSCRIPTION-REFERENCE.md) - Subscription system details
 
 ## Documentation Status
 
-We've streamlined our documentation to focus on essential information that delivers actual value to stakeholders and development teams. Redundant and speculative documents have been removed in favor of practical, actionable guidance.
+We maintain a focused set of documentation that delivers practical value to stakeholders and development teams. Each document serves a specific purpose and is actively maintained.
 
-*Contact [tech-lead@neothink.io](mailto:tech-lead@neothink.io) with questions about this documentation.* 
+For questions about this documentation:
+- Technical questions: Contact the tech lead
+- Business questions: Contact the product owner 

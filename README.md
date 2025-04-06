@@ -25,41 +25,35 @@ The ecosystem is built with:
 
 ```
 /
+├── apps/                   # Platform applications
+│   ├── hub/                # Hub platform (go.neothink.io)
+│   ├── ascenders/          # Ascenders platform
+│   ├── neothinkers/        # Neothinkers platform
+│   └── immortals/          # Immortals platform
 ├── lib/                    # Shared library code
-│   ├── supabase/           # Supabase client & auth utilities
-│   ├── utils/              # Common utilities
-│   ├── hooks/              # React hooks
-│   ├── components/         # Shared UI components 
-│   ├── theme/              # Theming system
-│   └── config/             # Platform configuration
-├── go.neothink.io/         # Hub platform
-├── joinascenders/          # Ascenders platform
-├── joinneothinkers/        # Neothinkers platform
-├── joinimmortals/          # Immortals platform
-└── supabase/               # Database migrations and functions
+│   ├── ui/                 # Shared UI components
+│   ├── auth/               # Authentication utilities
+│   ├── api/                # API utilities
+│   └── supabase/           # Database utilities
+├── packages/               # Shared configuration
+│   ├── config/             # Shared configuration
+│   ├── tsconfig/          # TypeScript configuration
+│   └── eslint/            # ESLint configuration
+└── docs/                  # Documentation
 ```
 
 ## Core Features
 
 - **Unified Authentication**: Single account across all platforms
-- **Platform Access Control**: Users can access specific platforms
-- **Guardian (Admin) Users**: Access and manage all platforms
-- **Platform Detection**: Automatic detection via domain or path
+- **Cross-Platform Features**: Seamless integration between platforms
 - **Shared Components**: Core UI elements shared across platforms
 - **Platform-Specific Theming**: Each platform has its own visual identity
-
-## Key Features
-
-- **Unified Authentication**: Single sign-on across all platforms with Supabase Auth
-- **Role-Based Access Control**: Granular permissions for each platform
-- **Cross-Platform Notifications**: Unified notification system for all platforms
-- **Shared Component Library**: Consistent UI across all platforms
-- **Platform Detection**: Automatic detection of current platform
-- **Admin Management**: Centralized user and permission management
+- **Role-Based Access**: Granular permissions for each platform
+- **Superachiever Bundle**: Premium all-platform offering
 
 ## Getting Started
 
-See [GETTING-STARTED.md](./GETTING-STARTED.md) for detailed setup instructions.
+See [docs/development/MONOREPO-GUIDE.md](docs/development/MONOREPO-GUIDE.md) for detailed setup instructions.
 
 Quick start:
 
@@ -76,16 +70,14 @@ npm run dev
 
 ## Documentation
 
-- [Getting Started](./GETTING-STARTED.md): Development setup guide
-- [Master Plan](./MASTER-PLAN.md): Strategic roadmap
-- [Refactoring Summary](./REFACTORING-SUMMARY.md): Summary of refactoring changes
-- [Recent Improvements](./IMPROVEMENTS.md): Summary of recent improvements
-- [Strategic Value](./docs/STRATEGIC-VALUE.md): Business case for the unified platform
-- [Executive Summary](./docs/EXECUTIVE-SUMMARY.md): Concise value proposition
-- [Superachiever Concept](./docs/SUPERACHIEVER-CONCEPT.md): Multi-platform user benefits
-- [Supabase Integration](./docs/SUPABASE.md): Database and auth details
-- [Monorepo Structure](./docs/MONOREPO.md): Repository organization
-- [Notifications System](./docs/NOTIFICATIONS.md): Cross-platform notifications
+### For Stakeholders
+- [Unified Platform Overview](docs/UNIFIED-PLATFORM.md) - Complete overview of the value-unlocking approach
+- [Why Modern Stack](docs/WHY-MODERN-STACK.md) - Benefits of our modern tech stack
+
+### For Developers
+- [Technical Implementation](docs/TECHNICAL-IMPLEMENTATION.md) - Complete technical details
+- [Development Guides](docs/development/) - Setup and workflow guides
+- [Technical Reference](docs/reference/) - Architecture and features
 
 ## Development Workflow
 
@@ -111,16 +103,4 @@ npm run dev
 
 ## License
 
-Proprietary © 2023 Neothink. All rights reserved. 
-
-## Monorepo Structure
-
-This project is set up as a monorepo using Turborepo for build orchestration and workspace management. The structure follows best practices for a Next.js-based monorepo:
-
-- All platforms are contained in their respective directories without nested git repositories
-- Workspaces are properly configured in the root package.json
-- Turborepo pipeline is defined in turbo.json
-- Shared code is located in the lib directory
-- Documentation correctly reflects the actual directory structure
-
-Each platform can be developed independently or together, with shared dependencies being managed efficiently by Turborepo. 
+Proprietary © 2024 Neothink. All rights reserved. 
