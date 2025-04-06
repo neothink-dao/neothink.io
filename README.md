@@ -2,6 +2,31 @@
 
 Welcome to the future of integrated human achievement! This monorepo houses our family of transformative platforms, working together to unlock unprecedented potential in business, personal growth, and health optimization.
 
+## 🎯 Core User Experience
+
+Our platforms are designed to serve three essential roles in every member's journey:
+
+### 1. 📚 The Subscriber
+Access premium content and features across platforms:
+- Complete learning materials
+- Premium tools and resources
+- Exclusive content libraries
+- Platform-specific features
+
+### 2. 👥 The Participant
+Engage actively in platform communities:
+- Live events and workshops
+- Community discussions
+- Implementation support
+- Peer collaboration
+
+### 3. 🌟 The Contributor
+Shape and enhance the platform ecosystem:
+- Share success stories
+- Mentor other members
+- Create valuable content
+- Lead community initiatives
+
 ## ✨ Our Platforms
 
 Each platform represents a powerful path to excellence, working together to create something truly extraordinary:
