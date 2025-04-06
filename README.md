@@ -6,12 +6,15 @@ Welcome to the future of integrated human achievement! This monorepo houses our 
 
 Each platform represents a powerful path to excellence, working together to create something truly extraordinary:
 
-| Platform | Purpose | Journey |
-|----------|---------|----------|
-| [🌟 Hub](https://go.neothink.io) | Prosper Happily Forever | Your gateway to complete life mastery |
-| [💎 Ascenders](https://www.joinascenders.org) | Greater Prosperity | Master the art of value creation and wealth |
-| [🌱 Neothinkers](https://www.joinneothinkers.org) | Greater Happiness | Discover the secrets of lasting happiness |
-| [⚡ Immortals](https://www.joinimmortals.org) | Greater Longevity | Unlock the science of vibrant living |
+| Platform | Purpose | Access | Value |
+|----------|---------|---------|---------|
+| [🌟 Hub](https://go.neothink.io) | Prosper Happily Forever | Go Further, Faster, Forever | Your gateway to complete life mastery as a Superachiever |
+| [💎 Ascender](https://www.joinascenders.org) | Greater Prosperity | Ascension + FLOW + Ascenders | Become wealthier and your wealthiest as a value creator ($99/m) |
+| [🌱 Neothinker](https://www.joinneothinkers.org) | Greater Happiness | Neothink + Mark Hamilton + Neothinkers | Become happier and your happiest as an integrated thinker ($99/m) |
+| [⚡ Immortal](https://www.joinimmortals.org) | Greater Longevity | Immortalis + Project Life + Immortals | Become healthier and your healthiest as a self-leader ($99/m) |
+
+### 🎯 Superachiever Access
+Unlock your full potential by being, doing, and having it all as a Superachiever - access all platforms for $297/m.
 
 ## 🏗️ Architecture
 
@@ -123,7 +126,7 @@ Join us in building something extraordinary:
 
 ## 📜 License
 
-Proprietary © 2024 Neothink. All rights reserved.
+Proprietary © 2025 Neothink. All rights reserved.
 
 ---
 
