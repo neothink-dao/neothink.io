@@ -70,18 +70,20 @@ Our codebase is thoughtfully organized for maximum efficiency and clarity:
 
 ```
 /
-├── 🏢 apps/                # Platform Applications
-│   ├── 🌟 hub/            # Your command center
-│   ├── 💎 ascenders/      # Business excellence
-│   ├── 🌱 neothinkers/    # Personal growth
-│   └── ⚡ immortals/      # Health optimization
-├── 📚 lib/                # Shared Libraries
-│   ├── 🎨 ui/            # Beautiful components
-│   ├── 🔑 auth/          # Secure authentication
-│   ├── 🔌 api/           # Powerful utilities
-│   └── 🗃️ supabase/      # Database magic
-├── 📦 packages/           # Shared Configuration
-└── 📖 docs/              # Comprehensive Guides
+├── 🏢 Platform Applications
+│   ├── 🌟 go.neothink.io/     # Your command center for complete life mastery
+│   ├── 💎 joinascenders/      # Greater Prosperity platform
+│   ├── 🌱 joinneothinkers/    # Greater Happiness platform
+│   └── ⚡ joinimmortals/      # Greater Longevity platform
+├── 📚 lib/                    # Shared Libraries
+│   ├── 🎨 ui/                # Beautiful components
+│   ├── 🔑 auth/              # Secure authentication
+│   ├── 🔌 api/               # Powerful utilities
+│   └── 🗃️ supabase/          # Database magic
+├── 🔧 supabase/              # Database configuration
+├── 📜 scripts/               # Utility scripts
+├── 📖 docs/                  # Comprehensive Guides
+└── 📦 types/                 # TypeScript definitions
 ```
 
 ## ⭐ Core Features
