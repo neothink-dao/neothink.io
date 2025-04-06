@@ -1,174 +1,276 @@
-import { useState, useEffect, useCallback } from 'react';
-import { type Session, type User, type AuthError } from '@supabase/supabase-js';
+import { useEffect, useState, useCallback, useMemo, useContext, createContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClientComponent } from '../supabase/auth-client';
-import { PlatformSlug } from '../supabase/auth-client';
-import { handleAuthError } from '../utils/auth-error-handler';
-import { getUserAccessiblePlatforms } from '../utils/platform-access';
+import { createClientComponentClient, User, Session } from '@supabase/auth-helpers-nextjs';
+import { getPlatformSlug } from '@/lib/utils/tenant-detection';
 
-interface UseAuthOptions {
-  platformSlug?: PlatformSlug;
-  redirectTo?: string;
-  onAuthStateChange?: (session: Session | null, user: User | null) => void;
-}
-
-interface AuthState {
-  session: Session | null;
+// Define the Auth Context types
+interface AuthContextType {
   user: User | null;
-  profile: any | null;
+  session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  platformSlug: PlatformSlug;
-  accessiblePlatforms: Array<{
-    slug: PlatformSlug;
-    name: string;
-    role: string;
-  }>;
-}
-
-interface UseAuthReturn extends AuthState {
-  // Authentication methods
+  error: Error | null;
+  platformSlug: string;
+  hasPlatformAccess: (platformSlug?: string) => boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signInWithOAuth: (provider: 'google' | 'github' | 'apple') => Promise<void>;
-  signInWithMagicLink: (email: string) => Promise<void>;
   signUp: (email: string, password: string, metadata?: any) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updatePassword: (password: string) => Promise<void>;
-  
-  // Session and profile management
   refreshSession: () => Promise<void>;
-  updateProfile: (data: any) => Promise<void>;
-  
-  // Error handling
-  error: AuthError | Error | null;
-  clearError: () => void;
 }
 
-/**
- * Authentication hook that provides all auth functionality
- * 
- * Use this hook in your component to interact with auth features:
- * 
- * ```tsx
- * const { 
- *   user, 
- *   isAuthenticated, 
- *   signIn, 
- *   signOut 
- * } = useAuth({ platformSlug: 'ascenders' });
- * ```
- */
-export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
-  const {
-    platformSlug = 'hub', 
-    redirectTo,
-    onAuthStateChange
-  } = options;
+// Default context state
+const defaultContext: AuthContextType = {
+  user: null,
+  session: null,
+  isLoading: true,
+  isAuthenticated: false,
+  error: null,
+  platformSlug: '',
+  hasPlatformAccess: () => false,
+  signIn: async () => {},
+  signUp: async () => {},
+  signOut: async () => {},
+  resetPassword: async () => {},
+  updatePassword: async () => {},
+  refreshSession: async () => {},
+};
+
+// Create the Auth Context
+const AuthContext = createContext<AuthContextType>(defaultContext);
+
+// Custom Error handler for auth operations
+const handleAuthError = (error: any, context = {}) => {
+  console.error('Auth error:', error, context);
+  let message = 'An unexpected error occurred';
   
+  // Customize error messages based on Supabase error codes
+  if (error.message) {
+    if (error.message.includes('Email not confirmed')) {
+      message = 'Please verify your email before logging in';
+    } else if (error.message.includes('Invalid login')) {
+      message = 'Invalid email or password';
+    } else if (error.message.includes('already registered')) {
+      message = 'This email is already registered';
+    } else {
+      message = error.message;
+    }
+  }
+  
+  return new Error(message);
+};
+
+// Types for useAuth hook options
+interface UseAuthOptions {
+  redirectTo?: string;
+  platformOverride?: string;
+}
+
+// Return type for useAuth hook
+interface UseAuthReturn extends AuthContextType {}
+
+// Auth Provider Component
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const auth = useAuth();
+  
+  return (
+    <AuthContext.Provider value={auth}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// Custom Hook to use Auth
+export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
+  const { redirectTo, platformOverride } = options;
   const router = useRouter();
-  const supabase = createClientComponent(platformSlug);
+  const supabase = createClientComponentClient();
+  
+  // Get the platform slug from the current URL
+  const platformSlug = useMemo(() => 
+    platformOverride || getPlatformSlug() || 'neothink', 
+  [platformOverride]);
   
   // Auth state
-  const [state, setState] = useState<AuthState>({
-    session: null,
-    user: null,
-    profile: null,
+  const [state, setState] = useState({
+    user: null as User | null,
+    session: null as Session | null,
     isLoading: true,
     isAuthenticated: false,
-    platformSlug,
-    accessiblePlatforms: []
   });
   
   // Error state
-  const [error, setError] = useState<AuthError | Error | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   
-  // Clear error
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
+  // Platform access cache to avoid repeated database calls
+  const [platformAccessCache, setPlatformAccessCache] = useState<Record<string, boolean>>({});
   
-  // Refresh session data
-  const refreshSession = useCallback(async () => {
-    try {
-      setState(prev => ({ ...prev, isLoading: true }));
-      
-      // Get current session
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      // Get user from session
-      const user = session?.user || null;
-      
-      // Update authentication state
-      const isAuthenticated = !!session && !!user;
-      
-      // If user is authenticated, get profile and accessible platforms
-      let profile = null;
-      let accessiblePlatforms: Array<{ slug: PlatformSlug; name: string; role: string }> = [];
-      
-      if (isAuthenticated && user) {
-        // Get user profile
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single();
-        
-        profile = profileData;
-        
-        // Get accessible platforms
-        accessiblePlatforms = await getUserAccessiblePlatforms(supabase);
-      }
-      
-      // Update state
-      setState({
-        session,
-        user,
-        profile,
-        isLoading: false,
-        isAuthenticated,
-        platformSlug,
-        accessiblePlatforms
-      });
-      
-      // Call the onAuthStateChange callback if provided
-      if (onAuthStateChange) {
-        onAuthStateChange(session, user);
-      }
-    } catch (error) {
-      console.error('Error refreshing session:', error);
-      setState(prev => ({ ...prev, isLoading: false }));
-    }
-  }, [supabase, platformSlug, onAuthStateChange]);
-  
-  // Initialize auth state
+  // Initialize session
   useEffect(() => {
-    refreshSession();
+    let mounted = true;
+    
+    async function getInitialSession() {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          throw error;
+        }
+        
+        if (mounted) {
+          setState(prev => ({
+            ...prev,
+            session,
+            user: session?.user || null,
+            isAuthenticated: !!session?.user,
+            isLoading: false,
+          }));
+          
+          // If we have a session, also load platform access data
+          if (session?.user) {
+            await loadPlatformAccess(session.user);
+          }
+        }
+      } catch (e) {
+        console.error('Error getting initial session:', e);
+        if (mounted) {
+          setState(prev => ({ ...prev, isLoading: false }));
+        }
+      }
+    }
+    
+    getInitialSession();
     
     // Subscribe to auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        const user = session?.user || null;
-        const isAuthenticated = !!session && !!user;
-        
-        // Update state with new session data
-        setState(prev => ({
-          ...prev,
-          session,
-          user,
-          isAuthenticated,
-        }));
-        
-        // Refresh full state to get profile and platforms
-        refreshSession();
+        if (mounted) {
+          setState(prev => ({
+            ...prev,
+            session,
+            user: session?.user || null,
+            isAuthenticated: !!session?.user,
+            isLoading: false,
+          }));
+          
+          // Reset platform access cache on auth changes
+          setPlatformAccessCache({});
+          
+          // If we have a session, load platform access data
+          if (session?.user) {
+            await loadPlatformAccess(session.user);
+          }
+          
+          // Handle various auth events
+          switch (event) {
+            case 'SIGNED_IN':
+              if (redirectTo) {
+                router.push(redirectTo);
+              }
+              break;
+            case 'SIGNED_OUT':
+              // Clear any cached data and redirect to home
+              setPlatformAccessCache({});
+              router.push('/');
+              break;
+            default:
+              break;
+          }
+        }
       }
     );
     
-    // Cleanup subscription
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
-  }, [supabase, refreshSession]);
+  }, [supabase, platformSlug, redirectTo, router]);
+  
+  // Function to load and cache platform access data
+  const loadPlatformAccess = async (user: User) => {
+    try {
+      // Query access for all platforms at once
+      const { data, error } = await supabase.rpc('has_platform_access', { 
+        platform_slug_param: platformSlug 
+      });
+      
+      if (error) throw error;
+      
+      // Cache the current platform's access
+      setPlatformAccessCache(prev => ({ 
+        ...prev,
+        [platformSlug]: !!data
+      }));
+      
+      // Also load access for other known platforms
+      const otherPlatforms = ['neothink', 'ascenders', 'neothinkers', 'immortals']
+        .filter(slug => slug !== platformSlug);
+      
+      for (const slug of otherPlatforms) {
+        const { data, error } = await supabase.rpc('has_platform_access', { 
+          platform_slug_param: slug 
+        });
+        
+        if (!error) {
+          setPlatformAccessCache(prev => ({ 
+            ...prev,
+            [slug]: !!data
+          }));
+        }
+      }
+    } catch (err) {
+      console.error('Error loading platform access:', err);
+    }
+  };
+  
+  // Check if user has access to a specific platform
+  const hasPlatformAccess = useCallback((checkPlatform?: string) => {
+    const platformToCheck = checkPlatform || platformSlug;
+    
+    // If we have a cached result, use it
+    if (platformAccessCache[platformToCheck] !== undefined) {
+      return platformAccessCache[platformToCheck];
+    }
+    
+    // If no cache but we have a user, we need to check (will be updated on next render)
+    if (state.user) {
+      // Return true for now and let the cache get updated
+      return true;
+    }
+    
+    // No user means no access
+    return false;
+  }, [state.user, platformSlug, platformAccessCache]);
+  
+  // Refresh session information
+  const refreshSession = useCallback(async () => {
+    try {
+      setState(prev => ({ ...prev, isLoading: true }));
+      
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        throw error;
+      }
+      
+      setState(prev => ({
+        ...prev,
+        session,
+        user: session?.user || null,
+        isAuthenticated: !!session?.user,
+        isLoading: false,
+      }));
+      
+      // If we have a session, also load platform access data
+      if (session?.user) {
+        await loadPlatformAccess(session.user);
+      }
+    } catch (err) {
+      console.error('Error refreshing session:', err);
+      setState(prev => ({ ...prev, isLoading: false }));
+    }
+  }, [supabase]);
   
   // Sign in with email and password
   const signIn = useCallback(async (email: string, password: string) => {
@@ -183,12 +285,11 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       
       if (error) {
         const handledError = handleAuthError(error, { platform: platformSlug });
-        setError(error);
+        setError(handledError);
         setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
+        throw handledError;
       }
       
-      // Update state with new session
       setState(prev => ({
         ...prev,
         session: data.session,
@@ -197,8 +298,10 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
         isLoading: false,
       }));
       
-      // Refresh to get profile and accessible platforms
-      refreshSession();
+      // Load platform access data
+      if (data.user) {
+        await loadPlatformAccess(data.user);
+      }
       
       // Redirect if specified
       if (redirectTo) {
@@ -207,86 +310,13 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
     } catch (err) {
       setState(prev => ({ ...prev, isLoading: false }));
       
-      // If the error hasn't been set already, set it
-      if (!error) {
-        if (err instanceof Error) {
-          setError(err);
-        } else {
-          setError(new Error('An unexpected error occurred'));
-        }
-      }
-    }
-  }, [supabase, platformSlug, redirectTo, router, refreshSession, error]);
-  
-  // Sign in with OAuth provider
-  const signInWithOAuth = useCallback(async (provider: 'google' | 'github' | 'apple') => {
-    try {
-      setError(null);
-      setState(prev => ({ ...prev, isLoading: true }));
-      
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: window.location.origin + (redirectTo || '/dashboard'),
-        },
-      });
-      
-      if (error) {
-        const handledError = handleAuthError(error, { platform: platformSlug });
-        setError(error);
-        setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
-      }
-      
-      // OAuth redirects, so we don't need to update state
-      // The auth state will be updated when the user returns
-    } catch (err) {
-      setState(prev => ({ ...prev, isLoading: false }));
-      
       if (err instanceof Error) {
         setError(err);
       } else {
         setError(new Error('An unexpected error occurred'));
       }
     }
-  }, [supabase, platformSlug, redirectTo]);
-  
-  // Sign in with magic link
-  const signInWithMagicLink = useCallback(async (email: string) => {
-    try {
-      setError(null);
-      setState(prev => ({ ...prev, isLoading: true }));
-      
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: window.location.origin + (redirectTo || '/dashboard'),
-        },
-      });
-      
-      if (error) {
-        const handledError = handleAuthError(error, { platform: platformSlug });
-        setError(error);
-        setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
-      }
-      
-      setState(prev => ({ ...prev, isLoading: false }));
-      
-      // Return success indicator
-      return { success: true };
-    } catch (err) {
-      setState(prev => ({ ...prev, isLoading: false }));
-      
-      if (err instanceof Error) {
-        setError(err);
-      } else {
-        setError(new Error('An unexpected error occurred'));
-      }
-      
-      return { success: false };
-    }
-  }, [supabase, platformSlug, redirectTo]);
+  }, [supabase, platformSlug, redirectTo, router]);
   
   // Sign up with email and password
   const signUp = useCallback(async (email: string, password: string, metadata: any = {}) => {
@@ -300,7 +330,7 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
         options: {
           data: {
             ...metadata,
-            platform_slug: platformSlug
+            platform: platformSlug
           },
           emailRedirectTo: window.location.origin + (redirectTo || '/auth/confirm'),
         },
@@ -320,18 +350,6 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
         isAuthenticated: !!data.session && !!data.user,
         isLoading: false,
       }));
-      
-      // Create profile
-      if (data.user) {
-        await supabase.from('profiles').upsert({
-          id: data.user.id,
-          email: data.user.email,
-          full_name: metadata.full_name || '',
-          platforms: [platformSlug],
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
-      }
       
       // Refresh session
       refreshSession();
@@ -360,25 +378,25 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        const handledError = handleAuthError(error, { platform: platformSlug });
-        setError(error);
+        const handledError = handleAuthError(error);
+        setError(handledError);
         setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
+        throw handledError;
       }
       
-      // Reset state
-      setState({
+      setState(prev => ({
+        ...prev,
         session: null,
         user: null,
-        profile: null,
-        isLoading: false,
         isAuthenticated: false,
-        platformSlug,
-        accessiblePlatforms: []
-      });
+        isLoading: false,
+      }));
       
-      // Redirect to login
-      router.push('/auth/login');
+      // Clear platform access cache
+      setPlatformAccessCache({});
+      
+      // Redirect to home page
+      router.push('/');
     } catch (err) {
       setState(prev => ({ ...prev, isLoading: false }));
       
@@ -388,9 +406,9 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
         setError(new Error('An unexpected error occurred'));
       }
     }
-  }, [supabase, platformSlug, router]);
+  }, [supabase, router]);
   
-  // Reset password
+  // Reset password (send reset email)
   const resetPassword = useCallback(async (email: string) => {
     try {
       setError(null);
@@ -401,16 +419,13 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       });
       
       if (error) {
-        const handledError = handleAuthError(error, { platform: platformSlug });
-        setError(error);
+        const handledError = handleAuthError(error);
+        setError(handledError);
         setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
+        throw handledError;
       }
       
       setState(prev => ({ ...prev, isLoading: false }));
-      
-      // Return success indicator
-      return { success: true };
     } catch (err) {
       setState(prev => ({ ...prev, isLoading: false }));
       
@@ -419,10 +434,8 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       } else {
         setError(new Error('An unexpected error occurred'));
       }
-      
-      return { success: false };
     }
-  }, [supabase, platformSlug]);
+  }, [supabase]);
   
   // Update password
   const updatePassword = useCallback(async (password: string) => {
@@ -435,23 +448,16 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       });
       
       if (error) {
-        const handledError = handleAuthError(error, { platform: platformSlug });
-        setError(error);
+        const handledError = handleAuthError(error);
+        setError(handledError);
         setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
+        throw handledError;
       }
       
       setState(prev => ({ ...prev, isLoading: false }));
       
-      // Redirect to dashboard
-      if (redirectTo) {
-        router.push(redirectTo);
-      } else {
-        router.push('/dashboard');
-      }
-      
-      // Return success indicator
-      return { success: true };
+      // Redirect to dashboard after password update
+      router.push('/dashboard');
     } catch (err) {
       setState(prev => ({ ...prev, isLoading: false }));
       
@@ -460,64 +466,23 @@ export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
       } else {
         setError(new Error('An unexpected error occurred'));
       }
-      
-      return { success: false };
     }
-  }, [supabase, platformSlug, redirectTo, router]);
+  }, [supabase, router]);
   
-  // Update profile
-  const updateProfile = useCallback(async (data: any) => {
-    try {
-      setError(null);
-      setState(prev => ({ ...prev, isLoading: true }));
-      
-      if (!state.user) {
-        throw new Error('User not authenticated');
-      }
-      
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          ...data,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', state.user.id);
-      
-      if (error) {
-        setError(error);
-        setState(prev => ({ ...prev, isLoading: false }));
-        throw error;
-      }
-      
-      // Refresh session to get updated profile
-      await refreshSession();
-      
-      return { success: true };
-    } catch (err) {
-      setState(prev => ({ ...prev, isLoading: false }));
-      
-      if (err instanceof Error) {
-        setError(err);
-      } else {
-        setError(new Error('An unexpected error occurred'));
-      }
-      
-      return { success: false };
-    }
-  }, [supabase, state.user, refreshSession]);
-  
+  // Return the auth context
   return {
     ...state,
+    error,
+    platformSlug,
+    hasPlatformAccess,
     signIn,
-    signInWithOAuth,
-    signInWithMagicLink,
     signUp,
     signOut,
     resetPassword,
     updatePassword,
     refreshSession,
-    updateProfile,
-    error,
-    clearError,
   };
-} 
+}
+
+// Hook to use the Auth Context
+export const useAuthContext = () => useContext(AuthContext); 
