@@ -17,8 +17,11 @@ const nextConfig = {
   transpilePackages: [
     '@supabase/ssr',
     '@supabase/supabase-js',
-    'zod'
+    'zod',
+    '@swc/core',
+    '@swc/helpers'
   ],
+  swcMinify: true,
   webpack: (config, { isServer }) => {
     // Ensure modules are resolved correctly
     config.resolve = {
