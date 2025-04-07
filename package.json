@@ -1,6 +1,6 @@
 {
   "name": "neothink-platforms",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Monorepo for Neothink platforms and apps",
   "private": true,
   "workspaces": [
@@ -10,9 +10,18 @@
     "joinimmortals"
   ],
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy:hub": "node scripts/deploy-platforms.js hub",
+    "deploy:ascenders": "node scripts/deploy-platforms.js ascenders",
+    "deploy:neothinkers": "node scripts/deploy-platforms.js neothinkers",
+    "deploy:immortals": "node scripts/deploy-platforms.js immortals",
+    "deploy:all": "npm run deploy:hub && npm run deploy:ascenders && npm run deploy:neothinkers && npm run deploy:immortals",
+    "deploy:dev": "node scripts/deploy-platforms.js",
+    "sync:roles": "node scripts/sync-role-system.js",
+    "prepare:deploy": "node scripts/prepare-deploy.js",
     "clean": "turbo clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "migrate": "ts-node scripts/apply-migrations.ts",
@@ -27,21 +36,26 @@
     "gen:types": "supabase gen types typescript --project-id dlmpxgzxdtqxyzsmpaxx --schema public > types/supabase.ts"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.7",
+    "@supabase/auth-helpers-nextjs": "^0.7.0",
+    "@supabase/supabase-js": "^2.21.0",
+    "autoprefixer": "10.4.14",
+    "dotenv": "^16.0.3",
+    "next": "13.3.0",
+    "postcss": "8.4.21",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.1",
     "date-fns": "^3.3.1",
-    "dotenv": "^16.4.5",
     "lucide-react": "^0.331.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/node": "^20.11.25",
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
     "prettier": "^3.0.0",
     "supabase": "^2.20.5",
     "turbo": "^1.10.0",
-    "typescript": "^5.4.2"
+    "typescript": "5.0.4"
   }
 }

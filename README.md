@@ -155,6 +155,62 @@ Join us in building something extraordinary:
 
 Proprietary © 2025 Neothink. All rights reserved.
 
+## Role-Based Access Control
+
+The Neothink platforms implement a comprehensive role-based access control (RBAC) system to manage user permissions across all platforms.
+
+### User and Admin Roles
+
+The system defines the following roles:
+
+**User Roles:**
+- **Subscriber** - Basic access to platform content
+- **Participant** - Can participate in community activities
+- **Contributor** - Can contribute content and lead discussions
+
+**Admin Roles:**
+- **Associate** - Admin role focused on helping and support
+- **Builder** - Admin role focused on building and development
+- **Partner** - Admin role with funding capabilities and strategic direction
+
+### Implementation
+
+The roles system is implemented using:
+
+- Declarative Supabase schemas for database structure
+- PostgreSQL functions for efficient permission checking
+- React Context API for frontend integration
+- RoleGate component for conditional UI rendering
+
+### Role Utility Functions
+
+We've implemented powerful database utility functions for permission checking:
+
+```sql
+-- Check if a user has a specific role
+SELECT * FROM user_has_role(user_id, 'contributor');
+
+-- Check if a user can perform an action on a feature
+SELECT * FROM user_can_perform_action(user_id, 'discussions', 'create');
+```
+
+On the frontend, we provide TypeScript utilities that wrap these functions:
+
+```typescript
+// Check if the current user has contributor role
+const isContributor = await hasRole('contributor');
+
+// Check if the user can create discussions
+const canCreateDiscussion = await canPerformAction('discussions', 'create');
+```
+
+For more details, see:
+
+- [Database Schema Documentation](docs/database/ROLES_SCHEMA.md)
+- [Role Utilities Documentation](docs/database/ROLE_UTILS.md)
+- [Role Context Documentation](lib/context/README.md)
+- [Role Components Documentation](lib/components/role/README.md)
+
 ---
 
 <div align="center">

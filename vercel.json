@@ -1,0 +1,54 @@
+{
+  "projectId": "prj_neothink_platforms",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "development": true,
+      "staging": true
+    }
+  },
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/auth/(.*)", "destination": "/api/auth/$1" },
+    { "source": "/api/supabase/(.*)", "destination": "/api/supabase/$1" }
+  ],
+  "redirects": [
+    { "source": "/api/redirect-to-dashboard", "destination": "/dashboard", "permanent": false },
+    { "source": "/old-login", "destination": "/auth/signin", "permanent": true }
+  ],
+  "regions": ["iad1"],
+  "functions": {
+    "api/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_VERCEL_ENV": "production",
+    "NEXT_PUBLIC_PLATFORM_NAME": "Neothink"
+  }
+} 
