@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, ReactNode } from 'react'
 import { ThemeConfig, platformThemes } from '../config/themes'
 import { PlatformSlug } from '../types/platform'
