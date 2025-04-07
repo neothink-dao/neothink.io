@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
-import { getPlatformFromHost } from '../utils/tenant-detection';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { getTenantFromRequest } from '../utils/tenant-detection';
 import { z } from 'zod';
 
 // Security-enhanced middleware for all platforms
@@ -75,8 +75,8 @@ export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   
   try {
-    // Get platform from host
-    const platformSlug = getPlatformFromHost(req.headers.get('host') || '');
+    // Get platform from request
+    const platformSlug = getTenantFromRequest(req);
     
     // Allow public routes without authentication checks
     const isPublicRoute = 
@@ -91,7 +91,7 @@ export async function middleware(req: NextRequest) {
     
     // Apply rate limiting for authentication endpoints
     if (path.includes('/api/auth/')) {
-      const clientIp = req.headers.get('x-forwarded-for') || req.ip || '';
+      const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
       const isRateLimited = applyRateLimit(clientIp, path);
       if (isRateLimited) {
         return new NextResponse(
@@ -102,7 +102,31 @@ export async function middleware(req: NextRequest) {
     }
     
     // Initialize Supabase client
-    const supabase = createMiddlewareClient({ req, res });
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return req.cookies.get(name)?.value;
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            res.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+          },
+          remove(name: string, options: CookieOptions) {
+            res.cookies.set({
+              name,
+              value: '',
+              ...options,
+            });
+          },
+        }
+      }
+    );
     
     // Get user session with JWT verification
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -129,7 +153,7 @@ export async function middleware(req: NextRequest) {
           details: { 
             error: sessionError?.message || 'No valid session',
             path,
-            ip: req.headers.get('x-forwarded-for') || req.ip
+            ip: req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
           }
         });
         

@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { createBrowserClient, createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -63,10 +62,10 @@ const platformConfig: Record<PlatformSlug, PlatformConfig> = {
  * Creates a Supabase client for client-side components with platform-specific configuration
  */
 export function createClientComponent(platform: PlatformSlug = 'hub') {
-  return createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
       global: {
         headers: {
           ...platformConfig[platform].headers
@@ -78,7 +77,7 @@ export function createClientComponent(platform: PlatformSlug = 'hub') {
         persistSession: true
       }
     }
-  });
+  );
 }
 
 /**
