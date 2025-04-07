@@ -1,126 +1,261 @@
-# Neothink Sites Monorepo
+# Neothink Monorepo Structure Guide
 
-This monorepo contains the source code for all Neothink platform sites and applications. The repository is organized as follows:
+This document provides an overview of the monorepo structure for the Neothink platform ecosystem.
 
-## Repository Structure
+## Overview
+
+The Neothink platform ecosystem is organized as a monorepo containing multiple platform applications and shared libraries. This architecture enables code sharing, consistent development practices, and streamlined deployment across all platforms.
+
+## Directory Structure
 
 ```
 /
-├── lib/                     # Shared library code
-│   ├── supabase/            # Supabase client & auth utilities
-│   ├── utils/               # Common utilities
-│   ├── hooks/               # React hooks
-│   ├── components/          # Shared UI components
-│   ├── theme/               # Theming system
-│   └── config/              # Platform configuration
-├── go.neothink.io/          # Hub platform
-├── joinascenders/           # Ascenders platform
-├── joinneothinkers/         # Neothinkers platform
-├── joinimmortals/           # Immortals platform
-├── supabase/                # Supabase configuration
-│   ├── functions/           # Edge functions
-│   └── migrations/          # Database migrations
-├── scripts/                 # Utility scripts
-└── docs/                    # Documentation
+├── go.neothink.io/       # Hub platform
+├── joinascenders/        # Ascenders platform
+├── joinneothinkers/      # Neothinkers platform
+├── joinimmortals/        # Immortals platform
+├── lib/                  # Shared libraries
+│   ├── supabase/         # Supabase client and utilities
+│   ├── middleware/       # Shared middleware implementation
+│   ├── ui/               # Shared UI components
+│   ├── utils/            # Shared utility functions
+│   ├── auth/             # Authentication utilities
+│   └── api/              # API utilities
+├── supabase/             # Supabase configuration
+│   ├── migrations/       # Database migrations
+│   └── functions/        # Edge functions
+├── types/                # Shared TypeScript type definitions
+├── docs/                 # Documentation
+│   ├── development/      # Development guides
+│   ├── platforms/        # Platform-specific documentation
+│   └── ...               # Other documentation categories
+├── scripts/              # Utility scripts
+│   ├── deploy-platforms.js       # Deployment script
+│   └── apply-migrations.js       # Database migration script
+└── package.json          # Root package.json for workspaces
 ```
 
-## Repository Mappings
+## Platform Applications
 
-Each site/app in the monorepo corresponds to a Vercel project:
+Each platform application follows a similar structure based on Next.js App Router conventions:
 
-| Local Directory | Platform | Vercel Project | Production URL |
-|----------------|----------|----------------|----------------|
-| `/go.neothink.io` | Hub | neothink-io | go.neothink.io |
-| `/joinascenders` | Ascenders | join-ascenders | joinascenders.org |
-| `/joinneothinkers` | Neothinkers | join-neothinkers | joinneothinkers.org |
-| `/joinimmortals` | Immortals | join-immortals | joinimmortals.org |
+```
+platform/
+├── app/                  # Next.js App Router
+│   ├── (auth)/           # Authentication routes
+│   ├── (authenticated)/  # Routes requiring authentication
+│   ├── (unauthenticated)/ # Public routes
+│   ├── api/              # API routes
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Home page
+├── components/           # Platform-specific components
+│   ├── ui/               # UI components (shadcn/ui)
+│   └── ...               # Other components
+├── hooks/                # Custom hooks
+├── lib/                  # Platform-specific libraries
+│   ├── supabase/         # Platform-specific Supabase client
+│   └── utils/            # Platform-specific utilities
+├── public/               # Static assets
+├── middleware.ts         # Next.js middleware
+├── next.config.js        # Next.js configuration
+├── package.json          # Platform-specific dependencies
+├── tailwind.config.ts    # Tailwind CSS configuration
+└── tsconfig.json         # TypeScript configuration
+```
 
-## Turborepo Configuration
+## Shared Libraries
 
-This monorepo uses Turborepo for dependency management and build optimization:
+The `lib` directory contains shared code that can be used across all platforms:
 
-- **turbo.json**: Defines the build pipeline and task dependencies
-- **Workspace Setup**: Each platform is a workspace in the monorepo
-- **Caching**: Build artifacts are cached for faster subsequent builds
-- **Parallel Execution**: Tasks are executed in parallel when possible
-- **Global Dependencies**: Environment variables shared across all workspaces
+### Supabase
 
-### Turborepo Pipeline
+The `lib/supabase` directory contains utilities for interacting with Supabase:
 
-The following tasks are defined in the Turborepo pipeline:
+```
+lib/supabase/
+├── client.ts             # Browser client initialization
+├── server.ts             # Server-side client initialization
+└── middleware.ts         # Middleware client
+```
 
-- **build**: Builds all workspaces (Next.js apps)
-- **lint**: Runs linting on all workspaces
-- **dev**: Starts the development server for each workspace
-- **clean**: Cleans build artifacts
-- **test**: Runs tests for each workspace
+### UI Components
 
-## Shared Resources
+The `lib/ui` directory contains shared UI components based on shadcn/ui:
 
-### Authentication & Backend
-While each site has its own directory and codebase, they all share the same Supabase backend:
-- Direct integration with @supabase/ssr in each site
-- Independent session management per site
-- Platform-specific auth flows
-- Local middleware implementation in lib/supabase/middleware.ts
-- Shared Supabase instance for:
-  - User authentication
-  - Database access
-  - Edge functions
-  - Email templates
-  - RLS policies
+```
+lib/ui/
+├── button/               # Button component
+├── dialog/               # Dialog component
+├── toast/                # Toast notifications
+│   ├── toast.tsx         # Toast component
+│   ├── toaster.tsx       # Toaster component
+│   └── use-toast.ts      # Toast hook
+└── ...                   # Other UI components
+```
 
-### Supabase Configuration
-The `supabase` directory contains the shared backend configuration that all sites connect to:
-- Edge functions for authentication
-- Database migrations
-- Platform-specific settings
-- Email templates
-- RLS policies
+### Middleware
 
-## Development Guidelines
+The `lib/middleware` directory contains shared middleware implementations:
 
-1. When making changes to authentication:
-   - Update the shared Supabase configuration if needed
-   - Ensure changes are compatible with all platforms
-   - Test changes across all sites
-2. Platform-specific changes should be made in their respective directories
-3. Database migrations affect all platforms and must be tested thoroughly
-4. Use the Turborepo pipeline for building and testing
+```
+lib/middleware/
+├── unified-middleware.ts # Unified middleware for all platforms
+└── types.ts              # Middleware types
+```
 
-## Deployment
+## Database
 
-### Platform-Specific Deployments
-Each platform is deployed independently through its Vercel project:
+The `supabase` directory contains database configurations and migrations:
 
-1. **Hub Platform (go.neothink.io)**
-   - Vercel Project: neothink-io
-   - Production URL: go.neothink.io
-   - Directory: `/go.neothink.io`
+```
+supabase/
+├── migrations/           # SQL migrations
+│   ├── 20240518_unified_auth_system.sql        # Authentication system
+│   ├── 20240606_security_enhancements.sql      # Security enhancements
+│   └── ...               # Other migrations
+└── functions/            # Supabase Edge Functions
+    └── ...               # Function implementations
+```
 
-2. **Ascenders Platform (joinascenders.org)**
-   - Vercel Project: join-ascenders
-   - Production URL: joinascenders.org
-   - Directory: `/joinascenders`
+## Scripts
 
-3. **Neothinkers Platform (joinneothinkers.org)**
-   - Vercel Project: join-neothinkers
-   - Production URL: joinneothinkers.org
-   - Directory: `/joinneothinkers`
+The `scripts` directory contains utility scripts for development, deployment, and maintenance:
 
-4. **Immortals Platform (joinimmortals.org)**
-   - Vercel Project: join-immortals
-   - Production URL: joinimmortals.org
-   - Directory: `/joinimmortals`
+```
+scripts/
+├── deploy-platforms.js               # Platform deployment script
+├── apply-migrations.js               # Database migration script
+├── apply-security-enhancements.js    # Security enhancement script
+└── ...                               # Other utility scripts
+```
 
-### Deployment Process
-1. Each platform is deployed through Vercel
-2. Environment variables are managed in Vercel
-3. Database migrations are run through Supabase CLI
-4. Edge functions are deployed through Supabase Dashboard
+## Types
 
-### Database Migrations
-1. Migrations are run in order using Supabase CLI
-2. Each migration is tested in development
-3. Rollback plans are documented
-4. Migrations must be backward compatible 
+The `types` directory contains shared TypeScript type definitions:
+
+```
+types/
+├── supabase.ts           # Generated Supabase types
+├── auth.ts               # Authentication types
+└── ...                   # Other shared types
+```
+
+## Documentation
+
+The `docs` directory contains comprehensive documentation for the platform ecosystem:
+
+```
+docs/
+├── INDEX.md              # Documentation index
+├── development/          # Development guides
+├── platforms/            # Platform-specific documentation
+└── ...                   # Other documentation categories
+```
+
+## Working with the Monorepo
+
+### Installing Dependencies
+
+Install dependencies for all platforms:
+
+```bash
+npm install
+```
+
+Install dependencies for a specific platform:
+
+```bash
+cd go.neothink.io
+npm install
+```
+
+### Running Development Servers
+
+Run development servers for all platforms:
+
+```bash
+npm run dev
+```
+
+Run a specific platform:
+
+```bash
+cd go.neothink.io
+npm run dev
+```
+
+### Building for Production
+
+Build all platforms:
+
+```bash
+npm run build
+```
+
+Build a specific platform:
+
+```bash
+cd go.neothink.io
+npm run build
+```
+
+### Adding Shared Components
+
+When adding shadcn/ui components, use the provided script:
+
+```bash
+npm run ui:add button
+```
+
+### Running Database Migrations
+
+Apply all migrations:
+
+```bash
+npm run migrate:all
+```
+
+Apply a specific migration:
+
+```bash
+npm run migrate:security
+```
+
+## Best Practices
+
+### Code Organization
+
+- Keep platform-specific code in the platform directories
+- Place shared code in the `lib` directory
+- Use clear, consistent naming conventions
+- Follow the established directory structure
+
+### Dependency Management
+
+- Use workspaces to manage dependencies
+- Share common dependencies in the root `package.json`
+- Keep platform-specific dependencies in platform `package.json` files
+- Regularly update dependencies for security and features
+
+### Code Consistency
+
+- Follow TypeScript best practices
+- Use consistent coding standards
+- Share configuration files when possible
+- Document public APIs and shared utilities
+
+## Troubleshooting
+
+### Common Issues
+
+- **Workspaces not recognized**: Ensure you have the correct npm/yarn version
+- **Module not found**: Check import paths and workspace configuration
+- **Type errors**: Run `npm run gen:types` to regenerate Supabase types
+- **Middleware errors**: Check for inconsistencies in middleware implementations
+
+## Further Reading
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Supabase Documentation](https://supabase.io/docs)
+- [Turborepo Documentation](https://turborepo.org/docs)
+- [shadcn/ui Documentation](https://ui.shadcn.com/docs) 

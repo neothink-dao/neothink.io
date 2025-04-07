@@ -1,193 +1,82 @@
-# 🌟 Neothink Platform Documentation
+# Neothink Documentation Index
 
-Welcome to the Neothink Platform documentation! This guide is designed to help you understand, build, and contribute to our ecosystem of transformative platforms.
+This document serves as the central index for all documentation in the Neothink platform ecosystem.
 
-## 🎯 Quick Links
+## Getting Started
 
-- [Getting Started](#getting-started)
-- [Platform Guides](#platform-guides)
-- [Authentication System](#authentication-system)
-- [Developer Resources](#developer-resources)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
+- [Getting Started Guide](./GETTING-STARTED.md) - Quick start guide for new developers
+- [Environment Setup](./ENV-TEMPLATE.md) - Setting up your development environment
+- [Monorepo Structure](./development/MONOREPO-GUIDE.md) - Understanding the repository structure
 
-## 📚 Documentation Categories
+## Architecture & Design
 
-### Getting Started
+- [Technical Implementation](./TECHNICAL-IMPLEMENTATION.md) - Overview of technical implementation
+- [Sacred Geometry Design System](./sacred-geometry-design-system.md) - Design system documentation
+- [Component Library](./component-library.md) - Shared UI component documentation
+- [Database Schema](./database-schema.md) - Database schema documentation
+- [API Documentation](./api-documentation.md) - API endpoints and usage
 
-- [Platform Overview](./UNIFIED-PLATFORM.md) - Introduction to the Neothink ecosystem
-- [Quick Start Guide](./development/QUICK-START.md) - Set up your development environment
-- [Architecture Overview](./architecture/SYSTEM-DESIGN.md) - System design and principles
-- [Technology Stack](./WHY-MODERN-STACK.md) - Our modern technology choices
+## Authentication & Security
 
-### Platform Guides
+- [Authentication Implementation Summary](./auth-implementation-summary.md) - Current state of auth implementation
+- [Authentication Flows](./auth-flow-documentation.md) - Detailed authentication flows
+- [User Authentication Flows](./user-authentication-flows.md) - User-facing auth journey
+- [Cross-Platform Navigation](./cross-platform-navigation.md) - Platform switching mechanics
+- [Security](./security.md) - Security implementation and best practices
 
-#### Core Platforms
-- [Hub Guide](./platforms/HUB.md) - Central command for life mastery
-- [Ascenders Guide](./platforms/ASCENDER.md) - Greater prosperity through value creation
-- [Neothinkers Guide](./platforms/NEOTHINKER.md) - Greater happiness through integrated thinking
-- [Immortals Guide](./platforms/IMMORTAL.md) - Greater longevity through self-leadership
+## Development & Deployment
 
-#### User Flows
-- [Authentication Flows](./auth-flow-documentation.md) - Sign-up and sign-in processes
-- [Authentication Implementation Plan](./auth-implementation-plan.md) - Detailed implementation guide
-- [Cross-Platform Navigation](./cross-platform-navigation.md) - Moving between platforms
-- [User Authentication Flows](./user-authentication-flows.md) - Comprehensive authentication guide
-- [Subscription Management](./user-flows/SUBSCRIPTIONS.md) - Managing platform access
+- [Route Structure](./development/ROUTE-STRUCTURE.md) - Routing conventions across platforms
+- [Authentication Status](./development/AUTHENTICATION-STATUS.md) - Status of authentication system
+- [Deployment Guide](./development/DEPLOYMENT-GUIDE.md) - Deployment procedures and environments
+- [Refactoring Summary](./REFACTORING-SUMMARY.md) - Summary of refactoring efforts
 
-### Authentication System
+## Project Management
 
-- [Authentication System Overview](./auth-system.md) - Complete authentication system documentation
-- [Role-Based Access Control](./RBAC-SYSTEM.md) - Detailed RBAC implementation
-- [Authentication Flows by Platform](#platform-specific-authentication)
-- [Technical Implementation Details](./TECHNICAL-IMPLEMENTATION.md) - Technical specifications
-- [Implementation Summary](./auth-implementation-summary.md) - Status and completion roadmap
-- [Next Steps for Completion](./next-steps-for-completion.md) - Detailed plan for reaching 100% implementation
+- [Implementation Plan](./implementation-plan.md) - Detailed implementation plan
+- [Master Plan](./MASTER-PLAN.md) - High-level project roadmap
+- [Next Steps for Completion](./next-steps-for-completion.md) - Remaining work to achieve 100% completion
+- [Improvements](./IMPROVEMENTS.md) - Planned improvements and optimizations
 
-#### Platform-Specific Authentication
+## Platform-Specific Documentation
 
-Each platform in the Neothink ecosystem has specific authentication flows and user experiences tailored to its audience:
+### Hub (go.neothink.io)
 
-1. **Hub (go.neothink.io)**
-   - Central authentication system
-   - Dashboard with platform access management
-   - Cross-platform navigation controls
-   - Profile management for all platforms
+- [Hub Overview](./platforms/hub/overview.md) - Central platform documentation
+- [Hub Dashboard](./platforms/hub/dashboard.md) - Dashboard features and functionality
+- [Platform Switching](./platforms/hub/platform-switching.md) - Platform navigation features
 
-2. **Ascenders (joinascenders.com)**
-   - Business-focused onboarding
-   - Value creation dashboard
-   - Prosperity-centered user experience 
-   - Business metric tracking
+### Ascenders (joinascenders.com)
 
-3. **Neothinkers (joinneothinkers.com)**
-   - Thinking style assessment
-   - Learning path customization
-   - Mental model exploration
-   - Thought exercise tracking
+- [Ascenders Overview](./platforms/ascenders/overview.md) - Platform overview
+- [Business Goal Tracking](./platforms/ascenders/goal-tracking.md) - Business goal features
+- [Metrics Dashboard](./platforms/ascenders/metrics-dashboard.md) - Business metrics visualization
 
-4. **Immortals (joinimmortals.com)**
-   - Longevity-focused onboarding
-   - Health metrics tracking
-   - Legacy creation tools
-   - Biohacking resource access
+### Neothinkers (joinneothinkers.com)
 
-### Developer Resources
+- [Neothinkers Overview](./platforms/neothinkers/overview.md) - Platform overview
+- [Thought Exercises](./platforms/neothinkers/exercises.md) - Thought exercise system
+- [Progress Tracking](./platforms/neothinkers/progress.md) - Progress tracking features
 
-#### Core Development
-- [Monorepo Guide](./MONOREPO.md) - Working with our codebase
-- [Development Workflow](./development/WORKFLOW.md) - Development best practices
-- [Testing Guide](./development/TESTING.md) - Testing standards and practices
-- [Code Style Guide](./development/STYLE-GUIDE.md) - Coding standards
-- [Performance Guide](./development/PERFORMANCE.md) - Optimization techniques
+### Immortals (joinimmortals.com)
 
-#### Database & Backend
-- [Database Schema](./database/SCHEMA.md) - Core data structure
-- [Authentication System](./auth-system.md) - User authentication
-- [RBAC System](./RBAC-SYSTEM.md) - Role-based access control
-- [Multi-Tenant Architecture](./architecture/MULTI-TENANT.md) - Platform isolation
-- [Migration Guide](./database/MIGRATION-GUIDE.md) - Database changes
+- [Immortals Overview](./platforms/immortals/overview.md) - Platform overview
+- [Health Metrics](./platforms/immortals/health-metrics.md) - Health tracking features
+- [Legacy Creation](./platforms/immortals/legacy.md) - Legacy creation tools
+- [Data Integration](./platforms/immortals/data-integration.md) - External health data integration
 
-#### Frontend Development
-- [Component Library](./components/README.md) - Shared UI components
-- [Styling Guide](./sacred-geometry-design-system.md) - Design system implementation
-- [State Management](./development/STATE.md) - Data flow patterns
-- [Cross-Platform Features](./cross-platform-navigation.md) - Shared functionality
+## Contributing
 
-#### Deployment & Operations
-- [Deployment Guide](../DEPLOYMENT.md) - Release process
-- [Monitoring Guide](./operations/MONITORING.md) - System health tracking
-- [Security Guide](./operations/SECURITY.md) - Security best practices
-- [Performance Monitoring](./operations/PERFORMANCE.md) - System optimization
+- [Contributing Guide](../CONTRIBUTING.md) - How to contribute to the project
+- [Code Standards](./development/CODE-STANDARDS.md) - Coding standards and guidelines
+- [Pull Request Process](./development/PR-PROCESS.md) - Process for submitting changes
 
-### API Reference
+## Troubleshooting
 
-- [REST API](./api/REST.md) - HTTP API documentation
-- [GraphQL API](./api/GRAPHQL.md) - GraphQL schema and operations
-- [WebSocket API](./api/WEBSOCKET.md) - Real-time functionality
-- [SDK Documentation](./api/SDK.md) - Client libraries
-
-### Contributing
-
-- [Contribution Guide](./contributing/README.md) - How to contribute
-- [Code Review Process](./contributing/CODE-REVIEW.md) - Review guidelines
-- [Release Process](./contributing/RELEASES.md) - Version management
-- [Community Guidelines](./contributing/COMMUNITY.md) - Community standards
-
-## 🎨 Documentation Style Guide
-
-Our documentation follows these principles:
-
-1. **Progressive Disclosure**
-   - Start with high-level concepts
-   - Drill down into details progressively
-   - Link related topics for deeper exploration
-
-2. **Clear Navigation**
-   - Consistent structure across sections
-   - Clear hierarchy of information
-   - Easy-to-find related content
-
-3. **Modern Formatting**
-   - Clean, readable typography
-   - Helpful diagrams and visuals
-   - Code examples with syntax highlighting
-   - Interactive examples where possible
-
-4. **Practical Examples**
-   - Real-world use cases
-   - Copy-paste ready code snippets
-   - Best practice implementations
-   - Common pitfall warnings
-
-5. **Regular Updates**
-   - Version-specific documentation
-   - Changelog maintenance
-   - Deprecation notices
-   - Migration guides
-
-## 🔄 Contributing to Documentation
-
-We welcome contributions to our documentation! Please see our [Documentation Contribution Guide](./contributing/DOCUMENTATION.md) for:
-
-- Writing style guidelines
-- Document structure templates
-- Review process
-- Content update workflow
-
-## 📱 Mobile-First Documentation
-
-Our documentation is optimized for both desktop and mobile viewing:
-
-- Responsive layouts
-- Touch-friendly navigation
-- Optimized code block display
-- Adaptive images and diagrams
-
-## 🌐 Internationalization
-
-Documentation is available in multiple languages:
-- English (Primary)
-- Spanish
-- Mandarin
-- Hindi
-- Portuguese
-
-See our [Translation Guide](./contributing/TRANSLATIONS.md) for contributing translations.
-
-## 🤝 Support
-
-Need help with the documentation?
-- Join our [Developer Community](https://developers.neothink.io)
-- Submit issues on [GitHub](https://github.com/neothink-dao/docs)
-- Contact us at docs@neothink.io
+- [Common Issues](./troubleshooting/COMMON-ISSUES.md) - Solutions to common problems
+- [Debugging Guide](./troubleshooting/DEBUGGING.md) - Debugging techniques
+- [FAQ](./troubleshooting/FAQ.md) - Frequently asked questions
 
 ---
 
-<div align="center">
-
-**Building the future of human achievement, one document at a time.**
-
-[Edit on GitHub](https://github.com/neothink-dao/docs/edit/main/INDEX.md) • [Report an Issue](https://github.com/neothink-dao/docs/issues/new)
-
-</div> 
+This documentation is regularly updated to reflect the current state of the Neothink platform ecosystem. If you find any discrepancies or have suggestions for improvements, please submit a pull request or create an issue. 
