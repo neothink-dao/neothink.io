@@ -32,6 +32,10 @@ const nextConfig = {
         fs: false,
         path: false,
       },
+      alias: {
+        ...config.resolve.alias,
+        '@shared': '../../lib'
+      }
     };
     return config;
   }
