@@ -1,7 +1,7 @@
 'use client'
 
-import { ThemeProvider as NextThemeProvider } from '../../context/theme-context'
-import { PlatformIndicator } from '../PlatformIndicator'
+import { ThemeProvider as NextThemeProvider } from '@/go.neothink.io/lib/context/theme-context'
+import { PlatformIndicator } from '@/go.neothink.io/lib/components/PlatformIndicator'
 
 export function ThemeProviderWrapper({
   children
