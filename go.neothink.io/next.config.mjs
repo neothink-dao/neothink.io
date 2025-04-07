@@ -21,7 +21,16 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
-  transpilePackages: ['@supabase/ssr'],
+  transpilePackages: [
+    '@supabase/ssr',
+    '@supabase/supabase-js',
+    'zod'
+  ],
+  webpack: (config, { isServer }) => {
+    // Ensure modules are resolved correctly
+    config.resolve.modules = [...(config.resolve.modules || []), './node_modules'];
+    return config;
+  }
 }
 
 if (userConfig) {
