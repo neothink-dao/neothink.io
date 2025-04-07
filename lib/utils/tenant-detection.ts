@@ -1,5 +1,7 @@
 import { NextRequest } from 'next/server';
-import { PlatformSlug } from '../supabase/auth-client';
+import { createClient } from '../supabase/server'
+
+export type PlatformSlug = 'hub' | 'app' | 'docs' | 'ascenders' | 'neothinkers' | 'immortals'
 
 /**
  * Domain to tenant mapping configuration
@@ -193,4 +195,26 @@ export function getTenantFromUrl(url: string): PlatformSlug {
   
   // Default to hub if can't determine
   return 'hub';
+}
+
+export async function detectTenant(hostname: string): Promise<PlatformSlug> {
+  // Default to hub for localhost
+  if (hostname.includes('localhost')) {
+    return 'hub'
+  }
+
+  // Extract subdomain
+  const parts = hostname.split('.')
+  const isLocalhost = parts.includes('localhost')
+  const subdomain = isLocalhost ? parts[0] : parts[0]
+
+  // Map subdomain to platform
+  switch (subdomain) {
+    case 'app':
+      return 'app'
+    case 'docs':
+      return 'docs'
+    default:
+      return 'hub'
+  }
 } 
