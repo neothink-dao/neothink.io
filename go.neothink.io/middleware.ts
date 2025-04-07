@@ -1,7 +1,4 @@
-import { 
-  hubMiddleware, 
-  standardMatcherConfig 
-} from '../lib/middleware/unified-middleware';
+import { hubMiddleware } from '../lib/middleware/unified-middleware';
 import type { NextRequest } from 'next/server';
 
 /**
@@ -14,7 +11,18 @@ export async function middleware(request: NextRequest) {
 }
 
 /**
- * Standard matcher configuration to prevent middleware from running on static assets
+ * Middleware configuration to prevent running on static assets and api routes
  */
-export const config = standardMatcherConfig;
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
+  ],
+}
 
