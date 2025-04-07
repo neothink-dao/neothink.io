@@ -1,3 +1,5 @@
 export { ContentForm } from './ContentForm'
 export { ContentList } from './ContentList'
-export { ContentView } from './ContentView' 
+export { ContentView } from './ContentView'
+export { default as ContentEditor } from './ContentEditor'
+export { default as ContentManager } from './ContentManager' 
