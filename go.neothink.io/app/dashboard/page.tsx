@@ -1,83 +1,52 @@
-import { Suspense } from 'react';
-import { UserProfile } from '@/lib/components/profile';
-import { ContentList } from '@/lib/components/content';
-import { CrossPlatformNav } from '@/lib/components/navigation';
-import { PlatformSlug } from '@/lib/supabase/auth-client';
-import ProtectedRoute from '@/lib/components/ProtectedRoute';
-import LoadingSpinner from '@/lib/components/LoadingSpinner';
+import { AppSidebar } from "@/components/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
 
-export const dynamic = 'force-dynamic';
-
-export default function Dashboard() {
-  const platformSlug: PlatformSlug = 'hub';
-  
+export default function Page() {
   return (
-    <ProtectedRoute requiredPlatform={platformSlug}>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white shadow">
-          <div className="container mx-auto p-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-purple-800">Neothink Hub</h1>
-              <div className="flex items-center space-x-4">
-                <CrossPlatformNav currentPlatform={platformSlug} />
-              </div>
-            </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">
+                    Building Your Application
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
         </header>
-        
-        <main className="container mx-auto py-8 px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* User Profile Section */}
-            <div className="col-span-1">
-              <h2 className="text-xl font-semibold mb-4">Your Profile</h2>
-              <Suspense fallback={<LoadingSpinner />}>
-                <UserProfile platformSlug={platformSlug} />
-              </Suspense>
-            </div>
-            
-            {/* Content Section */}
-            <div className="col-span-1 lg:col-span-2">
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">Featured Content</h2>
-                <Suspense fallback={<LoadingSpinner />}>
-                  <ContentList 
-                    platformSlug={platformSlug} 
-                    featured={true}
-                    limit={3}
-                  />
-                </Suspense>
-              </div>
-              
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Your Platform Access</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {['ascenders', 'neothinkers', 'immortals'].map((platform) => (
-                    <div 
-                      key={platform}
-                      className="bg-white rounded-lg shadow p-6"
-                    >
-                      <h3 className="text-lg font-semibold mb-2">
-                        {platform.charAt(0).toUpperCase() + platform.slice(1)}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {platform === 'ascenders' && 'Prosperity and wealth creation'}
-                        {platform === 'neothinkers' && 'Happiness and integrated thinking'}
-                        {platform === 'immortals' && 'Health and longevity'}
-                      </p>
-                      <a 
-                        href={`https://join${platform}.org`}
-                        className="inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition-colors"
-                      >
-                        Visit Platform
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
-        </main>
-      </div>
-    </ProtectedRoute>
-  );
-} 
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}

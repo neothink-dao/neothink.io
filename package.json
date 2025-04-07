@@ -37,6 +37,8 @@
     "gen:types": "supabase gen types typescript --project-id dlmpxgzxdtqxyzsmpaxx --schema public > types/supabase.ts",
     "security:audit": "npm audit fix && npm audit",
     "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "test:coverage": "turbo run test:coverage",
     "ui:add": "npx shadcn-ui@latest add",
     "ui:init": "npx shadcn-ui@latest init"
   },
@@ -116,7 +118,7 @@
     "prettier-plugin-tailwindcss": "^0.5.12",
     "supabase": "^1.145.4",
     "tsup": "^8.0.2",
-    "turbo": "^1.12.5",
+    "turbo": "^1.13.4",
     "typescript": "^5.4.2"
   },
   "engines": {
