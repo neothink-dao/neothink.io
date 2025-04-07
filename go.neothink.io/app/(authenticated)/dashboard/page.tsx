@@ -4,6 +4,9 @@ import { DashboardStats } from "@/components/dashboard/stats"
 import { DashboardActivity } from "@/components/dashboard/activity"
 import { DashboardPlatforms } from "@/components/dashboard/platforms"
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function DashboardPage() {
   const supabase = await createClient()
 

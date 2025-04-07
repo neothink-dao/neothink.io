@@ -6,6 +6,9 @@ import { createClient } from "@/lib/supabase/client"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default function OnboardingPage() {
   const router = useRouter()
   const supabase = createClient()
