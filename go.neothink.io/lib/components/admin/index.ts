@@ -1,2 +1,2 @@
-export { default as AdminDashboard } from './AdminDashboard';
-export { default as UserManager } from './UserManager'; 
+export { AdminDashboard } from './AdminDashboard';
+export { UserManagement as UserManager } from './UserManagement'; 
