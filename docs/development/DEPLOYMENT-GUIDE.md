@@ -1,137 +1,181 @@
-# Deployment Guide
+# 🚀 Deployment Guide
 
 ## Overview
-This guide outlines the deployment process for the Neothink Sites monorepo. Each site is deployed independently to its own GitHub repository.
 
-## Repository Structure
-- `go.neothink.io` → [neothink.io](https://github.com/neothink-dao/neothink.io)
-- `joinascenders` → [ascenders](https://github.com/neothink-dao/ascenders)
-- `joinneothinkers` → [neothinkers](https://github.com/neothink-dao/neothinkers)
-- `joinimmortals` → [immortals](https://github.com/neothink-dao/immortals)
+This guide outlines the deployment process for the Neothink Platforms ecosystem. Each platform is deployed independently while sharing common backend resources.
 
-## Prerequisites
-1. Access to all repository deploy tokens
-2. Git installed and configured
-3. Node.js and pnpm installed
+## 📋 Prerequisites
 
-## Deployment Process
+- [Vercel](https://vercel.com) account with appropriate permissions
+- [Supabase](https://supabase.com) project access
+- Git repository access
+- Domain configuration access
 
-### 1. Preparation
+## 🏗️ Platform Architecture
+
+Each platform is deployed as a separate Vercel project:
+
+| Platform | Repository | Vercel Project | Production URL |
+|----------|------------|----------------|----------------|
+| Hub | [neothink-dao/neothink.io](https://github.com/neothink-dao/neothink.io) | neothink-io | go.neothink.io |
+| Ascenders | [neothink-dao/ascenders](https://github.com/neothink-dao/ascenders) | join-ascenders | joinascenders.org |
+| Neothinkers | [neothink-dao/neothinkers](https://github.com/neothink-dao/neothinkers) | join-neothinkers | joinneothinkers.org |
+| Immortals | [neothink-dao/immortals](https://github.com/neothink-dao/immortals) | join-immortals | joinimmortals.org |
+
+## 🔄 Deployment Process
+
+### 1. Environment Setup
+
 ```bash
-# Ensure you're in the monorepo root
-cd /path/to/neothink-sites
+# Clone the repository
+git clone https://github.com/neothink-dao/neothink-platforms.git
+cd neothink-platforms
 
-# Set the deploy token
-export DEPLOY_TOKEN=your_deploy_token_here
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.example .env.local
 ```
 
-### 2. Automated Deployment
-Use the deployment script to deploy all sites:
-```bash
-# Make the script executable
-chmod +x scripts/deploy-sites.sh
+Required environment variables:
+- `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous key
+- `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key
+- `NEXT_PUBLIC_PLATFORM_NAME`: Platform name
+- `NEXT_PUBLIC_PLATFORM_SLUG`: Platform identifier
 
-# Run the deployment
-./scripts/deploy-sites.sh
+### 2. Pre-Deployment Checks
+
+```bash
+# Run the deployment preparation script
+pnpm run prepare-deploy
+
+# Run tests
+pnpm run test
+
+# Build check
+pnpm run build
 ```
 
-### 3. Manual Deployment (Single Site)
-To deploy a single site:
+### 3. Deployment Commands
+
 ```bash
-cd site_directory
-git remote set-url origin "https://${DEPLOY_TOKEN}@github.com/neothink-dao/repo_name.git"
-git push origin main
+# Deploy a specific platform
+cd platform-directory
+vercel deploy
+
+# Deploy to production
+vercel deploy --prod
 ```
 
-### Deployment Process
-1. Each platform uses GitHub Actions for CI/CD
-2. Workflows are defined in `.github/workflows/` for each platform
-3. Environment variables are managed in Vercel
-4. Database migrations affect all platforms and must be deployed carefully
-5. Edge functions are deployed through Supabase Dashboard
+## 🔒 Security Considerations
 
-### Authentication & Backend Deployment
-1. Each site maintains its own authentication implementation
-2. All sites share the same Supabase backend:
-   - Database changes affect all platforms
-   - Edge function updates impact all sites
-   - RLS policies must be tested across platforms
-3. Environment variables must be updated in Vercel for each site
-4. Supabase configuration changes require testing on all platforms
+1. **Environment Variables**
+   - Never commit sensitive values
+   - Use Vercel's environment management
+   - Rotate keys regularly
+   - See [Security Guide](../operations/SECURITY.md)
 
-### Database Migrations
-1. Migrations are run in order using Supabase CLI
-2. Each migration must be tested across all platforms
-3. Rollback plans must account for all affected sites
-4. Migrations should be backward compatible
+2. **Authentication**
+   - Verify auth configuration
+   - Test SSO functionality
+   - Check role assignments
+   - See [Auth System](../auth-system.md)
 
-## Deployment Rules
+3. **Database**
+   - Run migrations carefully
+   - Test RLS policies
+   - Verify backup procedures
+   - See [Database Guide](../database/SCHEMA.md)
 
-1. **Branch Management**
-   - Always deploy from the `main` branch
-   - Use feature branches for development
-   - Merge to `main` only after testing
+## 📊 Monitoring
 
-2. **Version Control**
-   - Commit messages must follow conventional commits format
-   - Include meaningful commit messages
-   - Tag releases when deploying to production
+1. **Performance Monitoring**
+   - Set up Vercel Analytics
+   - Configure error tracking
+   - Monitor API endpoints
+   - See [Monitoring Guide](../operations/MONITORING.md)
 
-3. **Testing Requirements**
-   - Run tests before deployment
-   - Verify authentication flow
-   - Check cross-platform functionality
+2. **Health Checks**
+   - Implement status endpoints
+   - Set up uptime monitoring
+   - Configure alerts
+   - See [Performance Guide](../operations/PERFORMANCE.md)
 
-4. **Security**
-   - Never commit deploy tokens
-   - Use environment variables for sensitive data
-   - Rotate deploy tokens regularly
+## 🔄 CI/CD Pipeline
 
-5. **Rollback Procedure**
-   ```bash
-   # Revert to previous version
-   git revert HEAD
-   git push origin main
-   ```
+```mermaid
+graph TD
+    A[Code Push] --> B[CI Checks]
+    B --> C[Tests]
+    C --> D[Build]
+    D --> E[Preview Deploy]
+    E --> F[QA Review]
+    F --> G[Production Deploy]
+```
 
-## Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
-1. **Permission Denied**
-   - Verify deploy token is valid
-   - Check repository access permissions
-   - Ensure token has correct scopes
 
-2. **Merge Conflicts**
-   - Pull latest changes before deploying
-   - Resolve conflicts locally
-   - Test after resolving conflicts
+1. **Build Failures**
+   ```bash
+   # Clear cache and rebuild
+   vercel build --clear-cache
+   ```
 
-3. **Deployment Failures**
-   - Check deployment logs
-   - Verify build process
-   - Ensure all dependencies are installed
+2. **Database Issues**
+   ```bash
+   # Check migrations
+   pnpm run db:status
+   ```
 
-## Best Practices
+3. **Authentication Problems**
+   ```bash
+   # Verify auth configuration
+   pnpm run auth:check
+   ```
 
-1. **Before Deployment**
-   - Update documentation
-   - Run all tests
-   - Check for breaking changes
-   - Review security implications
+## 🔄 Rollback Procedures
 
-2. **During Deployment**
-   - Monitor deployment progress
-   - Watch for error messages
-   - Verify each step
+```bash
+# Revert to previous version
+git revert HEAD
+git push origin main
 
-3. **After Deployment**
-   - Verify functionality
-   - Update deployment logs
-   - Notify relevant team members
+# Redeploy specific version
+vercel deploy --prod
+```
 
-## Support
-For deployment issues:
-1. Check the troubleshooting guide
-2. Review deployment logs
-3. Contact the development team 
+## 📱 Mobile Considerations
+
+- Test responsive layouts
+- Verify PWA functionality
+- Check offline capabilities
+- Test on multiple devices
+
+## 🌐 Cross-Platform Features
+
+Ensure these features work across all platforms:
+- Single Sign-On (SSO)
+- Shared components
+- Data synchronization
+- See [Cross-Platform Features](../reference/CROSS-PLATFORM-FEATURES.md)
+
+## 🤝 Support
+
+Need deployment help?
+- Review [Troubleshooting Guide](../troubleshooting/README.md)
+- Join [Developer Community](https://developers.neothink.io)
+- Contact [DevOps Team](mailto:devops@neothink.io)
+
+---
+
+<div align="center">
+
+**Building the future of human achievement.**
+
+[Edit Guide](https://github.com/neothink-dao/docs/edit/main/docs/development/DEPLOYMENT-GUIDE.md) • [Report Issue](https://github.com/neothink-dao/docs/issues/new)
+
+</div> 

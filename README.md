@@ -204,7 +204,47 @@ const isContributor = await hasRole('contributor');
 const canCreateDiscussion = await canPerformAction('discussions', 'create');
 ```
 
-For more details, see:
+## 🔐 Authentication System
+
+Our cross-platform authentication system provides a seamless, unified experience with platform-specific customizations:
+
+### Key Features
+
+- **Single Account**: One account grants access across all platforms based on permissions
+- **Platform-Aware Context**: Authentication remembers and adapts to platform context
+- **Progressive Onboarding**: Minimally invasive signup with gradual profile completion
+- **Access Control**: Granular controls for platform access with clear upgrade paths
+- **Secure Sessions**: Industry-standard security with modern JWT implementation
+
+### User Experience
+
+We've designed thoughtful authentication flows that provide:
+
+- **Frictionless Signup**: Minimal information required to get started
+- **Clear Guidance**: Intuitive steps with helpful feedback
+- **Error Recovery**: Smart error handling with clear resolution paths
+- **Platform Switching**: Seamless movement between platforms without re-authentication
+
+### Technical Implementation
+
+Built on Supabase Auth with:
+
+- **Custom Hooks**: Powerful React hooks for authentication state
+- **Platform Gate Components**: Conditional rendering based on platform access
+- **Role-Based UI**: Components that adapt to user permissions
+- **Database Integration**: Deep integration with our role-based access control
+
+### Authentication Documentation
+
+For more details about our authentication system:
+
+- [Authentication System Overview](docs/auth-system.md) - Complete system documentation
+- [Authentication Flows](docs/auth-flow-documentation.md) - Detailed process flows with rationales
+- [Cross-Platform Navigation](docs/cross-platform-navigation.md) - Guide to platform navigation
+- [User Authentication Flows](docs/user-authentication-flows.md) - Detailed UI flows with mockups
+- [Authentication Implementation Plan](docs/auth-implementation-plan.md) - Roadmap for enhancements
+
+For more details on roles, see:
 
 - [Database Schema Documentation](docs/database/ROLES_SCHEMA.md)
 - [Role Utilities Documentation](docs/database/ROLE_UTILS.md)

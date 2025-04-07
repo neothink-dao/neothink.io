@@ -440,4 +440,123 @@ Track these metrics to measure implementation success:
    - Cross-platform conversion > 40%
    - User satisfaction > 90%
 
-*This implementation guide focuses on practical, actionable steps while maintaining high standards for security, performance, and user experience.* 
+*This implementation guide focuses on practical, actionable steps while maintaining high standards for security, performance, and user experience.*
+
+## Database and Authentication Setup
+
+### Supabase Project Setup
+
+1. Create a new Supabase project through the Vercel integration:
+   - Go to your Vercel dashboard
+   - Navigate to the project settings
+   - Enable the Supabase integration
+   - Follow the prompts to create a new project
+
+2. Initial Schema Setup:
+```sql
+-- Create auth schema extensions
+create extension if not exists "uuid-ossp";
+create extension if not exists "pgcrypto";
+
+-- Base user profiles table
+create table public.user_profiles (
+  id uuid references auth.users on delete cascade,
+  updated_at timestamp with time zone,
+  username text unique,
+  full_name text,
+  avatar_url text,
+  platform_access jsonb default '{"hub": true}'::jsonb,
+  primary key (id)
+);
+
+-- Platform-specific profile tables
+create table public.ascender_profiles (
+  id uuid references public.user_profiles on delete cascade,
+  level integer default 1,
+  experience_points integer default 0,
+  achievements jsonb default '[]'::jsonb,
+  primary key (id)
+);
+
+create table public.immortal_profiles (
+  id uuid references public.user_profiles on delete cascade,
+  health_score integer default 100,
+  longevity_index integer default 1,
+  biomarkers jsonb default '{}'::jsonb,
+  primary key (id)
+);
+
+create table public.neothinker_profiles (
+  id uuid references public.user_profiles on delete cascade,
+  mental_models_mastered integer default 0,
+  study_streak_days integer default 0,
+  learning_path jsonb default '{}'::jsonb,
+  primary key (id)
+);
+```
+
+3. Row Level Security Policies:
+```sql
+-- Enable RLS
+alter table public.user_profiles enable row level security;
+alter table public.ascender_profiles enable row level security;
+alter table public.immortal_profiles enable row level security;
+alter table public.neothinker_profiles enable row level security;
+
+-- User profiles policies
+create policy "Users can view their own profile"
+  on public.user_profiles for select
+  using ( auth.uid() = id );
+
+create policy "Users can update their own profile"
+  on public.user_profiles for update
+  using ( auth.uid() = id );
+
+-- Platform-specific policies
+create policy "Ascenders can view their profile"
+  on public.ascender_profiles for select
+  using ( auth.uid() = id );
+
+create policy "Immortals can view their profile"
+  on public.immortal_profiles for select
+  using ( auth.uid() = id );
+
+create policy "Neothinkers can view their profile"
+  on public.neothinker_profiles for select
+  using ( auth.uid() = id );
+```
+
+### Authentication Flow
+
+1. **Sign Up Flow**:
+   - User selects platform (Ascenders/Immortals/Neothinkers)
+   - Creates account with email/password or OAuth
+   - Profile created in `user_profiles` and platform-specific table
+   - Redirected to platform-specific onboarding
+
+2. **Sign In Flow**:
+   - User signs in with credentials
+   - JWT contains platform access information
+   - Redirected to appropriate platform dashboard
+
+3. **Platform Switching**:
+   - Users can switch between platforms they have access to
+   - Access controlled by `platform_access` JSON field
+   - UI adapts using Sacred Geometry system
+
+### Next Steps
+
+1. **Frontend Implementation**:
+   - Create authentication components using Sacred Geometry
+   - Implement protected route system
+   - Add platform switching UI
+
+2. **Backend Setup**:
+   - Set up Supabase client
+   - Create database triggers for profile creation
+   - Implement RLS policies
+
+3. **Testing**:
+   - Unit tests for auth flows
+   - Integration tests for database operations
+   - E2E tests for user journeys 

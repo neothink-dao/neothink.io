@@ -1,41 +1,45 @@
-# Authentication System Documentation
+# 🔐 Authentication System
 
 ## Overview
 
-The NeoThink unified authentication system provides a consistent authentication experience across all platform applications while maintaining proper separation of concerns and access control. The system supports multi-tenant authentication with different roles and permissions for each platform.
+The Neothink unified authentication system provides a seamless, secure, and consistent authentication experience across all platform applications. Built on Supabase Auth, it supports multi-tenant authentication with role-based access control for each platform.
 
-## Architecture
+## 🏗️ Architecture
 
-### Components
+```mermaid
+graph TD
+    A[User] --> B[Platform UI]
+    B --> C[Auth System]
+    C --> D[Supabase Auth]
+    D --> E[Database]
+    D --> F[Email Service]
+    D --> G[OAuth Providers]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#dfd,stroke:#333,stroke-width:2px
+```
 
-1. **Database Layer**
-   - `profiles` table: Stores user profile information
-   - `platform_access` table: Records which users have access to which platforms
-   - `auth_logs` table: Audit trail for authentication events
+### Core Components
 
-2. **Server Layer**
-   - Stored procedures and functions for managing user profiles and access
-   - Row-level security policies to protect user data
-   - Authorization checks via database functions
+1. **🗄️ Database Layer**
+   - User profiles and platform access
+   - Role and permission management
+   - Audit logging and security
 
-3. **Client Layer**
-   - Authentication UI components (login, signup, password reset)
-   - Session management via Supabase Auth
-   - Auth middleware for protected routes
+2. **🔌 API Layer**
+   - Authentication endpoints
+   - Platform access control
+   - Role management
 
-### Authentication Flow
+3. **🎨 UI Components**
+   - Login/signup forms
+   - Profile management
+   - Role-based UI elements
 
-1. User signs up through the platform-specific sign-up form
-2. Backend creates a user in Supabase Auth
-3. Trigger automatically creates a profile record and platform access record
-4. Email verification is sent to the user
-5. Once verified, the user can log in and access platform-specific features
-
-## Database Schema
+## 💾 Database Schema
 
 ### Profiles Table
-
-Stores user identity and platform access information:
 
 ```sql
 CREATE TABLE public.profiles (
@@ -51,179 +55,208 @@ CREATE TABLE public.profiles (
   platforms TEXT[] DEFAULT ARRAY[]::TEXT[],
   is_email_verified BOOLEAN DEFAULT false
 );
+
+-- Add indexes for performance
+CREATE INDEX idx_profiles_email ON public.profiles(email);
+CREATE INDEX idx_profiles_platforms ON public.profiles USING GIN(platforms);
 ```
 
-### Platform Access Table
-
-Records specific access levels and expiration for each platform:
+### Role Management Tables
 
 ```sql
-CREATE TABLE public.platform_access (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id),
-  platform_slug TEXT NOT NULL,
-  access_level TEXT,
-  granted_at TIMESTAMPTZ DEFAULT now(),
-  expires_at TIMESTAMPTZ,
-  granted_by UUID REFERENCES auth.users(id),
-  notes TEXT,
-  UNIQUE(user_id, platform_slug)
-);
-```
-
-### Auth Logs Table
-
-Audit trail for authentication events:
-
-```sql
-CREATE TABLE public.auth_logs (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL,
-  action TEXT NOT NULL,
-  platform TEXT,
+-- Define available roles
+CREATE TABLE public.tenant_roles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  tenant_id UUID REFERENCES public.tenants(id),
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL,
+  description TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
-  details JSONB
+  UNIQUE(tenant_id, slug)
+);
+
+-- Associate users with roles
+CREATE TABLE public.tenant_users (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES auth.users(id),
+  tenant_id UUID REFERENCES public.tenants(id),
+  role_id UUID REFERENCES public.tenant_roles(id),
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(user_id, tenant_id)
 );
 ```
 
-## Key Functions and Procedures
+## 🔧 Implementation
 
-### `create_user_profile`
+### Authentication Flow
 
-Creates a user profile during signup:
-
-```sql
-CREATE OR REPLACE PROCEDURE public.create_user_profile(
-  user_id UUID,
-  email TEXT,
-  platform TEXT
-)
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI
+    participant API
+    participant Supabase
+    participant Database
+    
+    User->>UI: Enter credentials
+    UI->>API: Submit auth request
+    API->>Supabase: Authenticate
+    Supabase->>Database: Verify user
+    Database-->>Supabase: User data
+    Supabase-->>API: Auth token
+    API-->>UI: Session established
+    UI-->>User: Redirect to dashboard
 ```
 
-### `has_platform_access`
-
-Checks if a user has access to a specific platform:
-
-```sql
-CREATE OR REPLACE FUNCTION public.has_platform_access(platform_slug_param TEXT)
-RETURNS BOOLEAN
-```
-
-## Frontend Components
-
-### SignUpForm
-
-Each platform has its own SignUpForm component that handles user registration:
+### React Components
 
 ```tsx
-export function SignUpForm({ className, ...props }: SignUpFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // ...
-
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    // Form validation
-    // Call API endpoint for signup
-    // Redirect on success
-  };
-
-  // ...
-}
-```
-
-### LoginForm
-
-Handles user authentication:
-
-```tsx
-export function LoginForm({ className, ...props }: LoginFormProps) {
-  // ...
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    // Authenticate user
-    // Set session
-    // Redirect to dashboard
-  };
-  // ...
-}
-```
-
-### PermissionGate
-
-Controls access to specific features based on user roles and platform access:
-
-```tsx
-export function PermissionGate({ 
-  platform, 
-  fallback, 
-  children 
-}: PermissionGateProps) {
-  // Check if user has access to platform
-  // Render children if access granted, fallback otherwise
-}
-```
-
-## API Routes
-
-Each platform has its own API routes for authentication:
-
-- `/api/auth/signup` - Handles user registration
-- `/api/auth/login` - Handles user login
-- `/api/auth/logout` - Handles user logout
-- `/api/auth/reset-password` - Handles password reset
-
-## Usage Examples
-
-### Protecting a Route
-
-```tsx
-// In a Next.js route file
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
-
-export async function middleware(req) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
+// Protected route wrapper
+export function ProtectedRoute({ children, platform }) {
+  const { user, isLoading } = useAuth();
+  const { hasPlatformAccess } = usePlatform();
   
-  const { data: { session } } = await supabase.auth.getSession()
+  if (isLoading) return <LoadingSpinner />;
   
-  if (!session) {
-    return NextResponse.redirect(new URL('/auth/login', req.url))
+  if (!user) {
+    return <Navigate to="/login" />;
   }
   
-  return res
-}
-
-export const config = {
-  matcher: ['/dashboard/:path*']
-}
-```
-
-### Checking Platform Access
-
-```tsx
-// In a React component
-import { useAuth } from '@/lib/hooks/useAuth'
-
-export function PlatformFeature() {
-  const { user, hasPlatformAccess } = useAuth()
-  
-  if (!hasPlatformAccess('neothink')) {
-    return <AccessDenied />
+  if (!hasPlatformAccess(platform)) {
+    return <AccessDenied />;
   }
   
-  return <FeatureContent />
+  return children;
+}
+
+// Platform-specific gate
+export function PlatformGate({ platforms, children, fallback }) {
+  const { hasAccessToAny } = usePlatform();
+  
+  if (!hasAccessToAny(platforms)) {
+    return fallback || <AccessDenied />;
+  }
+  
+  return children;
 }
 ```
 
-## Security Considerations
+## 🔒 Security Features
 
-1. **Row-Level Security**: All tables have RLS policies to ensure users can only access their own data.
-2. **SECURITY DEFINER Functions**: Critical functions run with elevated privileges but are securely implemented.
-3. **Audit Logging**: All authentication events are logged for security auditing.
-4. **Platform Isolation**: Users can only access platforms they have explicit permissions for.
+1. **Authentication**
+   - JWT-based sessions
+   - Secure cookie handling
+   - PKCE flow for OAuth
+   - Rate limiting
 
-## Future Improvements
+2. **Authorization**
+   - Role-based access control
+   - Platform-specific permissions
+   - Row-level security
+   - Guardian privileges
 
-1. **Social Authentication**: Add support for Google, GitHub, etc.
-2. **MFA Support**: Implement multi-factor authentication.
-3. **Enhanced Session Management**: Add support for managing multiple sessions.
-4. **Access Control UI**: Admin interface for managing user access to platforms. 
+3. **Data Protection**
+   - Encrypted connections
+   - Password hashing
+   - Input validation
+   - Output sanitization
+
+## 📱 Mobile Support
+
+1. **Responsive Design**
+   - Mobile-optimized forms
+   - Touch-friendly UI
+   - Biometric authentication
+   - PWA support
+
+2. **Offline Capabilities**
+   - Token persistence
+   - Offline access rules
+   - Background sync
+   - Error recovery
+
+## 🔄 Cross-Platform Features
+
+1. **Single Sign-On (SSO)**
+   - One account for all platforms
+   - Seamless platform switching
+   - Unified profile management
+   - Synchronized permissions
+
+2. **Platform-Specific Access**
+   - Independent access rules
+   - Custom role hierarchies
+   - Feature-based permissions
+   - Content restrictions
+
+## 🚀 Getting Started
+
+### Installation
+
+```bash
+# Install dependencies
+pnpm add @supabase/auth-helpers-nextjs @supabase/supabase-js
+
+# Set up environment variables
+cp .env.example .env.local
+```
+
+### Basic Usage
+
+```tsx
+// In your component
+import { useAuth } from '@/lib/hooks/useAuth';
+
+function LoginForm() {
+  const { signIn, error } = useAuth();
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await signIn(email, password);
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+    </form>
+  );
+}
+```
+
+## 🔍 Monitoring & Debugging
+
+1. **Logging**
+   - Auth events
+   - Access attempts
+   - Error tracking
+   - Performance metrics
+
+2. **Debugging Tools**
+   - Session inspector
+   - Role validator
+   - Permission checker
+   - Token debugger
+
+## 📚 Related Documentation
+
+- [Role System](./RBAC-SYSTEM.md)
+- [Database Schema](./database/SCHEMA.md)
+- [Security Guide](./operations/SECURITY.md)
+- [API Reference](./api/REST.md)
+
+## 🤝 Support
+
+Need help with authentication?
+- Join our [Developer Community](https://developers.neothink.io)
+- Review the [Troubleshooting Guide](./troubleshooting/README.md)
+- Contact [Auth Support](mailto:auth-support@neothink.io)
+
+---
+
+<div align="center">
+
+**Securing the future of human achievement.**
+
+[Edit Documentation](https://github.com/neothink-dao/docs/edit/main/docs/auth-system.md) • [Report Issue](https://github.com/neothink-dao/docs/issues/new)
+
+</div> 
