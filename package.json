@@ -1,6 +1,6 @@
 {
   "name": "neothink-platforms",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Monorepo for Neothink platforms and apps",
   "private": true,
   "workspaces": [
@@ -10,10 +10,10 @@
     "joinimmortals"
   ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
     "deploy:hub": "node scripts/deploy-platforms.js hub",
     "deploy:ascenders": "node scripts/deploy-platforms.js ascenders",
     "deploy:neothinkers": "node scripts/deploy-platforms.js neothinkers",
@@ -36,26 +36,26 @@
     "gen:types": "supabase gen types typescript --project-id dlmpxgzxdtqxyzsmpaxx --schema public > types/supabase.ts"
   },
   "dependencies": {
-    "@supabase/auth-helpers-nextjs": "^0.7.0",
-    "@supabase/supabase-js": "^2.21.0",
+    "@supabase/ssr": "^0.1.0",
+    "@supabase/supabase-js": "^2.39.0",
     "autoprefixer": "10.4.14",
     "dotenv": "^16.0.3",
-    "next": "13.3.0",
-    "postcss": "8.4.21",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^15.2.4",
+    "postcss": "^8.4.35",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tailwindcss": "3.3.1",
     "date-fns": "^3.3.1",
     "lucide-react": "^0.331.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.34",
-    "@types/react-dom": "18.0.11",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
     "prettier": "^3.0.0",
     "supabase": "^2.20.5",
-    "turbo": "^1.10.0",
-    "typescript": "5.0.4"
+    "turbo": "^1.12.5",
+    "typescript": "^5.4.2"
   }
 }
