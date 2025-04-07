@@ -31,12 +31,12 @@ const nextConfig = {
         ...config.resolve.fallback,
         fs: false,
         path: false,
-      },
-      alias: {
-        ...config.resolve.alias,
-        '@shared': '../../lib'
       }
     };
+
+    // Add the monorepo root to the module resolution paths
+    config.resolve.modules.push(process.cwd() + '/../..');
+
     return config;
   }
 }

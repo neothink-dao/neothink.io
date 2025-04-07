@@ -1,8 +1,8 @@
 'use client'
 
 import { createContext, useContext, ReactNode } from 'react'
-import { ThemeConfig, platformThemes } from '@shared/config/themes'
-import { PlatformSlug } from '@shared/types/platform'
+import { ThemeConfig, platformThemes } from 'lib/config/themes'
+import { PlatformSlug } from 'lib/types/platform'
 
 interface ThemeContextType {
   theme: ThemeConfig
