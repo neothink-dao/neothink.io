@@ -2,6 +2,8 @@ import { createServerClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { ReauthenticateForm } from "@/components/reauthenticate-form"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ReauthenticatePage() {
   const supabase = createServerClient()
   const { data: { session } } = await supabase.auth.getSession()

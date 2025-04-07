@@ -1,4 +1,8 @@
+'use client'
+
 import { useTheme } from '../../lib/context/theme-context'
+
+export const dynamic = 'force-dynamic'
 
 export default function Home() {
   return (

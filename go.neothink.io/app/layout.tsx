@@ -1,13 +1,17 @@
+'use client'
+
 import type { Metadata } from 'next'
 import './globals.css'
 import { ThemeProvider } from '../../lib/context/theme-context'
 import { PlatformIndicator } from '../../lib/components/PlatformIndicator'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Neothink Hub',
+  description: 'Your gateway to the Neothink ecosystem',
+  generator: 'Neothink',
 }
+
+export const dynamic = 'force-dynamic'
 
 export default function RootLayout({
   children,
