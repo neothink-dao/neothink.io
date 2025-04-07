@@ -1,5 +1,4 @@
 {
-  "projectId": "prj_neothink_platforms",
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
