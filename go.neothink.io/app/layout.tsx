@@ -1,9 +1,6 @@
-'use client'
-
 import type { Metadata } from 'next'
 import './globals.css'
-import { ThemeProvider } from '../../lib/context/theme-context'
-import { PlatformIndicator } from '../../lib/components/PlatformIndicator'
+import { ThemeProviderWrapper } from '../lib/components/providers/theme-provider'
 
 export const metadata: Metadata = {
   title: 'Neothink Hub',
@@ -21,10 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider platformSlug="hub">
+        <ThemeProviderWrapper>
           {children}
-          <PlatformIndicator />
-        </ThemeProvider>
+        </ThemeProviderWrapper>
       </body>
     </html>
   )
