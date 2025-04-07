@@ -1,10 +1,3 @@
-let userConfig = undefined
-try {
-  userConfig = await import('./v0-user-next.config')
-} catch (e) {
-  // ignore error
-}
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -28,27 +21,16 @@ const nextConfig = {
   ],
   webpack: (config, { isServer }) => {
     // Ensure modules are resolved correctly
-    config.resolve.modules = [...(config.resolve.modules || []), './node_modules'];
+    config.resolve = {
+      ...config.resolve,
+      modules: ['node_modules', '.'],
+      fallback: {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      },
+    };
     return config;
-  }
-}
-
-if (userConfig) {
-  // ESM imports will have a "default" property
-  const config = userConfig.default || userConfig
-
-  for (const key in config) {
-    if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
-    ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
-        ...config[key],
-      }
-    } else {
-      nextConfig[key] = config[key]
-    }
   }
 }
 
