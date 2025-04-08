@@ -2,99 +2,100 @@
 
 ## Overview
 
-We have implemented a comprehensive role-based access control (RBAC) system for the Neothink platforms using Supabase's declarative schemas approach. This document summarizes the changes made and outlines the benefits of this implementation.
+We have implemented a comprehensive role-based access control (RBAC) system for the Neothink platforms using Supabase's migration-based approach. This document summarizes the current implementation and outlines the system's capabilities.
 
-## Changes Made
+## Implementation Details
 
 ### 1. Database Schema
 
-We've created declarative schema files to define our roles and permissions system:
+The role system is implemented through several migrations:
 
-- **`00_roles.sql`**: Core schema definition for roles tables
-- **`01_default_roles.sql`**: Default roles for each tenant
-- **`02_role_capabilities.sql`**: Default capabilities for each role
+- **`20240518_unified_auth_system.sql`**: Core authentication and role system
+- **`20240606_role_utility_functions.sql`**: PostgreSQL functions for role management
+- **`20240606_security_enhancements.sql`**: Additional security features
 
-These schemas define:
-- User roles (Subscriber, Participant, Contributor)
-- Admin roles (Associate, Builder, Partner)
-- Role capabilities for various features
-- Default database triggers for role assignment
+Key Database Objects:
+- `tenant_roles`: Defines roles for each tenant
+- `profiles`: Links users to roles and tenants
+- `role_capabilities`: Defines what each role can do
 
-### 2. TypeScript Types
+### 2. Utility Functions
 
-We've defined TypeScript types in `lib/types/roles.ts` that match our database schema, including:
+We've implemented several PostgreSQL functions for role management:
 
-- Role category types
-- User and admin role types
-- Role interfaces
-- Helper functions for role checking
+```sql
+-- Check if a user has a specific role
+user_has_role(_user_id UUID, _role_slug TEXT, _tenant_id UUID DEFAULT NULL)
 
-### 3. React Context
+-- Check if a user is an admin
+user_is_admin(_user_id UUID, _tenant_id UUID DEFAULT NULL)
 
-We've implemented a React context (`lib/context/role-context.tsx`) to:
+-- Check role priority level
+user_has_min_role_priority(_user_id UUID, _min_priority INTEGER, _tenant_id UUID DEFAULT NULL)
 
-- Load user role information from Supabase
-- Provide hooks for role and permission checking
-- Listen for authentication state changes
+-- Check feature access
+user_can_access_feature(_user_id UUID, _feature_name TEXT, _tenant_id UUID DEFAULT NULL)
 
-### 4. UI Components
+-- Check action permissions
+user_can_perform_action(_user_id UUID, _feature_name TEXT, _action TEXT, _tenant_id UUID DEFAULT NULL)
+```
 
-We've created a `RoleGate` component in `lib/components/role/role-gate.tsx` that:
+### 3. TypeScript Integration
 
-- Conditionally renders UI elements based on roles
-- Supports feature-based access control
-- Allows for fallback content when access is denied
+We've defined TypeScript types and hooks in:
+- `lib/types/platform.ts`: Role and permission types
+- `lib/hooks/useRole.ts`: Role checking hooks
+- `lib/components/PlatformGate.tsx`: Role-based access control component
 
-### 5. Documentation
+### 4. Security Features
 
-We've added comprehensive documentation:
+- Row Level Security (RLS) policies on all tables
+- Tenant isolation
+- Role-based access control
+- Action-based permissions (create, edit, delete, approve)
 
-- **`docs/database/ROLES_SCHEMA.md`**: Database schema documentation
-- **`docs/development/DECLARATIVE_SCHEMAS.md`**: Guide to using declarative schemas
-- **`lib/context/README.md`**: Role context documentation
-- **`lib/components/role/README.md`**: Role UI components documentation
-- **README.md updates**: Added role system information to main README
+## Usage Examples
 
-## Benefits
+### 1. Checking Roles in SQL
 
-### 1. Improved Maintainability
+```sql
+-- Check if user is an admin
+SELECT user_is_admin('user-uuid');
 
-- **Single source of truth**: All schema definitions in one place
-- **Version control**: Track changes to your schema over time
-- **Clear documentation**: Comprehensive documentation for all aspects of the system
+-- Check if user can access a feature
+SELECT user_can_access_feature('user-uuid', 'feature-name');
+```
 
-### 2. Better Developer Experience
+### 2. Using in React Components
 
-- **Type safety**: TypeScript types for roles and permissions
-- **Simple UI integration**: Easy-to-use components for conditional rendering
-- **Testability**: Clear separation of concerns makes testing easier
+```typescript
+import { PlatformGate } from '@/lib/components/PlatformGate';
+import { useRole } from '@/lib/hooks/useRole';
 
-### 3. Enhanced Security
+// Using the PlatformGate component
+<PlatformGate requiredRole="admin">
+  <AdminPanel />
+</PlatformGate>
 
-- **Granular permissions**: Fine-grained control over what users can access
-- **Role progression**: Clear path for users to gain more permissions
-- **Admin roles**: Separate administrative roles with different capabilities
-
-### 4. Future-Proofing
-
-- **Extensible**: Easy to add new roles and capabilities
-- **Maintainable**: Changes tracked through migrations
-- **Cross-platform**: Works consistently across all Neothink platforms
-
-## Next Steps
-
-1. **User Interface**: Implement role upgrading UI in the admin dashboard
-2. **Testing**: Add tests for role-based access control
-3. **Analytics**: Track user progression through roles
-4. **Gamification**: Add achievements for role progression
+// Using the hook
+const { hasRole } = useRole();
+if (hasRole('contributor')) {
+  // Show contributor features
+}
+```
 
 ## How to Extend
 
 To add new roles or capabilities:
 
-1. Update the schema files in `supabase/schemas/`
-2. Generate migrations using `supabase db diff`
-3. Update TypeScript types in `lib/types/roles.ts`
-4. Use the `RoleGate` component or `useRole` hook in UI components
+1. Create a new migration file in `supabase/migrations/`
+2. Update TypeScript types in `lib/types/platform.ts`
+3. Update any relevant components or hooks
+4. Test the changes thoroughly
 
-See the full documentation in `docs/development/DECLARATIVE_SCHEMAS.md` for more details. 
+## Security Considerations
+
+1. All role checks are performed at the database level
+2. Row Level Security ensures proper data isolation
+3. Tenant boundaries are strictly enforced
+4. All role utility functions use SECURITY DEFINER 
