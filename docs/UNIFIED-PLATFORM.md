@@ -137,4 +137,10 @@ Together, we're building a platform where:
 
 [Subscribe Now](#) • [Start Participating](#) • [Become a Contributor](#)
 
-</div> 
+</div>
+
+# Unified Platform
+
+The Neothink ecosystem offers a unified platform experience, integrating multiple platforms to provide users with a comprehensive and cohesive journey. Each platform is designed to cater to specific user needs and preferences, allowing for a personalized experience.
+
+For more details on how users can navigate and engage with these platforms, refer to the [User Journeys in the Neothink Ecosystem](./user-journeys.md) documentation. 

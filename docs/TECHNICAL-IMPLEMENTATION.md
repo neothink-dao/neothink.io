@@ -560,3 +560,16 @@ create policy "Neothinkers can view their profile"
    - Unit tests for auth flows
    - Integration tests for database operations
    - E2E tests for user journeys 
+
+## Color Palette
+
+The Neothink ecosystem utilizes a distinct color palette to represent its various platforms and sub-components. This color scheme not only enhances the visual identity of each platform but also aids in user navigation and recognition.
+
+- **Orange**: Represents Ascenders, focusing on prosperity and business growth.
+- **Amber**: Represents Neothinkers, focusing on happiness and personal development.
+- **Red**: Represents Immortals, focusing on longevity and health.
+- **Blue**: Represents FLOW, a sub-component of Ascenders.
+- **Green**: Represents Mark Hamilton, a sub-component of Neothinkers.
+- **Purple**: Represents Project Life, a sub-component of Immortals.
+
+These colors are used consistently across the ecosystem to maintain a cohesive and recognizable brand identity. 
