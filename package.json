@@ -40,7 +40,9 @@
     "test:watch": "turbo run test:watch",
     "test:coverage": "turbo run test:coverage",
     "ui:add": "npx shadcn-ui@latest add",
-    "ui:init": "npx shadcn-ui@latest init"
+    "ui:init": "npx shadcn-ui@latest init",
+    "ai:validate": "node scripts/ai-validator.js",
+    "ai:update-context": "node scripts/ai-validator.js --update-only"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
@@ -73,6 +75,7 @@
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.8",
     "autoprefixer": "^10.4.19",
+    "chalk": "^5.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",

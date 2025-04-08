@@ -21,7 +21,6 @@ const nextConfig = {
     '@swc/core',
     '@swc/helpers'
   ],
-  swcMinify: true,
   webpack: (config, { isServer }) => {
     // Ensure modules are resolved correctly
     config.resolve = {

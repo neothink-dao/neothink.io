@@ -1,0 +1,88 @@
+name: Documentation Validation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '**/*.md'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '**/*.md'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        cd scripts/docs-generator
+        npm install
+
+    - name: Build documentation tools
+      run: |
+        cd scripts/docs-generator
+        npm run build
+
+    - name: Validate AI-friendly structure
+      run: |
+        cd scripts/docs-generator
+        npm run validate
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+    - name: Check documentation links
+      run: |
+        cd scripts/docs-generator
+        npm run check-links
+
+    - name: Upload validation reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: validation-reports
+        path: |
+          docs/validation-report.md
+          docs/link-validation-report.md
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request' && failure()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          
+          try {
+            const validationReport = fs.readFileSync('docs/validation-report.md', 'utf8');
+            const linkReport = fs.readFileSync('docs/link-validation-report.md', 'utf8');
+            
+            const body = `## Documentation Validation Results
+            
+            ### AI-Friendly Structure Validation
+            ${validationReport}
+            
+            ### Link Validation
+            ${linkReport}
+            
+            Please fix the issues above to maintain documentation quality.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+          } catch (error) {
+            console.error('Error reading validation reports:', error);
+          } 

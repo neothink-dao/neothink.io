@@ -1,0 +1,28 @@
+{
+  "name": "docs-generator",
+  "version": "1.0.0",
+  "description": "AI-friendly documentation generator and validator",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "generate": "npm run build && npm run start",
+    "validate": "npm run build && node dist/validators/ai-structure.js",
+    "check-links": "npm run build && node dist/validators/links.js",
+    "generate-context": "npm run build && node dist/generators/context-map.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
+    "chalk": "^4.1.2",
+    "glob": "^10.3.10",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/typescript-estree": "^7.0.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/glob": "^8.1.0",
+    "ts-node": "^10.9.2"
+  }
+} 

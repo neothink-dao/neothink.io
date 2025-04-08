@@ -8,18 +8,17 @@ This document provides a comprehensive overview of the Neothink platform's datab
 - [Core Tables](#core-tables)
 - [Authentication and Authorization](#authentication-and-authorization)
 - [Content Management](#content-management)
-- [User Progress and Learning](#user-progress-and-learning)
+- [Learning and Progress](#learning-and-progress)
 - [Communication and Community](#communication-and-community)
 - [Analytics and Reporting](#analytics-and-reporting)
+- [Health and Wellness](#health-and-wellness)
 - [Platform Configuration](#platform-configuration)
-- [Relationships Diagram](#relationships-diagram)
-- [Schema Evolution](#schema-evolution)
 
 ## Overview
 
 The Neothink database is built on PostgreSQL using Supabase and implements:
 
-- **Multi-tenant architecture**: Data isolation between platforms
+- **Multi-tenant architecture**: Data isolation between platforms and organizations
 - **Role-based access control**: Granular permissions system
 - **Row-level security**: Security policies for all tables
 - **Realtime capabilities**: Subscriptions for instant updates
@@ -27,405 +26,375 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
 
 ## Core Tables
 
-### Users Table
-- `users`: Contains user accounts registered through Supabase Auth
-  - `id`: UUID primary key (from Auth.users)
-  - `email`: User's email address
-  - `created_at`: Timestamp when user was created
-  - `updated_at`: Timestamp when user was last updated
-  - `deleted_at`: Soft deletion timestamp
-  - `first_name`: User's first name
-  - `last_name`: User's last name
-  - `full_name`: Computed column combining first and last name
-  - `avatar_url`: URL to user's profile image
-  - `onboarding_completed`: Boolean indicating if onboarding is complete
-  - `status`: User account status
-  - `last_seen_at`: Timestamp of last activity
-  - `preferences`: JSONB storing user preferences
-  - `metadata`: JSONB for additional user data
-
 ### Profiles Table
-- `profiles`: Extended user profile information
-  - `id`: UUID primary key (references users.id)
-  - `created_at`: Timestamp when profile was created
-  - `updated_at`: Timestamp when profile was last updated
-  - `address_line1`: First line of address
-  - `address_line2`: Second line of address
-  - `city`: City
-  - `state`: State/province
-  - `postal_code`: Postal/ZIP code
-  - `country`: Country
-  - `phone`: Phone number
-  - `bio`: User biography
-  - `social_links`: JSONB storing social media links
-  - `interests`: Array of interest tags
-  - `expertise`: Array of expertise areas
+```sql
+CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  email TEXT NOT NULL,
+  full_name TEXT,
+  avatar_url TEXT,
+  bio TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  is_ascender BOOLEAN DEFAULT false,
+  is_neothinker BOOLEAN DEFAULT false,
+  is_immortal BOOLEAN DEFAULT false,
+  is_guardian BOOLEAN DEFAULT false,
+  guardian_since TIMESTAMPTZ,
+  subscription_status TEXT,
+  subscription_tier TEXT,
+  subscription_period_start TIMESTAMPTZ,
+  subscription_period_end TIMESTAMPTZ,
+  platforms TEXT[] DEFAULT ARRAY[]::TEXT[]
+);
+```
 
-## Organizations
-
-### Organizations Table
-- `organizations`: Represents business/group entities
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when organization was created
-  - `updated_at`: Timestamp when organization was last updated
-  - `deleted_at`: Soft deletion timestamp
-  - `name`: Organization name
-  - `slug`: URL-friendly unique identifier
-  - `description`: Organization description
-  - `logo_url`: URL to organization logo
-  - `website_url`: Organization website
-  - `industry`: Industry category
-  - `size`: Organization size (employees)
-  - `status`: Organization status
-
-### Organization Memberships
-- `organization_members`: Maps users to organizations with roles
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when membership was created
-  - `updated_at`: Timestamp when membership was last updated
-  - `user_id`: References users.id
-  - `organization_id`: References organizations.id
-  - `role_id`: References roles.id (member role in organization)
-  - `status`: Membership status (active, pending, etc.)
-
-## RBAC System
-
-### Roles Table
-- `roles`: Defines system roles
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when role was created
-  - `updated_at`: Timestamp when role was last updated
-  - `name`: Role name
-  - `description`: Role description
-  - `slug`: URL-friendly unique identifier
-  - `is_system_role`: Boolean indicating if this is a system-defined role
-  - `color`: Display color for the role
-  - `priority`: Numeric priority for role
-  - `permissions`: JSONB array of permission objects
-  - `metadata`: JSONB for additional role data
-
-### Permissions Table
-- `permissions`: Defines system permissions
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when permission was created
-  - `updated_at`: Timestamp when permission was last updated
-  - `action`: The action being permitted (create, read, update, delete)
-  - `subject`: The resource/entity being acted upon
-  - `conditions`: JSON object with conditional requirements
-  - `description`: Human-readable description
-  - `is_system_permission`: Boolean indicating if this is a system-defined permission
-
-### Role Permissions Table
-- `role_permissions`: Maps roles to permissions
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when mapping was created
-  - `updated_at`: Timestamp when mapping was last updated
-  - `role_id`: References roles.id
-  - `permission_id`: References permissions.id
-
-### User Roles Table
-- `user_roles`: Maps users to roles
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when mapping was created
-  - `updated_at`: Timestamp when mapping was last updated
-  - `user_id`: References users.id
-  - `role_id`: References roles.id
-  - `platform_id`: Optional platform-specific role
-  - `granted_by`: UUID of user who granted the role
-  - `valid_until`: Optional role expiration date
-
-## Subscriptions & Billing
-
-### Subscriptions Table
-- `subscriptions`: User subscription information
-  - `id`: UUID primary key
-  - `created_at`: Timestamp of creation
-  - `updated_at`: Timestamp of last update
-  - `user_id`: References users.id
-  - `plan_id`: References plans.id
-  - `status`: Subscription status
-  - `current_period_start`: Start of billing period
-  - `current_period_end`: End of billing period
-  - `cancel_at`: Scheduled cancellation date
-  - `trial_end`: Trial period end date
-  - `payment_method`: Payment method details
-  - `metadata`: JSONB additional data
-
-### Plans Table
-- `plans`: Available subscription plans
-  - `id`: UUID primary key
-  - `created_at`: Timestamp of creation
-  - `updated_at`: Timestamp of last update
-  - `name`: Plan name
-  - `description`: Plan description
-  - `price`: Price in cents
-  - `currency`: Price currency
-  - `interval`: Billing interval
-  - `features`: JSONB array of features
-  - `metadata`: JSONB additional data
-  - `is_active`: Whether plan is available
-  - `platform_id`: Platform identifier
-
-## Platform-specific Tables
-
-### Platform Access Table
-- `platform_access`: Records which platforms a user has access to
-  - `id`: UUID primary key
-  - `created_at`: Timestamp when access was granted
-  - `updated_at`: Timestamp when access was last updated
-  - `user_id`: References users.id
-  - `platform`: Platform identifier (ascender, neothinker, immortal, superachiever)
-  - `status`: Access status (active, revoked, etc.)
-  - `access_level`: Level of access within the platform
-  - `granted_at`: When access was granted
-  - `expires_at`: When access expires (if applicable)
-
-### Platform Usage Table
-- `platform_usage`: Tracks user engagement with platforms
-  - `id`: UUID primary key
-  - `created_at`: Timestamp of the usage event
-  - `user_id`: References users.id
-  - `platform`: Platform identifier
-  - `action`: Action performed (login, feature_used, etc.)
-  - `resource`: Specific resource accessed (if applicable)
-  - `metadata`: JSON field for additional data
-
-## Database Functions & Triggers
-
-### Role Management Functions
-- `check_user_permission(user_id UUID, action TEXT, subject TEXT)`: Checks if a user has a specific permission
-- `get_user_permissions(user_id UUID)`: Returns all permissions a user has
-- `get_user_roles(user_id UUID)`: Returns all roles a user has
-
-### Trigger Functions
-- `handle_new_user()`: Automatically creates profile and assigns default role when new user is created
-- `handle_updated_subscription()`: Updates platform access based on subscription changes
-- `set_updated_at()`: Automatically updates updated_at timestamp when records are modified
-
-### Analytics Functions
-- `get_user_engagement_metrics(user_id UUID)`: Calculates user engagement metrics
-- `get_content_performance(content_id UUID)`: Retrieves content performance metrics
-
-### Subscription Functions
-- `check_subscription_access(user_id UUID, feature TEXT)`: Checks if user's subscription includes feature
-- `process_subscription_change(subscription_id UUID, new_plan_id UUID)`: Handles subscription plan changes
-
-## Database Indexes
-
-### Performance Indexes
-- `idx_users_email`: B-tree index on users.email
-- `idx_content_slug`: B-tree index on content.slug
-- `idx_analytics_user_id`: B-tree index on user_analytics.user_id
-- `idx_subscriptions_user_id`: B-tree index on subscriptions.user_id
-- `idx_content_platform`: B-tree index on content.platform_id
-- `idx_user_roles_user_id`: B-tree index on user_roles.user_id
-
-### Full Text Search Indexes
-- `idx_content_search`: GIN index on content search vectors
-- `idx_profiles_search`: GIN index on profile search vectors
-
-## Row Level Security (RLS) Policies
-All tables implement RLS policies to restrict access based on user roles and permissions, implementing a secure-by-default database design.
+### Platform Access
+```sql
+CREATE TABLE platform_access (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  platform_slug TEXT NOT NULL,
+  access_level TEXT,
+  granted_at TIMESTAMPTZ DEFAULT now(),
+  expires_at TIMESTAMPTZ,
+  granted_by UUID
+);
+```
 
 ## Authentication and Authorization
 
-### Role-Based Access Control
+### Tenant Roles
+```sql
+CREATE TABLE tenant_roles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  tenant_id UUID NOT NULL,
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL,
+  description TEXT,
+  is_system_role BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  priority INTEGER DEFAULT 0,
+  role_category TEXT DEFAULT 'member'
+);
+```
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `tenant_roles` | Defines roles for each tenant | id, tenant_id, name, slug, priority, role_category |
-| `role_capabilities` | Defines what each role can do | tenant_id, role_slug, feature_name, can_view, can_create, can_edit, can_delete, can_approve |
-| `permissions` | Granular permissions definitions | id, name, slug, description, category |
-| `role_permissions` | Maps roles to permissions | role_id, permission_id |
-| `user_permissions` | Direct permission assignments | user_id, permission_id, tenant_id |
+### Role Capabilities
+```sql
+CREATE TABLE role_capabilities (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL,
+  role_slug TEXT NOT NULL,
+  feature_name TEXT NOT NULL,
+  can_view BOOLEAN DEFAULT false,
+  can_create BOOLEAN DEFAULT false,
+  can_edit BOOLEAN DEFAULT false,
+  can_delete BOOLEAN DEFAULT false,
+  can_approve BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-**Key Features:**
-- Role hierarchy with priority levels
-- Feature-based capability system
-- Permission inheritance through roles
+### Permissions
+```sql
+CREATE TABLE permissions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL,
+  description TEXT,
+  category TEXT,
+  scope TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-### Security and Audit
-
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `auth_logs` | Authentication and security event logs | id, user_id, action, ip_address, created_at, details |
-| `audit_logs` | General system audit logs | id, user_id, table_name, record_id, action, old_data, new_data |
-| `platform_access` | Platform access grants | id, user_id, platform_slug, access_level, expires_at |
-
-**Security Implementation:**
-- Row-level security policies on all tables
-- SECURITY DEFINER functions for critical operations
-- Audit logging for security-relevant actions
+### Role Permissions
+```sql
+CREATE TABLE role_permissions (
+  role_id UUID NOT NULL,
+  permission_id UUID NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  PRIMARY KEY (role_id, permission_id)
+);
+```
 
 ## Content Management
 
-### Core Content Structure
+### Content Modules
+```sql
+CREATE TABLE content_modules (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT,
+  order_index INTEGER,
+  is_published BOOLEAN DEFAULT false,
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `content_modules` | Primary content containers | id, title, description, type, status, tenant_id |
-| `content_versions` | Version control for content | id, content_id, version, data, status |
-| `content_workflow` | Content approval workflow | id, content_id, status, assignee_id |
-| `content_tags` | Content categorization | id, name, slug, tenant_id |
-| `content_categories` | Hierarchical categorization | id, name, parent_id, tenant_id |
+### Content Versions
+```sql
+CREATE TABLE content_versions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  content_type TEXT NOT NULL,
+  content_id UUID NOT NULL,
+  version_number INTEGER NOT NULL,
+  title TEXT,
+  content TEXT,
+  description TEXT,
+  metadata JSONB,
+  created_by UUID,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  status TEXT,
+  review_notes TEXT,
+  reviewed_by UUID,
+  reviewed_at TIMESTAMPTZ
+);
+```
 
-**Content Types:**
-- Courses
-- Thought exercises
-- Learning paths
-- Discussions
-- Resources
+### Content Workflow
+```sql
+CREATE TABLE content_workflow (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  content_type TEXT NOT NULL,
+  content_id UUID NOT NULL,
+  platform TEXT NOT NULL,
+  current_status TEXT NOT NULL,
+  assigned_to UUID,
+  review_notes TEXT,
+  due_date TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-### Related Content Tables
+## Learning and Progress
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `courses` | Course-specific content | id, content_id, level, duration |
-| `lessons` | Course lessons | id, course_id, title, order |
-| `resources` | Supplementary materials | id, content_id, type, url |
-| `content_dependencies` | Content prerequisites | id, content_id, dependency_id |
-| `content_similarity` | Related content suggestions | id, content_id, similar_content_id, score |
-
-**Key Features:**
-- Version control
-- Workflow approval process
-- Content relationships and dependencies
-- Tagging and categorization
-
-## User Progress and Learning
-
-### Progress Tracking
-
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `learning_progress` | Overall learning progress | id, user_id, content_id, status, completion_percentage |
-| `user_concept_progress` | Progress on specific concepts | id, user_id, concept_id, proficiency_level |
-| `user_exercise_progress` | Progress on exercises | id, user_id, exercise_id, completed_at, score |
-| `thinking_assessments` | Thinking skill assessments | id, user_id, assessment_date, scores |
-
-**Tracking Implementation:**
-- Progressive skill development metrics
-- Concept mastery tracking
-- Exercise completion and scoring
-- Assessment-based skill evaluation
+### Concepts
+```sql
+CREATE TABLE concepts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  category TEXT NOT NULL,
+  importance_level INTEGER NOT NULL,
+  prerequisite_concepts UUID[],
+  related_concepts UUID[],
+  application_examples TEXT[],
+  created_at TIMESTAMPTZ DEFAULT now(),
+  tenant_slug TEXT NOT NULL,
+  author_id UUID
+);
+```
 
 ### Learning Paths
+```sql
+CREATE TABLE learning_paths (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  path_name TEXT NOT NULL,
+  description TEXT,
+  difficulty_level TEXT,
+  prerequisites JSONB,
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `learning_paths` | Structured learning journeys | id, name, description, tenant_id |
-| `learning_path_items` | Items in learning paths | id, path_id, content_id, order, required |
-| `user_progress` | Progress through learning paths | id, user_id, path_id, current_item_id, completed_percentage |
-| `learning_recommendations` | Personalized recommendations | id, user_id, content_id, reason, score |
-
-**Key Features:**
-- Customizable learning paths
-- Automated and manual recommendations
-- Progress visualization
-- Adaptive learning support
+### Learning Progress
+```sql
+CREATE TABLE learning_progress (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID,
+  content_type TEXT NOT NULL,
+  content_id UUID NOT NULL,
+  status TEXT NOT NULL,
+  progress_percentage INTEGER DEFAULT 0,
+  started_at TIMESTAMPTZ DEFAULT now(),
+  completed_at TIMESTAMPTZ,
+  last_interaction_at TIMESTAMPTZ DEFAULT now(),
+  metadata JSONB
+);
+```
 
 ## Communication and Community
 
-### Discussions and Posts
+### Chat Rooms
+```sql
+CREATE TABLE chat_rooms (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT,
+  is_group BOOLEAN DEFAULT false,
+  platform TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `discussion_topics` | Discussion threads | id, title, user_id, tenant_id, created_at |
-| `discussion_posts` | Individual posts | id, topic_id, user_id, content, created_at |
-| `post_comments` | Comments on posts | id, post_id, user_id, content, created_at |
-| `post_likes` | User likes on posts | id, post_id, user_id, created_at |
+### Messages
+```sql
+CREATE TABLE messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  room_id UUID NOT NULL,
+  sender_id UUID NOT NULL,
+  content TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-**Features:**
-- Nested discussion structure
-- Reaction tracking
-- Community engagement metrics
-
-### Messaging & Notifications
-
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `chat_rooms` | Chat room containers | id, name, type, tenant_id |
-| `chat_participants` | Chat room members | id, room_id, user_id, joined_at |
-| `messages` | Individual messages | id, room_id, user_id, content, created_at |
-| `notifications` | User notifications | id, user_id, title, message, read, created_at |
-| `notification_preferences` | Notification settings | id, user_id, type, enabled, channels |
-
-**Implementation Details:**
-- Realtime message delivery
-- Notification prioritization
-- Delivery channel preferences
-- Read status tracking
+### Discussion Topics
+```sql
+CREATE TABLE discussion_topics (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  created_by UUID NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  category TEXT NOT NULL,
+  tags TEXT[],
+  status TEXT,
+  tenant_slug TEXT NOT NULL
+);
+```
 
 ## Analytics and Reporting
 
-### Metrics and Reporting
+### Analytics Metrics
+```sql
+CREATE TABLE analytics_metrics (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  metric_key TEXT NOT NULL,
+  metric_value NUMERIC NOT NULL,
+  dimension_values JSONB,
+  measured_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `analytics_metrics` | Raw metrics data | id, tenant_id, metric_name, value, timestamp |
-| `analytics_reports` | Generated reports | id, tenant_id, name, data, created_at |
-| `analytics_summaries` | Metrics summaries | id, tenant_id, period, metrics, generated_at |
-| `search_analytics` | Search usage tracking | id, user_id, query, results_count, timestamp |
+### Analytics Reports
+```sql
+CREATE TABLE analytics_reports (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  report_type TEXT NOT NULL,
+  parameters JSONB,
+  report_data JSONB,
+  created_by UUID,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-**Analytics Capabilities:**
-- Platform usage metrics
-- User engagement tracking
-- Content effectiveness measurement
-- Search behavior analysis
+### Analytics Summaries
+```sql
+CREATE TABLE analytics_summaries (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  summary_type TEXT NOT NULL,
+  time_period TEXT NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  metrics JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-### Health and Performance
+## Health and Wellness
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `health_metrics` | User health data | id, user_id, metric_type, value, recorded_at |
-| `health_integrations` | External health data sources | id, user_id, provider, access_token, last_sync |
-| `performance_metrics` | System performance | id, service, metric, value, timestamp |
-| `system_health_checks` | System health status | id, component, status, details, checked_at |
+### Health Metrics
+```sql
+CREATE TABLE health_metrics (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL,
+  integration_id UUID,
+  metric_type VARCHAR NOT NULL,
+  value NUMERIC NOT NULL,
+  unit VARCHAR NOT NULL,
+  timestamp TIMESTAMPTZ NOT NULL,
+  source VARCHAR NOT NULL,
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-**Health Data Features:**
-- Secure storage of health metrics
-- External data integrations
-- Performance monitoring
-- System health tracking
+### Health Integrations
+```sql
+CREATE TABLE health_integrations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL,
+  provider VARCHAR NOT NULL,
+  provider_user_id VARCHAR,
+  access_token TEXT,
+  refresh_token TEXT,
+  token_expires_at TIMESTAMPTZ,
+  is_active BOOLEAN DEFAULT true,
+  metadata JSONB,
+  last_sync TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### Vital Signs
+```sql
+CREATE TABLE vital_signs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL,
+  vital_type VARCHAR NOT NULL,
+  value NUMERIC NOT NULL,
+  unit VARCHAR NOT NULL,
+  measured_at TIMESTAMPTZ NOT NULL,
+  notes TEXT,
+  source VARCHAR NOT NULL DEFAULT 'manual',
+  integration_id UUID,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
 ## Platform Configuration
 
-### Settings and Configuration
+### Feature Flags
+```sql
+CREATE TABLE feature_flags (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  feature_key TEXT NOT NULL,
+  is_enabled BOOLEAN NOT NULL,
+  config JSONB,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `platform_settings` | Global and tenant settings | id, tenant_id, key, value, type |
-| `platform_customization` | UI/UX customizations | id, tenant_id, theme, layout, branding |
-| `feature_flags` | Feature toggles | id, name, enabled, tenant_id, conditions |
-| `integration_settings` | Third-party integrations | id, tenant_id, provider, credentials, enabled |
+### Platform Settings
+```sql
+CREATE TABLE platform_settings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  settings JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-**Configuration Features:**
-- Tenant-specific settings
-- Feature flag system
-- White-label customization
-- Integration management
-
-## Relationships Diagram
-
-For a visual representation of the database schema and table relationships, refer to the [Database Diagram](./database/database_diagram.md) document.
-
-## Schema Evolution
-
-The database schema evolves through managed migrations in the `supabase/migrations` directory. Key migrations include:
-
-| Migration | Description | Key Tables Added |
-|-----------|-------------|-----------------|
-| `20240406_01_analytics_tables.sql` | Analytics foundation | analytics_metrics, analytics_reports |
-| `20240406_02_notification_tables.sql` | Notification system | notifications, notification_preferences |
-| `20240407_01_shared_content_tables.sql` | Shared content features | shared_content, tenant_shared_content |
-| `20240408_01_content_comments_tables.sql` | Content commenting | post_comments, content_comments |
-| `20240409_01_subscription_management.sql` | Subscription system | tenant_subscriptions, subscription_invoices |
-| `20240518_unified_auth_system.sql` | Authentication system | auth_logs, platform_access, access_requests |
-| `20240606_role_utility_functions.sql` | Role system utilities | (Functions only) |
-| `20240606_security_enhancements.sql` | Security improvements | (Security features) |
-
-For more detailed information on database functions and stored procedures, refer to the [Database Functions](./database/DATABASE_FUNCTIONS.md) document.
-
-## Security Considerations
-
-For details on the security implementation of the database, including row-level security policies, refer to the [Security Documentation](./security.md). 
+### Platform Customization
+```sql
+CREATE TABLE platform_customization (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  platform TEXT NOT NULL,
+  component_key TEXT NOT NULL,
+  customization JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+``` 
