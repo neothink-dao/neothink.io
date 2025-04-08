@@ -1,53 +1,67 @@
-# 🌟 Neothink Unified Platform Documentation
+# Neothink Platform Documentation
 
-## Platform Documentation
+Welcome to the Neothink Platform documentation. This repository contains comprehensive documentation for the Neothink ecosystem of platforms.
 
-### Core Platforms
-- [**Hub Overview**](platforms/HUB.md) - Go Further, Faster, Forever at go.neothink.io
-- [**Ascender Guide**](platforms/ASCENDER.md) - Ascension + FLOW + Ascenders for Greater Prosperity
-- [**Neothinker Guide**](platforms/NEOTHINKER.md) - Neothink + Mark Hamilton + Neothinkers for Greater Happiness
-- [**Immortal Guide**](platforms/IMMORTAL.md) - Immortalis + Project Life + Immortals for Greater Longevity
+## Core Documentation
 
-### Platform Components
-- [**Ascension Guide**](components/ASCENSION.md) - Business building system and masterclass
-- [**FLOW Guide**](components/FLOW.md) - White-label GoHighLevel platform
-- [**Neothink University**](components/NEOTHINK-UNIVERSITY.md) - Comprehensive learning system
-- [**Project Life**](components/PROJECT-LIFE.md) - Nutraceuticals and anti-aging research
-- [**Immortalis**](components/IMMORTALIS.md) - Vision for a new nation of prosperity
+- [Database Schema](database-schema.md) - Complete database structure and relationships
+- [Authentication](auth-flow-documentation.md) - Authentication flows and implementation
+- [RBAC System](RBAC-SYSTEM.md) - Role-based access control system
+- [Security](security.md) - Security implementation and best practices
 
-## Integration Documentation
+## Platform-specific Documentation
 
-- [**Unified Platform Vision**](UNIFIED-PLATFORM.md) - How our platforms work together
-- [**Why Modern Stack**](WHY-MODERN-STACK.md) - Benefits of our integrated approach
-- [**Technical Implementation**](TECHNICAL-IMPLEMENTATION.md) - How we're building it
+- [Unified Platform Overview](UNIFIED-PLATFORM.md) - How our platforms work together
+- [Platform Documentation](platforms/) - Individual platform documentation
+  - [Ascender Platform](platforms/ASCENDER.md)
+  - [Neothinker Platform](platforms/NEOTHINKER.md)
+  - [Immortal Platform](platforms/IMMORTAL.md)
 
-## Development Resources
+## Development
 
-- [**Monorepo Guide**](development/MONOREPO-GUIDE.md) - Working with our codebase
-- [**Supabase Guide**](development/SUPABASE-GUIDE.md) - Database and backend
-- [**Deployment Guide**](development/DEPLOYMENT-GUIDE.md) - Release process
+- [Technical Implementation](TECHNICAL-IMPLEMENTATION.md) - Technical architecture and implementation details
+- [Modern Stack](WHY-MODERN-STACK.md) - Our technology choices explained
+- [Monorepo Structure](MONOREPO.md) - How our monorepo is organized
+- [Component Library](component-library.md) - Reusable UI components
+- [Sacred Geometry Design System](sacred-geometry-design-system.md) - Our design system
 
-## Business Reference
+## API Documentation
 
-- [**Architecture Guide**](reference/ARCHITECTURE-GUIDE.md) - System design
-- [**Cross-Platform Features**](reference/CROSS-PLATFORM-FEATURES.md) - Shared capabilities
-- [**Subscription Reference**](reference/SUBSCRIPTION-REFERENCE.md) - Pricing and access levels
+- [API Documentation](api-documentation.md) - API endpoints and usage
+- [Cross-platform Navigation](cross-platform-navigation.md) - Navigation between platforms
 
-## Documentation Status
+## Contributing
 
-Each document focuses on a specific aspect of our ecosystem:
-- Platform docs explain each offering's unique value
-- Component docs detail the building blocks
-- Integration docs show how it all works together
-- Development docs help build and maintain
-- Reference docs provide technical details
+- [Contributing Guidelines](contributing/) - How to contribute to the platform
+- [Troubleshooting Guide](troubleshooting/) - Common issues and solutions
 
-### Documentation Priorities
-1. ✅ Core platform descriptions and value propositions
-2. 🔄 Integration documentation and user journeys
-3. 📝 Component-specific documentation
-4. 🛠️ Development and technical guides
+## Architecture
 
-For questions:
-- Technical: Contact the tech lead
-- Business/Platform: Contact the product owner 
+- [Architecture Overview](architecture/) - System architecture documentation
+- [Component Architecture](components/) - Component-level architecture
+- [Email System](email/) - Email templates and sending system
+
+## Status
+
+All documentation is up to date with the current codebase as of April 2024. The documentation is actively maintained and updated with each significant change to the platform.
+
+## Navigation
+
+The documentation is organized to flow from high-level concepts to detailed implementations. New developers should start with:
+
+1. [Unified Platform Overview](UNIFIED-PLATFORM.md)
+2. [Technical Implementation](TECHNICAL-IMPLEMENTATION.md)
+3. [Database Schema](database-schema.md)
+4. [Authentication](auth-flow-documentation.md)
+5. [RBAC System](RBAC-SYSTEM.md)
+
+## Contributing to Documentation
+
+When contributing to the documentation:
+
+1. Ensure all technical details are accurate and up-to-date
+2. Follow the existing documentation style and format
+3. Include relevant diagrams and examples where helpful
+4. Update the README when adding new documentation files
+
+For questions or clarifications, please refer to the contributing guidelines. 

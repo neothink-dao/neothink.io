@@ -40,6 +40,9 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
   - `avatar_url`: URL to user's profile image
   - `onboarding_completed`: Boolean indicating if onboarding is complete
   - `status`: User account status
+  - `last_seen_at`: Timestamp of last activity
+  - `preferences`: JSONB storing user preferences
+  - `metadata`: JSONB for additional user data
 
 ### Profiles Table
 - `profiles`: Extended user profile information
@@ -54,6 +57,9 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
   - `country`: Country
   - `phone`: Phone number
   - `bio`: User biography
+  - `social_links`: JSONB storing social media links
+  - `interests`: Array of interest tags
+  - `expertise`: Array of expertise areas
 
 ## Organizations
 
@@ -89,12 +95,14 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
   - `id`: UUID primary key
   - `created_at`: Timestamp when role was created
   - `updated_at`: Timestamp when role was last updated
-  - `name`: Role name (e.g., 'admin', 'member')
+  - `name`: Role name
   - `description`: Role description
   - `slug`: URL-friendly unique identifier
   - `is_system_role`: Boolean indicating if this is a system-defined role
   - `color`: Display color for the role
-  - `priority`: Numeric priority for role (lower has higher priority)
+  - `priority`: Numeric priority for role
+  - `permissions`: JSONB array of permission objects
+  - `metadata`: JSONB for additional role data
 
 ### Permissions Table
 - `permissions`: Defines system permissions
@@ -116,49 +124,47 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
   - `permission_id`: References permissions.id
 
 ### User Roles Table
-- `user_roles`: Assigns roles directly to users (global roles)
+- `user_roles`: Maps users to roles
   - `id`: UUID primary key
-  - `created_at`: Timestamp when assignment was created
-  - `updated_at`: Timestamp when assignment was last updated
+  - `created_at`: Timestamp when mapping was created
+  - `updated_at`: Timestamp when mapping was last updated
   - `user_id`: References users.id
   - `role_id`: References roles.id
+  - `platform_id`: Optional platform-specific role
+  - `granted_by`: UUID of user who granted the role
+  - `valid_until`: Optional role expiration date
 
 ## Subscriptions & Billing
 
 ### Subscriptions Table
 - `subscriptions`: User subscription information
   - `id`: UUID primary key
-  - `created_at`: Timestamp when subscription was created
-  - `updated_at`: Timestamp when subscription was last updated
+  - `created_at`: Timestamp of creation
+  - `updated_at`: Timestamp of last update
   - `user_id`: References users.id
-  - `status`: Subscription status (active, canceled, etc.)
-  - `plan_id`: The subscription plan
-  - `current_period_start`: Start of current billing period
-  - `current_period_end`: End of current billing period
-  - `cancel_at`: When subscription is scheduled to cancel
-  - `canceled_at`: When subscription was canceled
-  - `ended_at`: When subscription ended
-  - `trial_start`: When trial started
-  - `trial_end`: When trial ends/ended
-  - `provider`: Payment provider (stripe, etc.)
-  - `provider_subscription_id`: ID from payment provider
-  - `metadata`: JSON field for additional data
+  - `plan_id`: References plans.id
+  - `status`: Subscription status
+  - `current_period_start`: Start of billing period
+  - `current_period_end`: End of billing period
+  - `cancel_at`: Scheduled cancellation date
+  - `trial_end`: Trial period end date
+  - `payment_method`: Payment method details
+  - `metadata`: JSONB additional data
 
 ### Plans Table
 - `plans`: Available subscription plans
   - `id`: UUID primary key
-  - `created_at`: Timestamp when plan was created
-  - `updated_at`: Timestamp when plan was last updated
+  - `created_at`: Timestamp of creation
+  - `updated_at`: Timestamp of last update
   - `name`: Plan name
   - `description`: Plan description
-  - `price`: Plan price in cents
-  - `currency`: Price currency (USD, etc.)
-  - `billing_interval`: Billing frequency (monthly, yearly)
-  - `features`: JSON array of included features
-  - `is_active`: Boolean indicating if plan is active
-  - `provider`: Payment provider this plan exists in
-  - `provider_plan_id`: ID from payment provider
-  - `metadata`: JSON field for additional data
+  - `price`: Price in cents
+  - `currency`: Price currency
+  - `interval`: Billing interval
+  - `features`: JSONB array of features
+  - `metadata`: JSONB additional data
+  - `is_active`: Whether plan is available
+  - `platform_id`: Platform identifier
 
 ## Platform-specific Tables
 
@@ -187,7 +193,7 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
 ## Database Functions & Triggers
 
 ### Role Management Functions
-- `check_user_permission(user_id UUID, action TEXT, subject TEXT, conditions JSONB)`: Checks if a user has a specific permission
+- `check_user_permission(user_id UUID, action TEXT, subject TEXT)`: Checks if a user has a specific permission
 - `get_user_permissions(user_id UUID)`: Returns all permissions a user has
 - `get_user_roles(user_id UUID)`: Returns all roles a user has
 
@@ -196,15 +202,27 @@ The Neothink database is built on PostgreSQL using Supabase and implements:
 - `handle_updated_subscription()`: Updates platform access based on subscription changes
 - `set_updated_at()`: Automatically updates updated_at timestamp when records are modified
 
+### Analytics Functions
+- `get_user_engagement_metrics(user_id UUID)`: Calculates user engagement metrics
+- `get_content_performance(content_id UUID)`: Retrieves content performance metrics
+
+### Subscription Functions
+- `check_subscription_access(user_id UUID, feature TEXT)`: Checks if user's subscription includes feature
+- `process_subscription_change(subscription_id UUID, new_plan_id UUID)`: Handles subscription plan changes
+
 ## Database Indexes
-- `idx_users_email`: Index on users.email
-- `idx_organizations_slug`: Index on organizations.slug
-- `idx_subscriptions_user_id`: Index on subscriptions.user_id
-- `idx_organization_members_user_id_organization_id`: Composite index for faster lookups
-- `idx_user_roles_user_id`: Index on user_roles.user_id
-- `idx_role_permissions_role_id`: Index on role_permissions.role_id
-- `idx_permissions_action_subject`: Composite index on permissions.action and permissions.subject
-- `idx_platform_access_user_id_platform`: Composite index on platform_access.user_id and platform_access.platform
+
+### Performance Indexes
+- `idx_users_email`: B-tree index on users.email
+- `idx_content_slug`: B-tree index on content.slug
+- `idx_analytics_user_id`: B-tree index on user_analytics.user_id
+- `idx_subscriptions_user_id`: B-tree index on subscriptions.user_id
+- `idx_content_platform`: B-tree index on content.platform_id
+- `idx_user_roles_user_id`: B-tree index on user_roles.user_id
+
+### Full Text Search Indexes
+- `idx_content_search`: GIN index on content search vectors
+- `idx_profiles_search`: GIN index on profile search vectors
 
 ## Row Level Security (RLS) Policies
 All tables implement RLS policies to restrict access based on user roles and permissions, implementing a secure-by-default database design.
