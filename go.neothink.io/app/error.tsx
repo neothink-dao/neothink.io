@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function Error({
@@ -10,11 +10,6 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error)
-  }, [error])
-
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -25,14 +20,22 @@ export default function Error({
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                {error.message || 'An unexpected error occurred.'}
+                {error.message || "An unexpected error occurred."}
               </p>
-              <button
-                onClick={reset}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm"
-              >
-                Try again
-              </button>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => reset()}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm"
+                >
+                  Try again
+                </button>
+                <Link
+                  href="/"
+                  className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-4 py-2 rounded-md text-sm"
+                >
+                  Return Home
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </div>
