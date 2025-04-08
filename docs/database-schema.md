@@ -19,47 +19,159 @@ This document provides a comprehensive overview of the Neothink platform's datab
 The Neothink database is built on PostgreSQL using Supabase and implements:
 
 - **Multi-tenant architecture**: Data isolation between platforms and organizations
-- **Role-based access control**: Granular permissions system
-- **Row-level security**: Security policies for all tables
-- **Realtime capabilities**: Subscriptions for instant updates
-- **Audit logging**: Tracking of system changes and security events
+- **Row-level security (RLS)**: Granular access control at the row level
+- **Realtime subscriptions**: Live updates for collaborative features
+- **Full-text search**: Efficient content discovery
+- **Type safety**: Generated TypeScript types for all tables
 
 ## Core Tables
 
 ### Profiles Table
 ```sql
-CREATE TABLE profiles (
+CREATE TABLE public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id),
-  email TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
   full_name TEXT,
   avatar_url TEXT,
   bio TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),
-  is_ascender BOOLEAN DEFAULT false,
-  is_neothinker BOOLEAN DEFAULT false,
-  is_immortal BOOLEAN DEFAULT false,
-  is_guardian BOOLEAN DEFAULT false,
-  guardian_since TIMESTAMPTZ,
-  subscription_status TEXT,
-  subscription_tier TEXT,
+  platform_roles JSONB DEFAULT '{}',
+  settings JSONB DEFAULT '{}',
+  metadata JSONB DEFAULT '{}',
+  last_seen_at TIMESTAMPTZ,
+  onboarding_completed BOOLEAN DEFAULT false,
+  subscription_status subscription_status DEFAULT 'inactive',
+  subscription_tier subscription_tier DEFAULT 'free',
   subscription_period_start TIMESTAMPTZ,
-  subscription_period_end TIMESTAMPTZ,
-  platforms TEXT[] DEFAULT ARRAY[]::TEXT[]
+  subscription_period_end TIMESTAMPTZ
 );
+
+-- RLS Policies
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public profiles are viewable by everyone"
+ON public.profiles FOR SELECT
+USING (true);
+
+CREATE POLICY "Users can update own profile"
+ON public.profiles FOR UPDATE
+USING (auth.uid() = id);
 ```
 
 ### Platform Access
 ```sql
-CREATE TABLE platform_access (
+CREATE TABLE public.platform_access (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL,
+  user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
   platform_slug TEXT NOT NULL,
-  access_level TEXT,
+  access_level access_level NOT NULL DEFAULT 'member',
   granted_at TIMESTAMPTZ DEFAULT now(),
   expires_at TIMESTAMPTZ,
-  granted_by UUID
+  granted_by UUID REFERENCES public.profiles(id),
+  metadata JSONB DEFAULT '{}',
+  UNIQUE(user_id, platform_slug)
 );
+
+-- RLS Policies
+ALTER TABLE public.platform_access ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own platform access"
+ON public.platform_access FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Admins can manage platform access"
+ON public.platform_access FOR ALL
+USING (
+  EXISTS (
+    SELECT 1 FROM public.profiles
+    WHERE id = auth.uid()
+    AND platform_roles->>'role' = 'admin'
+  )
+);
+```
+
+### Features Table
+```sql
+CREATE TABLE public.features (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  description TEXT,
+  category feature_category NOT NULL,
+  status feature_status DEFAULT 'draft',
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  required_subscription_tier subscription_tier DEFAULT 'free'
+);
+
+-- RLS Policies
+ALTER TABLE public.features ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Features are viewable by authenticated users"
+ON public.features FOR SELECT
+USING (auth.role() = 'authenticated');
+```
+
+### Feature Access
+```sql
+CREATE TABLE public.feature_access (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  feature_id UUID REFERENCES public.features(id) ON DELETE CASCADE,
+  platform_slug TEXT NOT NULL,
+  access_type access_type DEFAULT 'full',
+  override_subscription_tier BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(feature_id, platform_slug)
+);
+
+-- RLS Policies
+ALTER TABLE public.feature_access ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Feature access viewable by authenticated users"
+ON public.feature_access FOR SELECT
+USING (auth.role() = 'authenticated');
+```
+
+### Content Table
+```sql
+CREATE TABLE public.content (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  content TEXT,
+  content_type content_type NOT NULL,
+  status content_status DEFAULT 'draft',
+  platform_slug TEXT NOT NULL,
+  author_id UUID REFERENCES public.profiles(id),
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  metadata JSONB DEFAULT '{}',
+  search_vector tsvector GENERATED ALWAYS AS (
+    to_tsvector('english', coalesce(title, '') || ' ' || coalesce(content, ''))
+  ) STORED
+);
+
+-- RLS Policies
+ALTER TABLE public.content ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Published content is viewable by platform users"
+ON public.content FOR SELECT
+USING (
+  status = 'published' AND
+  EXISTS (
+    SELECT 1 FROM public.platform_access
+    WHERE user_id = auth.uid()
+    AND platform_slug = content.platform_slug
+  )
+);
+
+CREATE POLICY "Authors can manage their content"
+ON public.content FOR ALL
+USING (author_id = auth.uid());
 ```
 
 ## Authentication and Authorization

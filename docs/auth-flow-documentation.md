@@ -2,7 +2,13 @@
 
 ## Overview
 
-The Neothink ecosystem spans four distinct platforms (Hub, Ascenders, Neothinkers, Immortals), each with its own target audience and specific features. Our authentication system provides a seamless, platform-aware authentication experience, enabling users to sign up once and gain appropriate access across the ecosystem based on their role and permissions.
+The Neothink ecosystem spans four distinct platforms (Hub, Ascenders, Neothinkers, Immortals), each with its own target audience and specific features. Our authentication system uses Supabase's SSR (Server-Side Rendering) capabilities to provide a secure, performant, and platform-aware authentication experience.
+
+## Technology Stack
+
+- **@supabase/ssr**: Core package for server-side authentication
+- **@supabase/supabase-js**: Client-side Supabase interactions
+- **Next.js App Router**: Server and client components integration
 
 ## Why This Approach?
 
@@ -132,50 +138,82 @@ sequenceDiagram
 
 ## Implementation Details
 
-### Component Structure
+### Server-Side Authentication
 
-Our authentication implementation is structured around these key components:
+```typescript
+// middleware.ts
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse } from 'next/server'
 
-1. **Auth Provider**: Global context provider that gives components access to auth state.
-2. **Auth Hooks**: Custom React hooks that encapsulate auth logic for components.
-3. **Auth Components**: Reusable UI components for auth-related functionality.
-4. **Platform Gates**: Components that conditionally render content based on platform access.
+export async function middleware(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
 
-#### Why This Structure?
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          response.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+        },
+      },
+    }
+  )
 
-- **Separation of Concerns**: UI components remain focused on presentation while hooks handle logic.
-- **Reusability**: Components can be reused across platforms with different styling.
-- **Consistency**: Ensures a consistent auth experience across platforms.
-- **Maintainability**: Centralizing auth logic makes updates and fixes more manageable.
+  const { data: { session } } = await supabase.auth.getSession()
+  return response
+}
+```
 
-### Platform-Specific Customization
+### Client Components
 
-Each platform can customize authentication in these ways:
+```typescript
+// components/auth/SignInForm.tsx
+'use client'
 
-1. **Visual Styling**: Colors, logos, and UI elements match platform branding.
-2. **Redirect Paths**: Custom post-authentication redirects.
-3. **Additional Fields**: Platform-specific data collection during sign-up.
-4. **Custom Messaging**: Platform-specific welcome and error messages.
+import { createBrowserClient } from '@supabase/ssr'
 
-#### Why Allow Customization?
+export function SignInForm() {
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
-- **Brand Consistency**: Each platform maintains its unique visual identity.
-- **User Experience**: Navigation paths and messaging can be tailored to each platform's users.
-- **Data Requirements**: Different platforms may need specific user information.
+  const handleSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    // Handle response
+  }
+}
+```
 
 ## Security Considerations
 
-1. **JWT Tokens**: Authentication uses short-lived JWT tokens with refresh capabilities.
-2. **HTTPS**: All authentication traffic is encrypted.
-3. **Rate Limiting**: Auth endpoints are protected against brute force attacks.
-4. **Input Validation**: All user inputs are validated on both client and server.
-5. **Password Policies**: Enforced password strength requirements.
-
-#### Why These Security Measures?
-
-- **Protection Against Common Attacks**: These measures prevent the most common authentication vulnerabilities.
-- **Regulatory Compliance**: Helps meet requirements for user data protection.
-- **Trust**: Users need confidence that their information is secure.
+1. **Server-Side Session Validation**: All protected routes validate sessions server-side
+2. **HTTP-Only Cookies**: Session tokens stored securely in HTTP-only cookies
+3. **PKCE Flow**: OAuth implementations use PKCE for enhanced security
+4. **CSP Headers**: Content Security Policy headers prevent XSS attacks
+5. **Rate Limiting**: Auth endpoints protected against brute force attacks
 
 ## Edge Cases and Error Handling
 

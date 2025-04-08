@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createClientComponent, PlatformSlug, checkPlatformAccess, getUserProfile, UserProfile } from '../supabase/auth-client';
+import { createClientComponent, PlatformSlug, UserProfile } from '../supabase/auth-client';
 import { useRouter } from 'next/router';
 
 type PlatformAccessState = {
@@ -60,22 +60,33 @@ export function usePlatformAccess(
         }
         
         // Get user profile
-        const profile = await getUserProfile(supabase);
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
         
-        // Check platform access
-        const access = await checkPlatformAccess(supabase, platform);
+        // Check platform access by checking if platform is in user's platforms array
+        const hasAccess = profile?.platforms?.includes(platform) || false;
         
         if (isMounted) {
           setState({
-            hasAccess: access,
+            hasAccess,
             isLoading: false,
             error: null,
-            profile,
+            profile: profile ? {
+              id: profile.id,
+              email: session.user.email!,
+              full_name: profile.full_name,
+              avatar_url: profile.avatar_url,
+              is_guardian: profile.is_guardian || false,
+              platforms: profile.platforms || []
+            } : null,
           });
         }
         
         // Redirect if no access and redirectOnFailure is true
-        if (!access && redirectOnFailure) {
+        if (!hasAccess && redirectOnFailure) {
           router.push('/access-denied');
         }
       } catch (error) {
@@ -139,13 +150,24 @@ export function useIsGuardian(): { isGuardian: boolean; isLoading: boolean; prof
         }
         
         // Get user profile
-        const profile = await getUserProfile(supabase);
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
         
         if (isMounted) {
           setState({
             isGuardian: profile?.is_guardian || false,
             isLoading: false,
-            profile,
+            profile: profile ? {
+              id: profile.id,
+              email: session.user.email!,
+              full_name: profile.full_name,
+              avatar_url: profile.avatar_url,
+              is_guardian: profile.is_guardian || false,
+              platforms: profile.platforms || []
+            } : null,
           });
         }
       } catch (error) {
@@ -209,35 +231,15 @@ export function useAccessiblePlatforms(): {
         }
         
         // Get user profile
-        const profile = await getUserProfile(supabase);
-        
-        // If user is guardian, they have access to all platforms
-        if (profile?.is_guardian) {
-          if (isMounted) {
-            setState({
-              platforms: ['hub', 'ascenders', 'neothinkers', 'immortals'],
-              isLoading: false,
-              error: null,
-            });
-          }
-          return;
-        }
-        
-        // Check access for each platform
-        const accessiblePlatforms: PlatformSlug[] = [];
-        
-        const platformSlugs: PlatformSlug[] = ['hub', 'ascenders', 'neothinkers', 'immortals'];
-        
-        for (const slug of platformSlugs) {
-          const hasAccess = await checkPlatformAccess(supabase, slug);
-          if (hasAccess) {
-            accessiblePlatforms.push(slug);
-          }
-        }
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
         
         if (isMounted) {
           setState({
-            platforms: accessiblePlatforms,
+            platforms: (profile?.platforms || []) as PlatformSlug[],
             isLoading: false,
             error: null,
           });

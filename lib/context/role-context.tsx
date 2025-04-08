@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Role, RoleType, RoleCapability, canAccessFeature as checkAccessFeature, canPerformAction as checkAction } from '@/lib/types/roles';
-import { createClient } from '@/lib/supabase/client';
+import { Role, RoleType, RoleCapability, canAccessFeature as checkAccessFeature, canPerformAction as checkAction } from '@lib/types/roles';
+import { createClient } from '@lib/supabase/client';
 import { 
   getUserRole, 
   getUserCapabilities, 
@@ -11,7 +11,7 @@ import {
   canAccessFeature,
   canPerformAction,
   UserCapability
-} from '@/lib/supabase/role-utils';
+} from '@lib/supabase/role-utils';
 
 interface RoleContextProps {
   currentRole: Role | null;
