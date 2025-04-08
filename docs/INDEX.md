@@ -13,8 +13,17 @@ This document serves as the central index for all documentation in the Neothink 
 - [Technical Implementation](./TECHNICAL-IMPLEMENTATION.md) - Overview of technical implementation
 - [Sacred Geometry Design System](./sacred-geometry-design-system.md) - Design system documentation
 - [Component Library](./component-library.md) - Shared UI component documentation
+- [Unified Platform Architecture](./UNIFIED-PLATFORM.md) - Cross-platform architecture
+- [Why Modern Stack](./WHY-MODERN-STACK.md) - Technology choices explained
+
+## Database & Data Management
+
 - [Database Schema](./database-schema.md) - Database schema documentation
-- [API Documentation](./api-documentation.md) - API endpoints and usage
+- [Database Functions](./database/DATABASE_FUNCTIONS.md) - Comprehensive database functions reference
+- [Role-Based Access Control](./RBAC-SYSTEM.md) - RBAC system overview
+- [RBAC Implementation](./RBAC-IMPLEMENTATION.md) - Detailed RBAC implementation
+- [Roles Schema](./database/ROLES_SCHEMA.md) - Database schema for roles system
+- [Role Utility Functions](./database/ROLE_UTILS.md) - Role utility functions reference
 
 ## Authentication & Security
 
@@ -23,6 +32,13 @@ This document serves as the central index for all documentation in the Neothink 
 - [User Authentication Flows](./user-authentication-flows.md) - User-facing auth journey
 - [Cross-Platform Navigation](./cross-platform-navigation.md) - Platform switching mechanics
 - [Security](./security.md) - Security implementation and best practices
+
+## API & Integration
+
+- [API Documentation](./api-documentation.md) - API endpoints and usage
+- [GraphQL Schema](./api/GRAPHQL.md) - GraphQL API documentation
+- [Webhooks](./api/WEBHOOKS.md) - Webhook integration documentation
+- [External Services](./api/EXTERNAL-SERVICES.md) - Integration with external services
 
 ## Development & Deployment
 

@@ -1,209 +1,132 @@
-# Role-Based Access Control (RBAC) System for Neothink Platforms
-
-This document provides a comprehensive overview of the RBAC system implemented across the Neothink platforms (Hub, Ascenders, Neothinkers, and Immortals).
+# Role-Based Access Control (RBAC) System
 
 ## Overview
 
-The Neothink RBAC system is designed to provide consistent, secure, and flexible access control across all platforms in the ecosystem. It enables users to progress through defined roles while maintaining appropriate access boundaries.
+The Neothink platform implements a comprehensive Role-Based Access Control (RBAC) system to manage user permissions across multiple platforms and organizations. This document outlines the core concepts and implementation details.
 
-### Core Components
+## Core Components
 
-1. **Database Schema** - Defined in Supabase with tables for roles, capabilities, and user profiles
-2. **PostgreSQL Functions** - Server-side functions for efficient permission checking
-3. **TypeScript Types** - Type definitions for roles and capabilities
-4. **React Context** - Provider for role information and permission checks
-5. **React Components** - UI components for conditional rendering based on roles
-6. **Utility Functions** - Helper functions for role and platform management
+### Roles
 
-## User Roles
+Roles are collections of permissions that can be assigned to users. The system supports two types of roles:
 
-The system defines a clear progression path for users:
+1. **Global Roles**: Assigned directly to users and apply across the entire system
+2. **Organization Roles**: Assigned to users within the context of specific organizations
 
-### Member Roles
-1. **Subscriber** - Basic access to platform content
-2. **Participant** - Can participate in community activities
-3. **Contributor** - Can contribute content and lead discussions
+Each role has:
+- Unique identifier
+- Name and description
+- Priority level (lower number = higher priority)
+- Visual styling attributes (color)
+- Flag indicating if it's a system-defined role
 
-### Admin Roles
-1. **Associate** - Admin role focused on helping and support
-2. **Builder** - Admin role focused on building and development 
-3. **Partner** - Admin role with funding capabilities and strategic direction
+### Permissions
 
-## Technical Implementation
+Permissions define specific actions that can be performed on resources. Each permission consists of:
 
-### Database Schema
+- Action: The operation being performed (create, read, update, delete)
+- Subject: The resource being acted upon (users, organizations, content, etc.)
+- Conditions: Optional JSON object containing additional constraints
+- Description: Human-readable explanation of the permission
 
-The core schema consists of:
+### Role-Permission Relationships
 
-- `tenant_roles` - Defines available roles for each platform/tenant
-- `role_capabilities` - Defines feature permissions for each role
-- `profiles` - Links users to roles within a specific tenant
+Roles are linked to permissions through the `role_permissions` junction table, allowing:
+- Many-to-many relationships between roles and permissions
+- Flexible permission assignment and management
+- Easy auditing of which roles have which permissions
 
-### PostgreSQL Functions
+## Default System Roles
 
-We've implemented several database functions for efficient permission checking:
+The system includes the following pre-defined roles:
 
-```sql
--- Check if a user has a specific role
-SELECT * FROM check_user_role('user_uuid', 'contributor');
+| Role Name | Description | Priority | Scope |
+|-----------|-------------|----------|-------|
+| Super Admin | Full system access | 10 | Global |
+| Admin | Administrative access to platform features | 20 | Global/Organization |
+| Manager | Can manage most resources but not system settings | 30 | Organization |
+| Member | Standard user with basic access | 40 | Organization |
+| Guest | Limited read-only access | 50 | Organization |
 
--- Check if a user can access a specific feature
-SELECT * FROM check_feature_access('user_uuid', 'discussions');
+## Permission Structure
 
--- Check if a user can perform an action on a feature
-SELECT * FROM check_action_permission('user_uuid', 'discussions', 'create');
+Permissions follow a structured format:
+
+```
+{action}:{subject}[:attribute]
 ```
 
-### TypeScript Integration
+Examples:
+- `create:users` - Can create new users
+- `read:organizations` - Can view organizations
+- `update:content:published` - Can update published content
 
-The role system is strongly typed in TypeScript:
+## Role Assignment
 
-```typescript
-// Role types
-export type RoleCategory = 'member' | 'admin';
-export type UserRoleType = 'subscriber' | 'participant' | 'contributor';
-export type AdminRoleType = 'associate' | 'builder' | 'partner';
-export type RoleType = UserRoleType | AdminRoleType;
+Users can have roles assigned in two ways:
 
-// Role interface
-export interface Role {
-  id: string;
-  tenantId: string;
-  name: string;
-  slug: RoleType;
-  description: string;
-  isSystemRole: boolean;
-  roleCategory: RoleCategory;
-  priority: number;
-}
-```
+1. **User Roles**: Direct assignment of global roles via the `user_roles` table
+2. **Organization Memberships**: Assignment of organization-specific roles via the `organization_members` table
 
-### React Context
+## Permission Checking
 
-The `RoleProvider` provides role information and permission checks:
+The system provides the following functions for permission checking:
 
-```tsx
-// In a component:
-import { useRole } from '@/lib/context/role-context';
+- `check_user_permission(user_id, action, subject, conditions)`: Checks if a user has a specific permission
+- `get_user_permissions(user_id)`: Gets all permissions a user has
+- `get_user_roles(user_id)`: Gets all roles a user has (both global and organization-specific)
 
-function MyComponent() {
-  const { hasRole, hasAccessTo, canPerform, isAdmin } = useRole();
-  
-  // Check if user has contributor role
-  if (hasRole('contributor')) {
-    // ...
-  }
-  
-  // Check if user can access a feature
-  if (hasAccessTo('discussions')) {
-    // ...
-  }
-  
-  // Check if user can perform an action
-  if (canPerform('discussions', 'create')) {
-    // ...
-  }
-}
-```
+## Platform-Specific Access Control
 
-### UI Components
+The RBAC system integrates with platform access control via:
 
-The `RoleGate` component conditionally renders UI based on roles:
+1. **Platform Access Table**: Records which platforms a user has access to
+2. **Subscription-Based Access**: Automatically grants appropriate roles based on subscription status
+3. **Platform-Specific Permissions**: Certain permissions only apply within specific platforms
 
-```tsx
-<RoleGate allowedRoles={['contributor', 'partner']}>
-  <ContributorContent />
-</RoleGate>
+## API Integration
 
-<RoleGate requiredFeature="discussions" requiredAction="create">
-  <CreateDiscussionButton />
-</RoleGate>
+The RBAC system integrates with the application API through:
 
-<RoleGate adminOnly>
-  <AdminDashboard />
-</RoleGate>
-```
+1. **Authorization Middleware**: Validates permissions for API requests
+2. **User Context**: Provides role and permission information to the frontend
+3. **UI Adapters**: Controls UI element visibility based on permissions
 
-The `MultiPlatformGate` component controls access across platforms:
+## Security Considerations
 
-```tsx
-<MultiPlatformGate
-  requiredPlatforms={['ascenders', 'neothinkers']}
-  minRole="participant"
-  requireAllPlatforms={false}
->
-  <CrossPlatformContent />
-</MultiPlatformGate>
-```
+The RBAC implementation follows these security principles:
 
-## Cross-Platform Implementation
+1. **Least Privilege**: Users are granted the minimal permissions required
+2. **Defense in Depth**: Multiple security layers (database RLS, API middleware, UI controls)
+3. **Secure by Default**: Access is denied unless explicitly granted
+4. **Separation of Concerns**: Role definition is separate from role assignment
 
-The RBAC system is synchronized across all platforms using:
+## Database Implementation
 
-1. **Shared Database** - All platforms connect to the same Supabase instance
-2. **Synchronized Components** - The `sync:roles` script ensures all platforms have the latest implementation
-3. **Platform-Specific Configuration** - Each platform has its own tenant ID and configuration
+The RBAC system is implemented in the following database tables:
 
-## Developer Workflow
+- `roles`: Defines available roles
+- `permissions`: Defines individual permissions
+- `role_permissions`: Maps roles to permissions
+- `user_roles`: Assigns global roles to users
+- `organization_members`: Assigns organization-specific roles
 
-### Adding New Roles
+## Row Level Security (RLS)
 
-1. Update the schema files in `supabase/schemas/`
-2. Apply the changes using the migration scripts
-3. Update TypeScript types in `lib/types/roles.ts`
-4. Synchronize changes across platforms with `npm run sync:roles`
+Database tables are protected with Row Level Security policies that check user permissions. This provides an additional security layer beyond application code.
 
-### Adding New Features
+## Audit and Logging
 
-1. Add the feature to `role_capabilities` table for relevant roles
-2. Create UI components that use `RoleGate` for conditional rendering
-3. Update documentation to reflect new capabilities
+Changes to roles and permissions are tracked through:
 
-### Deploying Changes
+1. **Timestamps**: All tables include created_at and updated_at fields
+2. **Audit Logs**: Major permission changes are recorded in the audit log
+3. **Action History**: User permission checks can be traced for security review
 
-1. Deploy database changes with migration scripts
-2. Deploy frontend changes with `npm run deploy:all`
+## Extension and Customization
 
-## Role Progression
+The RBAC system supports customization through:
 
-Users progress through roles based on activity and contributions:
-
-1. **Subscriber** → **Participant** - After completing onboarding and basic activity
-2. **Participant** → **Contributor** - After meaningful contributions to the community
-3. **Contributor** → **Associate** - Admin promotion for community leadership
-4. **Associate** → **Builder** - Admin promotion for development leadership
-5. **Builder** → **Partner** - Admin promotion for strategic leadership
-
-This progression is managed through admin controls or automated based on user activity.
-
-## Best Practices
-
-1. **Always use RoleGate** - Never hardcode role checks in UI components
-2. **Use database functions** - Leverage PostgreSQL functions for efficient permission checks
-3. **Keep types in sync** - Ensure TypeScript types match database schema
-4. **Test role changes** - Verify role changes function correctly before deployment
-5. **Document capabilities** - Maintain clear documentation of role capabilities
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Permission denied errors**:
-   - Check role assignments in database
-   - Verify capability configuration
-   - Ensure React context is properly initialized
-
-2. **Type errors**:
-   - Run `npm run sync:roles` to ensure types are synchronized
-   - Check for recent schema changes not reflected in types
-
-3. **Cross-platform inconsistencies**:
-   - Run `npm run sync:roles` to synchronize components
-   - Check platform-specific configurations
-
-## Further Resources
-
-- [Database Schema Documentation](./database/ROLES_SCHEMA.md)
-- [Role Utilities Documentation](./database/ROLE_UTILS.md)
-- [React Context Documentation](../lib/context/README.md)
-- [Role Components Documentation](../lib/components/role/README.md) 
+1. **Custom Roles**: Organizations can define custom roles with specific permissions
+2. **Permission Conditions**: Flexible conditions allow for fine-grained access control
+3. **Permission Inheritance**: Roles can be structured hierarchically 
