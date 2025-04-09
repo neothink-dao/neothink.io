@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { ThemeProviderWrapper } from '../lib/components/providers/theme-provider'
+import Navigation from '../components/Navigation'
 
 export const metadata: Metadata = {
   title: 'Neothink Hub',
@@ -19,7 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProviderWrapper>
-          {children}
+          <Navigation />
+          <main>
+            {children}
+          </main>
         </ThemeProviderWrapper>
       </body>
     </html>
