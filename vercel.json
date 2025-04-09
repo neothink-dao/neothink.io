@@ -30,10 +30,6 @@
     { "source": "/api/auth/(.*)", "destination": "/api/auth/$1" },
     { "source": "/api/supabase/(.*)", "destination": "/api/supabase/$1" }
   ],
-  "redirects": [
-    { "source": "/api/redirect-to-dashboard", "destination": "/dashboard", "permanent": false },
-    { "source": "/old-login", "destination": "/auth/signin", "permanent": true }
-  ],
   "regions": ["iad1"],
   "functions": {
     "api/**/*": {

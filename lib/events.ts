@@ -91,4 +91,70 @@ export async function updateEvent(eventId: string, eventData: Partial<Event>): P
   }
   
   return data as Event;
+}
+
+/**
+ * Registers a user for an event
+ */
+export async function registerForEvent(userId: string, eventId: string): Promise<void> {
+  const supabase = createClient();
+  
+  // Check if user is already registered
+  const { data: existingRegistration } = await supabase
+    .from('event_registrations')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('event_id', eventId)
+    .maybeSingle();
+  
+  if (existingRegistration) {
+    // User is already registered
+    return;
+  }
+  
+  // Register user for event
+  const { error } = await supabase
+    .from('event_registrations')
+    .insert({
+      user_id: userId,
+      event_id: eventId
+    });
+  
+  if (error) {
+    console.error('Error registering for event:', error);
+    throw error;
+  }
+  
+  // Award points for event registration
+  try {
+    await supabase.from('user_points').insert({
+      user_id: userId,
+      points: 10,
+      action: 'event_registration'
+    });
+  } catch (e) {
+    // Don't block registration if points can't be awarded
+    console.warn('Failed to award points for event registration:', e);
+  }
+}
+
+/**
+ * Checks if a user is registered for an event
+ */
+export async function isRegisteredForEvent(userId: string, eventId: string): Promise<boolean> {
+  const supabase = createClient();
+  
+  const { data, error } = await supabase
+    .from('event_registrations')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('event_id', eventId)
+    .maybeSingle();
+  
+  if (error) {
+    console.error('Error checking event registration:', error);
+    throw error;
+  }
+  
+  return !!data;
 } 

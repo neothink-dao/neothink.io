@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { isFeatureEnabled } from '../lib/feature-flags';
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -13,27 +14,53 @@ export default function Navigation() {
     { name: 'Discover', path: '/discover' },
     { name: 'Onboard', path: '/onboard' },
     { name: 'Progress', path: '/progress' },
-    { name: 'Endgame', path: '/endgame' },
+    { name: 'Endgame', path: '/endgame', requireFlag: 'advanced_gamification_enabled' },
   ];
   
   const platformRoutes = [
     { 
       name: 'Ascenders', 
-      path: '/ascenders',
-      color: 'bg-orange-500 hover:bg-orange-600',
-      textColor: 'text-orange-500',
+      path: 'https://www.joinascenders.org',
+      color: 'bg-emerald-500 hover:bg-emerald-600',
+      textColor: 'text-emerald-500',
+      routes: [
+        { name: 'Ascender', path: '/ascender' },
+        { name: 'Ascension', path: '/ascension' },
+        { name: 'Flow', path: '/flow' },
+        { name: 'Ascenders', path: '/ascenders' },
+      ]
     },
     { 
       name: 'Neothinkers', 
-      path: '/neothinkers',
-      color: 'bg-amber-500 hover:bg-amber-600',
-      textColor: 'text-amber-500',
+      path: 'https://www.joinneothinkers.org',
+      color: 'bg-blue-500 hover:bg-blue-600',
+      textColor: 'text-blue-500',
+      routes: [
+        { name: 'Neothinker', path: '/neothinker' },
+        { name: 'Neothink', path: '/neothink' },
+        { name: 'Mark Hamilton', path: '/mark-hamilton' },
+        { name: 'Neothinkers', path: '/neothinkers' },
+      ],
+      subroutes: {
+        '/neothink': [
+          { name: 'Revolution', path: '/neothink/revolution' },
+          { name: 'Fellowship', path: '/neothink/fellowship' },
+          { name: 'Movement', path: '/neothink/movement' },
+          { name: 'Command', path: '/neothink/command' },
+        ]
+      }
     },
     { 
       name: 'Immortals', 
-      path: '/immortals',
-      color: 'bg-red-500 hover:bg-red-600',
-      textColor: 'text-red-500',
+      path: 'https://www.joinimmortals.org',
+      color: 'bg-purple-500 hover:bg-purple-600',
+      textColor: 'text-purple-500',
+      routes: [
+        { name: 'Immortal', path: '/immortal' },
+        { name: 'Immortalis', path: '/immortalis' },
+        { name: 'Project Life', path: '/project-life' },
+        { name: 'Immortals', path: '/immortals' },
+      ]
     },
   ];
   
@@ -41,29 +68,38 @@ export default function Navigation() {
     setMobileMenuOpen(!mobileMenuOpen);
   };
   
+  const isRouteEnabled = (route: typeof routes[0]) => {
+    if (!route.requireFlag) return true;
+    
+    // Simple client-side check - for accurate checks, use server-side rendering
+    return isFeatureEnabled('hub', route.requireFlag as any);
+  };
+  
   return (
-    <nav className="bg-white shadow-sm">
+    <nav className="bg-white shadow-sm dark:bg-gray-800 dark:text-white">
       <div className="container mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-blue-600">
+              <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400">
                 Neothink+
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {routes.map((route) => (
-                <Link
-                  key={route.path}
-                  href={route.path}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    pathname === route.path
-                      ? 'border-blue-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
-                >
-                  {route.name}
-                </Link>
+                isRouteEnabled(route) && (
+                  <Link
+                    key={route.path}
+                    href={route.path}
+                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                      pathname === route.path
+                        ? 'border-blue-500 text-gray-900 dark:text-gray-100'
+                        : 'border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-gray-200'
+                    }`}
+                  >
+                    {route.name}
+                  </Link>
+                )
               ))}
             </div>
           </div>
@@ -83,7 +119,7 @@ export default function Navigation() {
           <div className="-mr-2 flex items-center sm:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:hover:bg-gray-700"
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
@@ -104,29 +140,47 @@ export default function Navigation() {
       <div className={`${mobileMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
         <div className="pt-2 pb-3 space-y-1">
           {routes.map((route) => (
-            <Link
-              key={route.path}
-              href={route.path}
-              className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                pathname === route.path
-                  ? 'bg-blue-50 border-blue-500 text-blue-700'
-                  : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-              }`}
-            >
-              {route.name}
-            </Link>
+            isRouteEnabled(route) && (
+              <Link
+                key={route.path}
+                href={route.path}
+                className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                  pathname === route.path
+                    ? 'bg-blue-50 dark:bg-blue-900 border-blue-500 text-blue-700 dark:text-blue-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 hover:text-gray-700 dark:hover:text-gray-200'
+                }`}
+              >
+                {route.name}
+              </Link>
+            )
           ))}
         </div>
-        <div className="pt-4 pb-3 border-t border-gray-200">
+        <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
           <div className="space-y-1">
             {platformRoutes.map((platform) => (
-              <Link
-                key={platform.path}
-                href={platform.path}
-                className={`block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium ${platform.textColor} hover:bg-gray-50`}
-              >
-                {platform.name}
-              </Link>
+              <div key={platform.path}>
+                <Link
+                  href={platform.path}
+                  className={`block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium ${platform.textColor} hover:bg-gray-50 dark:hover:bg-gray-700`}
+                >
+                  {platform.name}
+                </Link>
+                
+                {/* Platform-specific routes */}
+                {platform.routes && (
+                  <div className="pl-6 space-y-1 mt-1">
+                    {platform.routes.map((subRoute) => (
+                      <Link
+                        key={`${platform.path}${subRoute.path}`}
+                        href={`${platform.path}${subRoute.path}`}
+                        className="block pl-3 pr-4 py-1 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                      >
+                        {subRoute.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>

@@ -51,6 +51,93 @@ neothink/
     └── eslint/           # ESLint configuration
 ```
 
+## Route Structure
+
+Our platform consists of multiple interconnected applications with specific routes:
+
+### Hub (go.neothink.io)
+- `/dashboard`: Central user dashboard with personalized content and activity feeds
+- `/discover`: Platform exploration and content discovery interface
+- `/onboard`: Guided user onboarding and orientation process
+- `/progress`: Comprehensive progress tracking across all platforms
+- `/endgame`: Advanced mastery content (requires advanced_gamification_enabled flag)
+
+### Ascenders (joinascenders.org)
+- `/ascender`: Personal prosperity dashboard with metrics and goals
+- `/ascension`: Step-by-step prosperity journey with guided stages
+- `/flow`: Business and value creation templates and resources
+- `/ascenders`: Community forum for Ascenders members
+
+### Neothinkers (joinneothinkers.org)
+- `/neothinker`: Personal integrated thinking dashboard
+- `/neothink`: Core Neothink philosophy and concepts, with subroutes:
+  - `/neothink/revolution`: Breaking free from mysticism and embracing the integrated mind
+  - `/neothink/fellowship`: Building connections with like-minded individuals
+  - `/neothink/movement`: Understanding and participating in the worldwide movement
+  - `/neothink/command`: Mastering the language patterns for maximum effectiveness
+- `/mark-hamilton`: Insights and teachings from the founder
+- `/neothinkers`: Community forum for Neothinkers members
+
+### Immortals (joinimmortals.org)
+- `/immortal`: Personal longevity dashboard with health metrics
+- `/immortalis`: Featured longevity research and practice projects
+- `/project-life`: Resources and tools for extending healthy lifespan
+- `/immortals`: Community forum for Immortals members
+
+## Feature Flags for Testing
+
+For our first 100+ test users, we've implemented a feature flag system to control access to various platform capabilities. This allows us to gradually roll out features and gather feedback.
+
+### Currently Enabled Features
+- **Registration**: User account creation and profile setup
+- **Content Access**: Basic content viewing across all platforms
+- **Community Forums**: Discussion boards and community interaction
+- **Events**: Event scheduling and registration
+- **Cross-Platform Navigation**: Ability to navigate between subscribed platforms
+- **Progress Tracking**: Basic progress tracking across all platforms
+
+### Currently Disabled Features
+- **Advanced Gamification**: Badges, achievements, and competitive elements
+- **Direct Messaging**: Private messaging between users
+- **Content Creation**: User-generated content publishing
+- **Advanced Analytics**: Detailed activity and progress analytics
+- **Public Profiles**: Public-facing user profiles
+
+### Feature Flag Implementation
+
+Feature flags are implemented in `lib/feature-flags.ts` with platform-specific configurations:
+
+```typescript
+// Platform-specific feature flags with defaults
+const defaultFeatureFlags: Record<Platform, FeatureFlags> = {
+  hub: {
+    events_enabled: true,
+    advanced_gamification_enabled: false,
+    community_forums_enabled: true,
+    advanced_progress_tracking_enabled: true,
+    public_profiles_enabled: false
+  },
+  // Similar config for other platforms
+};
+```
+
+Access to routes can be controlled based on feature flags:
+
+```typescript
+// Checks if a route is accessible based on feature flags
+export function isRouteAccessible(platform: Platform, route: string): boolean {
+  const flags = getFeatureFlags(platform);
+  
+  // Special routes that require specific features
+  switch (route) {
+    case 'endgame':
+      return flags.advanced_gamification_enabled;
+    default:
+      return true;
+  }
+}
+```
+
 ## Implementation Sequence
 
 ### 1. Unified Authentication
@@ -420,39 +507,6 @@ export function CrossPlatformRecommendations({
    - Production database
    - Monitoring alerts
    - Backup strategy
-
-## Route Structure
-
-Our platform consists of multiple interconnected applications with specific routes:
-
-### Hub (go.neothink.io)
-- `/dashboard`: Central user dashboard
-- `/discover`: Content discovery interface
-- `/onboard`: User onboarding flow
-- `/progress`: Progress tracking dashboard
-- `/endgame`: Goal mastery interface
-
-### Ascenders (joinascenders)
-- `/ascender`: Prosperity platform overview
-- `/ascension`: Growth stage progression
-- `/flow`: Business templates and resources
-- `/ascenders`: Ascenders community hub
-
-### Neothinkers (joinneothinkers)
-- `/neothinker`: Happiness dashboard
-- `/neothink`: Core Neothink concepts
-  - `/revolution`: Neothink revolution information
-  - `/fellowship`: Community fellowship resources
-  - `/movement`: Movement participation
-  - `/command`: Leadership structure overview
-- `/mark-hamilton`: Founder's insights and teachings
-- `/neothinkers`: Neothinkers community hub
-
-### Immortals (joinimmortals)
-- `/immortal`: Longevity dashboard
-- `/immortalis`: Immortalis projects overview
-- `/project-life`: Life extension resources
-- `/immortals`: Immortals community hub
 
 ## Success Metrics
 
