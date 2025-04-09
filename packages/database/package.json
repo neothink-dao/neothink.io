@@ -1,0 +1,26 @@
+{
+  "name": "@neothink/database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf .turbo node_modules dist",
+    "type-check": "tsc --noEmit",
+    "generate-types": "supabase gen types typescript --linked > src/types/database.types.ts"
+  },
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  }
+} 

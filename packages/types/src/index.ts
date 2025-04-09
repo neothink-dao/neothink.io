@@ -1,13 +1,47 @@
 export * from './supabase';
 
-// Platform types
-export type Platform = 'hub' | 'ascenders' | 'neothinkers' | 'immortals';
+/**
+ * Shared type definitions for the Neothink monorepo
+ */
+
+/**
+ * Platform identifiers
+ */
+export type Platform = 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
+
+/**
+ * Platform slug for database operations
+ */
+export type PlatformSlug = Platform;
+
+/**
+ * User role in the system
+ */
+export type UserRole = 'user' | 'admin' | 'guardian';
+
+/**
+ * User subscription status
+ */
+export type SubscriptionStatus = 'active' | 'inactive' | 'trial' | 'expired' | 'cancelled';
+
+/**
+ * Platform access level
+ */
+export type AccessLevel = 'basic' | 'premium' | 'vip';
+
+/**
+ * Platform-specific settings
+ */
+export interface PlatformConfig {
+  name: string;
+  domain: string;
+  apiUrl: string;
+  primaryColor: string;
+  accentColor: string;
+}
 
 // Content types
 export type ContentType = 'article' | 'video' | 'course' | 'exercise' | 'quiz';
-
-// User roles
-export type UserRole = 'user' | 'admin' | 'moderator';
 
 // Event types for analytics
 export type EventName = 
@@ -19,9 +53,6 @@ export type EventName =
   | 'progress_updated'
   | 'profile_updated'
   | 'feedback_submitted';
-
-// Subscription status
-export type SubscriptionStatus = 'active' | 'inactive' | 'trialing' | 'past_due' | 'canceled';
 
 // Subscription tiers
 export type SubscriptionTier = 'free' | 'basic' | 'premium' | 'lifetime'; 

@@ -1,15 +1,35 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "lib": ["es2020"],
-    "strict": true,
-    "esModuleInterop": true,
+    "target": "es2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist",
-    "rootDir": "."
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@neothink/database": ["./packages/database/src"],
+      "@neothink/database/*": ["./packages/database/src/*"],
+      "@neothink/auth": ["./packages/auth/src"],
+      "@neothink/auth/*": ["./packages/auth/src/*"],
+      "@neothink/ui": ["./packages/ui/src"],
+      "@neothink/ui/*": ["./packages/ui/src/*"],
+      "@neothink/types": ["./packages/types/src"],
+      "@neothink/types/*": ["./packages/types/src/*"]
+    }
   },
-  "include": ["scripts/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next", "dist", "out"]
 } 
