@@ -1,4 +1,54 @@
 {
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm run build"
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/hub...",
+  "devCommand": "pnpm run dev",
+  "installCommand": "cd ../.. && pnpm install --no-frozen-lockfile",
+  "outputDirectory": ".next",
+  "git": {
+    "deploymentEnabled": true,
+    "vercelConfigUpdated": true,
+    "projectId": "prj_CpOcobbiExXQoj3hP0ZI7b0y3kHX"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/auth/(.*)", "destination": "/api/auth/$1" },
+    { "source": "/api/supabase/(.*)", "destination": "/api/supabase/$1" }
+  ],
+  "regions": ["iad1", "sfo1", "dub1"],
+  "functions": {
+    "api/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 } 

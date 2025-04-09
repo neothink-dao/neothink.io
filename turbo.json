@@ -4,21 +4,20 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**", ".vercel/**"],
-      "env": [
-        "NEXT_PUBLIC_SUPABASE_URL",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-        "NEXT_PUBLIC_VERCEL_ENV",
-        "NEXT_PUBLIC_PLATFORM_NAME"
-      ]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "outputs": []
     },
     "lint": {
+      "dependsOn": ["^lint"],
       "outputs": []
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dependsOn": ["^build"]
     },
     "clean": {
       "cache": false
@@ -35,8 +34,13 @@
     "SUPABASE_SERVICE_ROLE_KEY",
     "NEXT_PUBLIC_VERCEL_ENV",
     "NEXT_PUBLIC_PLATFORM_NAME",
+    "NEXT_PUBLIC_PLATFORM_SLUG",
+    "NEXT_PUBLIC_BASE_URL",
+    "NEXT_PUBLIC_POSTHOG_API_KEY",
     "NODE_ENV",
     "CI",
-    "VERCEL"
+    "VERCEL",
+    "UPSTASH_REDIS_REST_URL",
+    "UPSTASH_REDIS_REST_TOKEN"
   ]
 } 

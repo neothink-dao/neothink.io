@@ -1,6 +1,204 @@
 # Neothink Platforms Deployment Guide
 
-This guide provides step-by-step instructions for deploying the Neothink platforms (Hub, Ascenders, Neothinkers, and Immortals) to Vercel with the role-based access control system.
+## Today's Production Launch Guide
+
+### Pre-Launch Checklist
+
+1. **Database Setup Verification**
+   - ✅ Confirm `user_progress` table is properly configured for week-based progression
+   - ✅ Verify `analytics_events` table is set up to capture all interaction types
+   - ✅ Check RLS policies to ensure proper data isolation and security
+
+2. **Feature Readiness**
+   - ✅ Verify `/discover` pages are fully functional across all platforms
+   - ✅ Confirm locked features display appropriate teaser content
+   - ✅ Test hidden routes redirect correctly to 404
+
+3. **Environment Variables**
+   - ✅ Check all Vercel projects have correct environment variables
+   - ✅ Verify Supabase connection strings and API keys are properly set
+   - ✅ Confirm analytics tracking is enabled for production
+
+### Launch Sequence
+
+1. **Deploy to Production**
+   ```bash
+   # Push latest changes to main branch
+   git push origin main
+   ```
+
+2. **Monitor Vercel Deployments**
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard) and monitor deployments:
+     - Hub: https://vercel.com/neothink/go-neothink-io
+     - Ascenders: https://vercel.com/neothink/joinascenders
+     - Neothinkers: https://vercel.com/neothink/joinneothinkers
+     - Immortals: https://vercel.com/neothink/joinimmortals
+
+3. **Production Verification**
+   - Check all production URLs for proper rendering and functionality
+   - Verify authentication flows
+   - Confirm analytics events are being recorded
+   - Test the user progression journey
+
+### Post-Launch Monitoring
+
+1. **Supabase Dashboard Analytics**
+   - Go to [Supabase Dashboard](https://app.supabase.io/)
+   - Select "neothink" project
+   - Navigate to "Table Editor" to check recorded analytics events
+   - Run the following queries to monitor usage:
+
+   ```sql
+   -- Check recent analytics events
+   SELECT 
+     created_at, 
+     platform, 
+     event_name, 
+     event_category 
+   FROM analytics_events
+   ORDER BY created_at DESC
+   LIMIT 100;
+
+   -- Monitor user progression
+   SELECT 
+     platform, 
+     week_number, 
+     COUNT(*) as user_count
+   FROM user_progress
+   GROUP BY platform, week_number
+   ORDER BY platform, week_number;
+
+   -- Track feature unlock attempts
+   SELECT 
+     platform, 
+     COUNT(*) as attempt_count
+   FROM analytics_events
+   WHERE event_name = 'feature_unlock_attempt'
+   GROUP BY platform
+   ORDER BY attempt_count DESC;
+   ```
+
+2. **Real-time Error Tracking**
+   - Check error logs in Vercel deployments
+   - Monitor Supabase function errors
+   - Watch for error events in the `analytics_events` table
+
+3. **User Engagement Metrics**
+   - Use the Supabase Dashboard to run the following query for initial engagement metrics:
+
+   ```sql
+   -- User engagement summary
+   SELECT 
+     platform,
+     COUNT(DISTINCT user_id) as unique_users,
+     COUNT(*) FILTER (WHERE event_name = 'page_view') as page_views,
+     COUNT(*) FILTER (WHERE event_name = 'content_interaction') as interactions,
+     COUNT(*) FILTER (WHERE event_name = 'feature_unlock_attempt') as unlock_attempts
+   FROM analytics_events
+   WHERE timestamp > NOW() - INTERVAL '24 hours'
+   GROUP BY platform;
+   ```
+
+## GitHub Actions CI/CD Workflows
+
+The repository includes GitHub Actions workflows that automate testing and deployment processes:
+
+### 1. Test Workflow (`test.yml`)
+
+This workflow runs on all pull requests and pushes to the main branch:
+
+```yaml
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test Packages and Apps
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout, setup Node.js, pnpm, etc.
+      - name: Lint
+        run: pnpm lint
+      
+      - name: Type check
+        run: pnpm type-check
+      
+      - name: Run tests with coverage
+        run: pnpm test
+        
+      - name: Upload test coverage
+        uses: codecov/codecov-action@v3
+```
+
+**Key Features:**
+- Ensures code quality through linting, type checking, and tests
+- Runs automatically on all PRs and pushes to main
+- Uploads test coverage reports to Codecov
+- Prevents merging if tests fail
+
+### 2. Preview Deployment Workflow (`deploy-preview.yml`)
+
+This workflow creates preview deployments for pull requests:
+
+```yaml
+name: Vercel Preview Deployment
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy-preview:
+    name: Deploy Preview
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout, setup Node.js, pnpm, etc.
+      - name: Build Project Artifacts
+        run: pnpm build
+        
+      - name: Deploy to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        
+      - name: Comment Preview URL
+        uses: actions/github-script@v6
+        # Adds preview URL as a comment on the PR
+```
+
+**Key Features:**
+- Creates preview deployments for each PR
+- Comments the preview URL directly on the PR
+- Allows testing in an isolated environment
+- Integrates with Vercel's preview environments
+
+### Triggering Workflows
+
+- **Tests** run automatically on:
+  - Every pull request to main
+  - Every push to main
+  - Can be manually triggered from GitHub Actions tab
+
+- **Preview Deployments** run on:
+  - Every pull request to main
+  - Can be manually triggered from GitHub Actions tab
+
+### Checking Workflow Results
+
+1. **Test Results**
+   - Navigate to the "Actions" tab in the GitHub repository
+   - Click on the specific workflow run
+   - Check the "Test Packages and Apps" job for details
+   - View test coverage reports on Codecov
+
+2. **Preview Deployments**
+   - Check the PR comments for the preview URL
+   - Click the link to access the preview deployment
+   - Test your changes in the isolated environment
+   - Preview URLs follow the pattern: `https://neothink-<platform>-git-<branch>-neothink.vercel.app`
 
 ## Prerequisites
 
@@ -182,10 +380,13 @@ For ongoing development:
    - Feature branches for specific features
 
 2. **Preview deployments**:
-   - Configure Vercel to create preview deployments for PRs
-   - Use different databases for preview environments
+   - GitHub Actions automatically create preview deployments for PRs
+   - Each PR gets its own isolated Vercel environment
+   - Preview deployments are deleted when the PR is closed
 
 3. **Rollback plan**:
+   - Vercel maintains deployment history for quick rollbacks
+   - GitHub Actions support rollback workflows if needed
    - Document how to rollback to previous versions
    - Test rollback procedures regularly
 

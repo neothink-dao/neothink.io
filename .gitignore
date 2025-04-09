@@ -1,23 +1,20 @@
 # Dependencies
-node_modules/
-.pnp/
+node_modules
+.pnp
 .pnp.js
 
 # Testing
-coverage/
+coverage
 
-# Production
-build/
-dist/
+# Next.js
 .next/
 out/
+build
+dist
 
-# Environment Variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Misc
+.DS_Store
+*.pem
 
 # Debug
 npm-debug.log*
@@ -25,38 +22,73 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# IDEs and editors
-.idea/
-.vscode/
-*.swp
-*.swo
-.DS_Store
+# Local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-*.pem
+
+# Turbo
+.turbo
+
+# Vercel
 .vercel
 
-# TypeScript
+# Typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # Supabase
-**/supabase/.temp/
-**/supabase/.branches/
-**/supabase/config.toml
+.branches
+.temp
 
-# Temporary files
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock 2.yaml
+**/pnpm-lock.yaml
+!./pnpm-lock.yaml
+
+# Logs
+logs
 *.log
-*.tmp
-.temp/
-.cache/
+
+# Cache
+.cache
+.eslintcache
+.stylelintcache
 
 # Build artifacts
-.turbo/
-.cursor/
+**/.next/**
+**/.turbo/**
+**/dist/**
+**/build/**
 
-# Platform specific
-.DS_Store
-Thumbs.db 
+# Temporary files
+*.tmp
+*.temp
+.history
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Sensitive
+*.key
+*.pem
+*.cert
+*.password
+*.secret 

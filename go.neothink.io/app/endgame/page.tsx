@@ -1,127 +1,137 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getContent } from '@/../lib/content';
-import { Content } from '@/../lib/types';
+import React from 'react';
+import { useUserProgress } from '@neothink/hooks';
+import { analytics } from '@neothink/analytics';
+import { useRouter } from 'next/navigation';
+import { ErrorBoundary } from '@neothink/ui/components/ErrorBoundary';
 
+/**
+ * Endgame page for the Hub platform
+ * This page is initially hidden (not accessible or visible in navigation) until week 4
+ * 
+ * See DEVELOPMENT.md for details on the user progress system
+ */
 export default function EndgamePage() {
-  const [content, setContent] = useState<Content[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchEndgameContent() {
-      try {
-        const platform = 'hub';
-        const route = 'endgame';
-        const contentData = await getContent(platform, route);
-        setContent(contentData);
-      } catch (error) {
-        console.error('Error fetching endgame content:', error);
-      } finally {
-        setLoading(false);
-      }
+  const router = useRouter();
+  const { checkFeatureStatus, weekNumber } = useUserProgress('hub');
+  const endgameStatus = checkFeatureStatus('endgame');
+  
+  // Track the page view
+  React.useEffect(() => {
+    analytics.page('hub', '/endgame');
+    
+    // If the feature is hidden, redirect to 404
+    if (endgameStatus === 'hidden') {
+      router.push('/not-found');
     }
+  }, [endgameStatus, router]);
 
-    fetchEndgameContent();
-  }, []);
-
-  if (loading) {
-    return <div className="p-4">Loading endgame content...</div>;
+  // Return null during the redirect to prevent flash of content
+  if (endgameStatus === 'hidden') {
+    return null;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Your Endgame</h1>
-      
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Journey to Mastery</h2>
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-1">
-              <h3 className="text-lg font-medium mb-3">The Ultimate Vision</h3>
-              <p className="text-gray-700 mb-4">
-                The Neothink Endgame represents the culmination of your journey across all platforms,
-                bringing together the knowledge and skills you've acquired from Ascenders, Neothinkers,
-                and Immortals to achieve full-spectrum success.
+    <ErrorBoundary fallbackText="There was an error loading the endgame content">
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-center mb-8">Endgame</h1>
+          
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-semibold mb-6">Mastery and Transformation</h2>
+            
+            <div className="prose max-w-none">
+              <p>
+                Congratulations on reaching Week {weekNumber} of your Neothink journey!
+                You've now unlocked the Endgame section - the culmination of your
+                hard work and dedication to personal growth.
               </p>
-              <p className="text-gray-700">
-                This is where prosperity, happiness, and longevity merge into a unified strategy for
-                achieving your highest potential.
+              
+              <h3>What is the Endgame?</h3>
+              <p>
+                The Endgame represents the synthesis of everything you've learned
+                throughout your journey. It's where theory meets practice, where concepts
+                become deeply integrated into your way of being, and where true transformation
+                occurs.
               </p>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-medium mb-3">Your Path Forward</h3>
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white mr-3">1</div>
-                  <p>Master Prosperity Principles (Ascenders)</p>
+              
+              <div className="bg-indigo-50 p-6 rounded-lg my-6">
+                <h4 className="font-semibold text-lg mb-2">Your Endgame Experience Includes:</h4>
+                <ul>
+                  <li>Advanced integration sessions with master mentors</li>
+                  <li>Deep-dive workshops on specialized topics</li>
+                  <li>Personal breakthrough experiences</li>
+                  <li>Community leadership opportunities</li>
+                  <li>Ongoing support for lifelong growth</li>
+                </ul>
+              </div>
+              
+              <h3>This Month's Focus Areas</h3>
+              <p>
+                During the Endgame phase, you'll work on integrating all aspects of
+                the Neothink methodology into a cohesive whole. You'll also have the
+                opportunity to specialize in areas that resonate most deeply with you.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                <div 
+                  className="bg-indigo-100 p-6 rounded-lg cursor-pointer hover:bg-indigo-200 transition-colors"
+                  onClick={() => analytics.trackContentInteraction('hub', 'integration-workshops', 'click')}
+                >
+                  <h4 className="font-semibold mb-2">Integration Workshops</h4>
+                  <p className="text-sm">Weekly sessions focused on synthesizing all aspects of your learning journey.</p>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white mr-3">2</div>
-                  <p>Develop Integrated Thinking (Neothinkers)</p>
+                
+                <div 
+                  className="bg-indigo-100 p-6 rounded-lg cursor-pointer hover:bg-indigo-200 transition-colors"
+                  onClick={() => analytics.trackContentInteraction('hub', 'mastery-path', 'click')}
+                >
+                  <h4 className="font-semibold mb-2">Mastery Path</h4>
+                  <p className="text-sm">Specialized tracks for developing expertise in your chosen areas of focus.</p>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white mr-3">3</div>
-                  <p>Optimize Health & Longevity (Immortals)</p>
+                
+                <div 
+                  className="bg-indigo-100 p-6 rounded-lg cursor-pointer hover:bg-indigo-200 transition-colors"
+                  onClick={() => analytics.trackContentInteraction('hub', 'breakthrough-experiences', 'click')}
+                >
+                  <h4 className="font-semibold mb-2">Breakthrough Experiences</h4>
+                  <p className="text-sm">Immersive experiences designed to create profound shifts in consciousness.</p>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white mr-3">4</div>
-                  <p>Synthesize for Complete Integration</p>
+                
+                <div 
+                  className="bg-indigo-100 p-6 rounded-lg cursor-pointer hover:bg-indigo-200 transition-colors"
+                  onClick={() => analytics.trackContentInteraction('hub', 'leadership-council', 'click')}
+                >
+                  <h4 className="font-semibold mb-2">Leadership Council</h4>
+                  <p className="text-sm">Opportunities to mentor others and contribute to the growth of the community.</p>
                 </div>
+              </div>
+              
+              <p>
+                The Endgame is not truly an end, but rather a new beginning. It marks
+                your transition from student to master, from seeker to guide. As you
+                continue to grow and evolve, you'll discover that the journey never
+                truly ends - it simply transforms into something even more profound.
+              </p>
+              
+              <div 
+                className="bg-gray-50 p-6 rounded-lg my-6 text-center cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => analytics.trackContentInteraction('hub', 'endgame-schedule', 'click')}
+              >
+                <h4 className="font-semibold text-lg mb-2">Ready to Begin Your Endgame Journey?</h4>
+                <p className="mb-4">
+                  Schedule your first Integration Session with a Master Mentor to create
+                  your personalized Endgame plan.
+                </p>
+                <button className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                  Schedule Now
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      
-      {content.length > 0 ? (
-        <section className="space-y-6">
-          <h2 className="text-xl font-semibold">Endgame Resources</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {content.map((item) => (
-              <div key={item.id} className="bg-white rounded-lg shadow overflow-hidden">
-                <div className="p-4">
-                  <h3 className="text-lg font-medium mb-2">{item.title}</h3>
-                  <p className="text-gray-600 mb-4">{item.content}</p>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Access Resource
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : (
-        <section className="bg-white rounded-lg shadow p-6 text-center">
-          <h2 className="text-xl font-semibold mb-4">Your Endgame Journey Awaits</h2>
-          <p className="mb-6">
-            Continue your progress through the Ascenders, Neothinkers, and Immortals platforms to unlock your personalized endgame strategy.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a 
-              href="/ascenders" 
-              className="p-4 bg-orange-100 border border-orange-200 rounded-lg text-center hover:bg-orange-200 transition"
-            >
-              <h3 className="font-medium mb-2">Ascenders</h3>
-              <p className="text-sm">Master prosperity principles</p>
-            </a>
-            <a 
-              href="/neothinkers" 
-              className="p-4 bg-amber-100 border border-amber-200 rounded-lg text-center hover:bg-amber-200 transition"
-            >
-              <h3 className="font-medium mb-2">Neothinkers</h3>
-              <p className="text-sm">Develop integrated thinking</p>
-            </a>
-            <a 
-              href="/immortals" 
-              className="p-4 bg-red-100 border border-red-200 rounded-lg text-center hover:bg-red-200 transition"
-            >
-              <h3 className="font-medium mb-2">Immortals</h3>
-              <p className="text-sm">Optimize health & longevity</p>
-            </a>
-          </div>
-        </section>
-      )}
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 } 

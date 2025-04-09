@@ -69,12 +69,32 @@ Each project's `vercel.json` should follow this structure:
 
 ### GitHub to Vercel Workflow
 
-1. Push changes to GitHub main branch
+1. Push changes to GitHub main branch at https://github.com/neothink-dao/neothink.io
 2. Vercel automatically:
-   - Detects which projects were affected by the changes
-   - Triggers builds only for affected projects
+   - Detects which projects were affected by the changes using Turborepo's dependency graph
+   - Triggers builds only for affected projects based on the following rules:
+     * Changes in project-specific directories (e.g., `go.neothink.io/`) trigger that project only
+     * Changes in shared dependencies trigger all dependent projects
+     * Changes in root configuration files trigger all projects
    - Uses Turborepo's cache for optimization
    - Deploys updated projects to production
+
+### Monorepo Detection Rules
+
+1. **Project-Specific Changes**
+   - Files in `go.neothink.io/` → Triggers Hub deployment only
+   - Files in `joinascenders/` → Triggers Ascenders deployment only
+   - Files in `joinneothinkers/` → Triggers Neothinkers deployment only
+   - Files in `joinimmortals/` → Triggers Immortals deployment only
+
+2. **Shared Resource Changes**
+   - Changes to `package.json` or `pnpm-workspace.yaml` → Triggers all projects
+   - Changes to `turbo.json` → Triggers all projects
+   - Changes to shared components or utilities → Triggers dependent projects
+
+3. **Configuration Changes**
+   - Project-specific `vercel.json` changes → Triggers that project only
+   - Project-specific `.env` changes → Triggers that project only
 
 ### Important Rules
 
@@ -83,6 +103,39 @@ Each project's `vercel.json` should follow this structure:
 3. **ALWAYS** use Turborepo for build commands
 4. **ALWAYS** maintain project-specific `vercel.json` files
 5. **NEVER** disable Vercel's automatic deployments
+6. **ALWAYS** ensure each project's `vercel.json` has the correct:
+   - `projectId`
+   - `buildCommand` with proper package filter
+   - Git integration settings
+
+## Supabase Integration
+
+All projects share the same Supabase "neothink" project (ID: dlmpxgzxdtqxyzsmpaxx) for:
+- Authentication
+- Database
+- Storage
+- Edge Functions
+- Realtime subscriptions
+
+### Supabase Configuration
+
+1. **Environment Variables**
+   - All projects use the same Supabase URL and keys
+   - Variables are stored in Vercel's environment settings
+   - Each project maintains its own platform-specific tables
+
+2. **Database Schema**
+   - Shared tables use the `public` schema
+   - Platform-specific tables use dedicated schemas:
+     * `hub_` prefix for Hub tables
+     * `ascenders_` prefix for Ascenders tables
+     * `neothinkers_` prefix for Neothinkers tables
+     * `immortals_` prefix for Immortals tables
+
+3. **Row Level Security (RLS)**
+   - Each platform has its own RLS policies
+   - Cross-platform access is controlled via role-based policies
+   - Shared resources use platform-agnostic policies
 
 ## Environment Variables
 

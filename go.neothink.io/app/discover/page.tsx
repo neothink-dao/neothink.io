@@ -1,86 +1,125 @@
-import { Suspense } from 'react';
-import { getContent } from '../../../lib/content';
-import { createServerComponent } from '../../../lib/supabase/auth-server';
-import { updateUserProgress } from '../../../lib/progress';
+import React from 'react';
+import { useUserProgress } from '@neothink/hooks';
+import { analytics } from '@neothink/analytics';
+import Link from 'next/link';
+import { Button } from '@neothink/ui';
+import { ArrowRightIcon } from 'lucide-react';
 
-export const dynamic = 'force-dynamic';
+/**
+ * Discover page for the Hub platform
+ * This is the fully functional landing page that is always unlocked
+ * 
+ * See DEVELOPMENT.md for details on the user progress system
+ */
+export default function DiscoverPage() {
+  // Track page view when the component mounts
+  React.useEffect(() => {
+    analytics.page('hub', '/discover');
+  }, []);
 
-export default async function DiscoverPage() {
-  const supabase = createServerComponent('hub');
-  const { data: { session } } = await supabase.auth.getSession();
-  const userId = session?.user?.id;
-  
-  // If we have a logged in user, update their progress for this route
-  if (userId) {
-    await updateUserProgress(userId, 'hub', 'discover', { 
-      visited: true, 
-      percent: 10,
-      last_visit: new Date().toISOString()
-    });
-  }
-  
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Discover Neothink</h1>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Suspense fallback={<div>Loading content...</div>}>
-            <DiscoverContent />
-          </Suspense>
+    <div className="container mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-8">
+          Discover Neothink
+        </h1>
+        
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
+          <h2 className="text-2xl font-semibold mb-4">Welcome to Your Journey</h2>
+          
+          <p className="text-gray-700 mb-6">
+            Welcome to Neothink Hub, your gateway to a transformative journey of personal growth and development.
+            Here you'll discover powerful tools, insights, and a community dedicated to helping you unlock your
+            full potential.
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <FeatureCard 
+              title="Learn" 
+              description="Access curated content designed to expand your mind and provide practical tools for growth."
+            />
+            
+            <FeatureCard 
+              title="Connect" 
+              description="Join a community of like-minded individuals on similar journeys of self-discovery."
+            />
+            
+            <FeatureCard 
+              title="Grow" 
+              description="Track your progress and celebrate milestones as you develop new skills and insights."
+            />
+            
+            <FeatureCard 
+              title="Transform" 
+              description="Experience profound shifts in how you think, feel, and interact with the world."
+            />
+          </div>
+          
+          <div className="text-center">
+            <Button 
+              onClick={() => {
+                analytics.trackContentInteraction('hub', 'discover-cta', 'click', { action: 'start_journey' });
+              }}
+              className="px-8 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+            >
+              <span>Start Your Journey</span>
+              <ArrowRightIcon className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
         </div>
         
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-            <h2 className="text-xl font-bold mb-4">Platforms</h2>
-            <div className="space-y-3">
-              <PlatformCard 
-                title="Ascenders" 
-                description="Ascend to higher consciousness and capabilities"
-                href="https://www.joinascenders.org"
-                color="bg-emerald-100 dark:bg-emerald-900"
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold mb-6 text-center">Your Path Forward</h2>
+          
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200"></div>
+            
+            <div className="relative z-10">
+              <PathStep 
+                number={1} 
+                title="Discover" 
+                description="Begin your journey by exploring the foundational ideas and concepts."
+                active={true}
               />
               
-              <PlatformCard 
-                title="Neothinkers" 
-                description="Explore the Neothink integrated thinking system"
-                href="https://www.joinneothinkers.org"
-                color="bg-blue-100 dark:bg-blue-900"
+              <PathStep 
+                number={2} 
+                title="Onboard" 
+                description="Dive deeper and get equipped with essential tools and practices."
+                active={false}
+                comingSoon={true}
               />
               
-              <PlatformCard 
-                title="Immortals" 
-                description="Join the movement toward biological immortality"
-                href="https://www.joinimmortals.org"
-                color="bg-purple-100 dark:bg-purple-900"
+              <PathStep 
+                number={3} 
+                title="Progress" 
+                description="Apply what you've learned and track your growth over time."
+                active={false}
+              />
+              
+              <PathStep 
+                number={4} 
+                title="Endgame" 
+                description="Achieve mastery and experience transformation in key areas of your life."
+                active={false}
               />
             </div>
           </div>
+        </div>
+        
+        <div className="bg-gray-50 rounded-lg p-8">
+          <h2 className="text-2xl font-semibold mb-4">What Members Are Saying</h2>
           
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-            <h2 className="text-xl font-bold mb-4">Quick Links</h2>
-            <ul className="space-y-2">
-              <li>
-                <a href="/dashboard" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="/progress" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  My Progress
-                </a>
-              </li>
-              <li>
-                <a href="/onboard" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  Onboarding
-                </a>
-              </li>
-              <li>
-                <a href="/endgame" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  Endgame
-                </a>
-              </li>
-            </ul>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Testimonial 
+              quote="Neothink has completely transformed how I approach challenges in my life. The tools I've gained are invaluable."
+              author="Sarah J."
+            />
+            
+            <Testimonial 
+              quote="Being part of this community has opened my eyes to new possibilities. I'm growing in ways I never imagined."
+              author="Michael T."
+            />
           </div>
         </div>
       </div>
@@ -88,63 +127,69 @@ export default async function DiscoverPage() {
   );
 }
 
-function PlatformCard({ 
-  title, 
-  description, 
-  href, 
-  color
-}: { 
-  title: string; 
-  description: string; 
-  href: string;
-  color: string;
-}) {
+function FeatureCard({ title, description }: { title: string; description: string }) {
   return (
-    <a 
-      href={href} 
-      className={`block p-4 rounded-lg ${color} transition-transform hover:scale-[1.02]`}
-    >
-      <h3 className="font-bold text-lg">{title}</h3>
-      <p className="text-sm mt-1">{description}</p>
-    </a>
+    <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <p className="text-gray-600">{description}</p>
+    </div>
   );
 }
 
-async function DiscoverContent() {
-  const content = await getContent('hub', 'discover');
-  
+function PathStep({ 
+  number, 
+  title, 
+  description, 
+  active, 
+  comingSoon 
+}: { 
+  number: number; 
+  title: string; 
+  description: string; 
+  active: boolean;
+  comingSoon?: boolean;
+}) {
   return (
-    <div className="space-y-8">
-      {content.length > 0 ? (
-        content.map((item) => (
-          <div key={item.id} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-            <h2 className="text-2xl font-bold mb-4">{item.title}</h2>
-            <div 
-              className="prose dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: item.content }}
-            />
-          </div>
-        ))
-      ) : (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-          <h2 className="text-2xl font-bold mb-4">Welcome to Neothink</h2>
-          <div className="prose dark:prose-invert">
-            <p>
-              Neothink is a comprehensive system of integrated thinking that empowers
-              individuals to break free from mysticism and static dogma, 
-              and embrace a dynamic, rational approach to life.
-            </p>
-            <p>
-              Through the Neothink Hub, you can access all the platforms in the
-              Neothink ecosystem, including Ascenders, Neothinkers, and Immortals.
-            </p>
-            <p>
-              To get started, explore the platforms listed on this page, or check
-              your dashboard for personalized content and recommendations.
-            </p>
-          </div>
-        </div>
-      )}
+    <div className="flex mb-12">
+      <div className={`w-12 h-12 rounded-full flex items-center justify-center z-10 ${
+        active ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'
+      }`}>
+        {number}
+      </div>
+      
+      <div className="ml-6">
+        <h3 className="text-xl font-semibold flex items-center">
+          {title}
+          {comingSoon && (
+            <span className="ml-2 text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded">
+              Coming Soon
+            </span>
+          )}
+        </h3>
+        
+        <p className="text-gray-600 mt-1">{description}</p>
+        
+        {active && (
+          <Link 
+            href={`/${title.toLowerCase()}`}
+            className="inline-block mt-3 text-indigo-600 hover:text-indigo-800"
+            onClick={() => {
+              analytics.trackContentInteraction('hub', `path-${title.toLowerCase()}`, 'click');
+            }}
+          >
+            Explore Now →
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Testimonial({ quote, author }: { quote: string; author: string }) {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+      <p className="italic text-gray-700 mb-4">"{quote}"</p>
+      <p className="text-gray-500 font-medium">— {author}</p>
     </div>
   );
 } 

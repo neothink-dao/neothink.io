@@ -217,4 +217,99 @@ This platform is deployed to Vercel with automatic deployments from the GitHub r
 - [Platform Architecture](/docs/MULTI_TENANT_ARCHITECTURE.md)
 - [Shared Components](/lib/README.md)
 - [Master Plan](/docs/MASTER_PLAN.md)
-- [Cross-Platform Features](/docs/CROSS_PLATFORM_FEATURES.md) 
+- [Cross-Platform Features](/docs/CROSS_PLATFORM_FEATURES.md)
+
+## User Guide
+
+### Routes
+
+Neothink Hub follows a progressive journey that unlocks features week by week:
+
+#### Initial Access (Week 1)
+- **[/discover](https://go.neothink.io/discover)** - ✅ **UNLOCKED**
+  - Your starting point for the Neothink journey
+  - Introduces the core concepts
+  - Provides navigation to other platforms
+  
+- **[/onboard](https://go.neothink.io/onboard)** - 🔒 **LOCKED**
+  - Visible but locked until Week 2
+  - Shows a teaser of what's coming
+  - Unlock attempts are tracked for personalized notifications
+
+- **[/progress](https://go.neothink.io/progress)** - 🚫 **HIDDEN**
+  - Not visible or accessible until Week 3
+  - Will show your journey progress when unlocked
+
+- **[/endgame](https://go.neothink.io/endgame)** - 🚫 **HIDDEN**
+  - Not visible or accessible until Week 4
+  - Will reveal mastery content when unlocked
+
+### Platform Journey
+
+Start your Neothink journey today. The Hub platform is designed to guide you through a transformative experience:
+
+1. **Discover** (Week 1): Begin your journey by exploring foundational ideas and concepts.
+2. **Onboard** (Unlocks Week 2): Dive deeper with essential tools and practices.
+3. **Progress** (Unlocks Week 3): Track your growth and apply what you've learned.
+4. **Endgame** (Unlocks Week 4): Achieve mastery and experience full transformation.
+
+As you progress through your journey, additional features will be unlocked automatically, creating a personalized experience that matches your stage of growth.
+
+## Developer Documentation
+
+### Project Structure
+
+```
+go.neothink.io/
+├── app/                 # Next.js application
+│   ├── discover/        # Discover route - unlocked by default
+│   ├── onboard/         # Onboarding route - locked initially
+│   ├── progress/        # Progress route - hidden initially
+│   └── endgame/         # Endgame route - hidden initially
+├── components/          # Shared components
+├── lib/                 # Utilities and helpers
+├── public/              # Static assets
+└── styles/              # Global styles
+```
+
+### Feature Access Control
+
+Access to features is controlled by the `useUserProgress` hook:
+
+```typescript
+import { useUserProgress } from '@neothink/hooks';
+
+function MyComponent() {
+  const { checkFeatureStatus } = useUserProgress('hub');
+  const featureStatus = checkFeatureStatus('progress'); // 'unlocked', 'locked', or 'hidden'
+  
+  // Render based on status
+}
+```
+
+### Analytics Implementation
+
+Events are tracked automatically on all routes. Add custom tracking with:
+
+```typescript
+import { analytics } from '@neothink/analytics';
+
+// Track a specific interaction
+analytics.trackContentInteraction('hub', 'feature-button', 'click');
+```
+
+### Testing
+
+Run Hub-specific tests with:
+
+```bash
+pnpm test:hub
+```
+
+## Additional Information
+
+For more details on the Hub platform and its integration with other Neothink platforms, see:
+
+- [Development Guide](../DEVELOPMENT.md) for implementation details
+- [Supabase Guide](../SUPABASE.md) for database and analytics information
+- [Deployment Guide](../deployment.md) for deployment instructions 

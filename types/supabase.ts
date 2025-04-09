@@ -114,29 +114,38 @@ export interface Database {
         Row: {
           id: string
           updated_at: string | null
-          first_name: string | null
-          last_name: string | null
+          full_name: string | null
           avatar_url: string | null
-          is_guardian: boolean
-          platform_access: Json | null
+          email: string | null
+          app_metadata: Json | null
+          hub_access: boolean
+          ascenders_access: boolean
+          neothinkers_access: boolean
+          immortals_access: boolean
         }
         Insert: {
           id: string
           updated_at?: string | null
-          first_name?: string | null
-          last_name?: string | null
+          full_name?: string | null
           avatar_url?: string | null
-          is_guardian?: boolean
-          platform_access?: Json | null
+          email?: string | null
+          app_metadata?: Json | null
+          hub_access?: boolean
+          ascenders_access?: boolean
+          neothinkers_access?: boolean
+          immortals_access?: boolean
         }
         Update: {
           id?: string
           updated_at?: string | null
-          first_name?: string | null
-          last_name?: string | null
+          full_name?: string | null
           avatar_url?: string | null
-          is_guardian?: boolean
-          platform_access?: Json | null
+          email?: string | null
+          app_metadata?: Json | null
+          hub_access?: boolean
+          ascenders_access?: boolean
+          neothinkers_access?: boolean
+          immortals_access?: boolean
         }
         Relationships: [
           {
@@ -146,6 +155,105 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      content: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+          title: string
+          description: string | null
+          content: string | null
+          metadata: Json | null
+          published: boolean
+          app: string
+          type: string
+          tags: string[] | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          title: string
+          description?: string | null
+          content?: string | null
+          metadata?: Json | null
+          published?: boolean
+          app: string
+          type: string
+          tags?: string[] | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          title?: string
+          description?: string | null
+          content?: string | null
+          metadata?: Json | null
+          published?: boolean
+          app?: string
+          type?: string
+          tags?: string[] | null
+        }
+      }
+      progress: {
+        Row: {
+          id: string
+          user_id: string
+          content_id: string
+          progress: number
+          completed: boolean
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          content_id: string
+          progress?: number
+          completed?: boolean
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          content_id?: string
+          progress?: number
+          completed?: boolean
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      analytics_events: {
+        Row: {
+          id: string
+          user_id: string | null
+          event_name: string
+          platform: string
+          properties: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          event_name: string
+          platform: string
+          properties?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          event_name?: string
+          platform?: string
+          properties?: Json | null
+          created_at?: string
+        }
       }
     }
     Views: {
