@@ -43,7 +43,10 @@
   },
   "env": {
     "NEXT_PUBLIC_VERCEL_ENV": "production",
-    "NEXT_PUBLIC_PLATFORM_NAME": "Neothink"
+    "NEXT_PUBLIC_PLATFORM_NAME": "Neothink",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://neothink.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key"
   },
   "workspaces": [
     {
