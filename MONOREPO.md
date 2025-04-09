@@ -4,10 +4,10 @@
 
 ```
 neothink-monorepo/
-├── go.neothink.io/        # Neothink+ Hub
-├── joinascenders/         # Ascenders Platform
-├── neothinkers/          # Neothinkers Platform
-├── immortals/            # Immortals Platform
+├── go.neothink.io/        # Neothink+ Hub (@neothink/hub)
+├── joinascenders/         # Ascenders Platform (@neothink/ascenders)
+├── joinneothinkers/      # Neothinkers Platform (@neothink/neothinkers)
+├── joinimmortals/        # Immortals Platform (@neothink/immortals)
 ├── package.json          # Root package.json
 ├── pnpm-workspace.yaml   # Workspace configuration
 └── turbo.json           # Turborepo configuration
@@ -33,7 +33,19 @@ Each platform has its own Vercel project with specific settings:
 - Install Command: `cd ../.. && pnpm install --no-frozen-lockfile`
 - Output Directory: `.next`
 
-*(Similar configurations for Neothinkers and Immortals)*
+#### Neothinkers (joinneothinkers)
+- Root Directory: `joinneothinkers`
+- Framework Preset: Next.js
+- Build Command: `cd ../.. && pnpm turbo run build --filter=@neothink/neothinkers...`
+- Install Command: `cd ../.. && pnpm install --no-frozen-lockfile`
+- Output Directory: `.next`
+
+#### Immortals (joinimmortals)
+- Root Directory: `joinimmortals`
+- Framework Preset: Next.js
+- Build Command: `cd ../.. && pnpm turbo run build --filter=@neothink/immortals...`
+- Install Command: `cd ../.. && pnpm install --no-frozen-lockfile`
+- Output Directory: `.next`
 
 ### 2. Vercel.json Configuration
 
