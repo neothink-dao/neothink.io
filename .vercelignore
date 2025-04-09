@@ -1,0 +1,13 @@
+.git
+node_modules
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.vercel
+.turbo
+# Exclude other apps
+apps/ascenders
+apps/neothinkers
+apps/immortals 

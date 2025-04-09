@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "node build.js",
     "dev": "turbo run dev",
     "dev:hub": "turbo run dev --filter=hub",
     "dev:ascenders": "turbo run dev --filter=ascenders",
