@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd ../.. && pnpm build",
+  "outputDirectory": "apps/hub/.next",
+  "installCommand": "cd ../.. && pnpm install"
+} 
