@@ -48,19 +48,39 @@
   "workspaces": [
     {
       "name": "go.neothink.io",
-      "path": "go.neothink.io"
+      "path": "go.neothink.io",
+      "outputDirectory": "go.neothink.io/.next",
+      "env": {
+        "NEXT_PUBLIC_PLATFORM_NAME": "Neothink Hub",
+        "NEXT_PUBLIC_BASE_URL": "https://go.neothink.io"
+      }
     },
     {
       "name": "joinascenders",
-      "path": "joinascenders"
+      "path": "joinascenders",
+      "outputDirectory": "joinascenders/.next",
+      "env": {
+        "NEXT_PUBLIC_PLATFORM_NAME": "Ascenders",
+        "NEXT_PUBLIC_BASE_URL": "https://joinascenders.com"
+      }
     },
     {
       "name": "joinneothinkers",
-      "path": "joinneothinkers"
+      "path": "joinneothinkers",
+      "outputDirectory": "joinneothinkers/.next",
+      "env": {
+        "NEXT_PUBLIC_PLATFORM_NAME": "Neothinkers",
+        "NEXT_PUBLIC_BASE_URL": "https://joinneothinkers.com"
+      }
     },
     {
       "name": "joinimmortals",
-      "path": "joinimmortals"
+      "path": "joinimmortals",
+      "outputDirectory": "joinimmortals/.next",
+      "env": {
+        "NEXT_PUBLIC_PLATFORM_NAME": "Immortals",
+        "NEXT_PUBLIC_BASE_URL": "https://joinimmortals.com"
+      }
     }
   ]
 } 
