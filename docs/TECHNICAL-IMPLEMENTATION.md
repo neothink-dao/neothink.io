@@ -421,6 +421,39 @@ export function CrossPlatformRecommendations({
    - Monitoring alerts
    - Backup strategy
 
+## Route Structure
+
+Our platform consists of multiple interconnected applications with specific routes:
+
+### Hub (go.neothink.io)
+- `/dashboard`: Central user dashboard
+- `/discover`: Content discovery interface
+- `/onboard`: User onboarding flow
+- `/progress`: Progress tracking dashboard
+- `/endgame`: Goal mastery interface
+
+### Ascenders (joinascenders)
+- `/ascender`: Prosperity platform overview
+- `/ascension`: Growth stage progression
+- `/flow`: Business templates and resources
+- `/ascenders`: Ascenders community hub
+
+### Neothinkers (joinneothinkers)
+- `/neothinker`: Happiness dashboard
+- `/neothink`: Core Neothink concepts
+  - `/revolution`: Neothink revolution information
+  - `/fellowship`: Community fellowship resources
+  - `/movement`: Movement participation
+  - `/command`: Leadership structure overview
+- `/mark-hamilton`: Founder's insights and teachings
+- `/neothinkers`: Neothinkers community hub
+
+### Immortals (joinimmortals)
+- `/immortal`: Longevity dashboard
+- `/immortalis`: Immortalis projects overview
+- `/project-life`: Life extension resources
+- `/immortals`: Immortals community hub
+
 ## Success Metrics
 
 Track these metrics to measure implementation success:
