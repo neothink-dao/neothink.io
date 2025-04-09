@@ -1,8 +1,8 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build",
+  "buildCommand": "corepack enable && pnpm install && pnpm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
+  "installCommand": "corepack enable && pnpm install",
   "outputDirectory": ".next",
   "git": {
     "deploymentEnabled": true
