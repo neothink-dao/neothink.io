@@ -1,5 +1,4 @@
 {
-  "buildCommand": "cd ../.. && pnpm build",
-  "outputDirectory": "apps/neothinkers/.next",
-  "installCommand": "cd ../.. && pnpm install"
+  "buildCommand": "cd ../.. && pnpm install && pnpm turbo run build --filter=neothinkers...",
+  "outputDirectory": "apps/neothinkers/.next"
 } 

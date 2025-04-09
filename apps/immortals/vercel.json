@@ -1,5 +1,4 @@
 {
-  "buildCommand": "cd ../.. && pnpm build",
-  "outputDirectory": "apps/immortals/.next",
-  "installCommand": "cd ../.. && pnpm install"
+  "buildCommand": "cd ../.. && pnpm install && pnpm turbo run build --filter=immortals...",
+  "outputDirectory": "apps/immortals/.next"
 } 

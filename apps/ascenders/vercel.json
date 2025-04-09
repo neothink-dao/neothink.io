@@ -1,5 +1,4 @@
 {
-  "buildCommand": "cd ../.. && pnpm build",
-  "outputDirectory": "apps/ascenders/.next",
-  "installCommand": "cd ../.. && pnpm install"
+  "buildCommand": "cd ../.. && pnpm install && pnpm turbo run build --filter=ascenders...",
+  "outputDirectory": "apps/ascenders/.next"
 } 
