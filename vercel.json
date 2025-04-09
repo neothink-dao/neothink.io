@@ -1,6 +1,5 @@
 {
-  "buildCommand": "node vercel-build.js",
-  "installCommand": "npm install -g pnpm@8.15.4 && pnpm install",
-  "outputDirectory": "apps/hub/.next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "rootDirectory": "apps/hub",
+  "outputDirectory": ".next"
 } 
