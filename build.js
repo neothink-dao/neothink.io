@@ -2,23 +2,36 @@
 
 const { execSync } = require('child_process');
 
-// Log environment information for debugging
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('VERCEL_ENV:', process.env.VERCEL_ENV);
-console.log('NODE VERSION:', process.version);
-console.log('CWD:', process.cwd());
+// Log divider for easier log reading
+const divider = '='.repeat(80);
+console.log(divider);
+console.log('LOCAL BUILD SCRIPT - NEOTHINK MONOREPO');
+console.log(divider);
+
+// Log environment
+console.log('Environment Information:');
+console.log('- Working directory:', process.cwd());
+console.log('- Node version:', process.version);
+console.log('- NODE_ENV:', process.env.NODE_ENV);
+console.log(divider);
 
 try {
   // Install dependencies
-  console.log('\n📦 Installing dependencies...');
+  console.log('Installing dependencies...');
   execSync('pnpm install', { stdio: 'inherit' });
 
   // Build the monorepo
-  console.log('\n🏗️ Building monorepo...');
+  console.log(divider);
+  console.log('Building all apps...');
   execSync('pnpm turbo run build', { stdio: 'inherit' });
 
-  console.log('\n✅ Build completed successfully');
+  console.log(divider);
+  console.log('✅ Build completed successfully!');
+  console.log(divider);
 } catch (error) {
-  console.error('\n❌ Build failed:', error.message);
+  console.error(divider);
+  console.error('❌ BUILD FAILED:');
+  console.error(error.toString());
+  console.error(divider);
   process.exit(1);
 } 
