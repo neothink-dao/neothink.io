@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npx pnpm@10 install --no-frozen-lockfile && pnpm run build",
+  "buildCommand": "turbo run build",
   "devCommand": "pnpm run dev",
   "installCommand": "npx pnpm@10 install --no-frozen-lockfile",
   "outputDirectory": ".next",
@@ -44,5 +44,23 @@
   "env": {
     "NEXT_PUBLIC_VERCEL_ENV": "production",
     "NEXT_PUBLIC_PLATFORM_NAME": "Neothink"
-  }
+  },
+  "workspaces": [
+    {
+      "name": "go.neothink.io",
+      "path": "go.neothink.io"
+    },
+    {
+      "name": "joinascenders",
+      "path": "joinascenders"
+    },
+    {
+      "name": "joinneothinkers",
+      "path": "joinneothinkers"
+    },
+    {
+      "name": "joinimmortals",
+      "path": "joinimmortals"
+    }
+  ]
 } 
