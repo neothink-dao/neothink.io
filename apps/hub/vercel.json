@@ -1,4 +1,33 @@
 {
-  "buildCommand": "cd ../.. && pnpm install && pnpm turbo run build --filter=hub...",
-  "outputDirectory": "apps/hub/.next"
+  "buildCommand": "cd ../.. && pnpm turbo run build --filter=hub...",
+  "installCommand": "cd ../.. && pnpm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "skewProtection": {
+    "enabled": true,
+    "maxDays": 60
+  },
+  "regions": ["all"],
+  "crons": {
+    "revalidate": "0 0 * * *"
+  },
+  "functions": {
+    "app/api/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "images": {
+    "sizes": [640, 750, 828, 1080, 1200, 1920],
+    "minimumCacheTTL": 60,
+    "formats": ["image/webp", "image/avif"]
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "dev": true,
+      "preview": true
+    }
+  },
+  "ignoreCommand": "bash .vercel/ignore-build.sh"
 } 
