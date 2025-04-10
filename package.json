@@ -21,7 +21,8 @@
     "type-check": "turbo run type-check",
     "db:generate": "turbo run db:generate",
     "db:push": "turbo run db:push",
-    "supabase:deploy": "turbo run supabase:deploy"
+    "supabase:deploy": "turbo run supabase:deploy",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@types/node": "^20.11.25",
@@ -40,7 +41,7 @@
   },
   "engines": {
     "node": ">=18.0.0",
-    "pnpm": ">=8.15.4"
+    "pnpm": "8.15.4"
   },
   "packageManager": "pnpm@8.15.4",
   "pnpm": {
@@ -49,10 +50,6 @@
       "react": "^18.2.0",
       "react-dom": "^18.2.0"
     },
-    "networkTimeout": 300000,
-    "registryUrl": "https://registry.npmjs.org/",
-    "npmRegistryServer": "https://registry.npmjs.org/",
-    "strictSSL": false,
-    "networkConcurrency": 4
+    "networkTimeout": 300000
   }
 }
