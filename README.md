@@ -224,15 +224,27 @@ Our Supabase database includes these key tables:
 
 ## 👩‍💻 Contributing
 
-We welcome contributions that align with our vision:
+We welcome contributions that help build and improve the Neothink ecosystem. Our goal is to create a powerful platform that elevates consciousness and human potential through integrated digital experiences.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-idea`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to your branch (`git push origin feature/amazing-idea`)
-5. Open a Pull Request
+### How to Contribute
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
+1. **Join the Team**: Contact us to discuss how you can help build the Neothink ecosystem
+2. **Development Process**:
+   - Clone the repository
+   - Create a feature branch from `main` for your work
+   - Follow our coding standards and architecture patterns
+   - Submit pull requests for review
+   - Participate in code reviews and discussions
+
+### Development Guidelines
+
+- Write clean, maintainable, and well-documented code
+- Follow TypeScript best practices and maintain type safety
+- Ensure cross-platform compatibility
+- Add tests for new features
+- Keep commits focused and descriptive
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed technical guidelines and workflow.
 
 ## 🚢 Deployment
 
