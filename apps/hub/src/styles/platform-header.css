@@ -1,0 +1,188 @@
+/* Platform Header Styles */
+.platform-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 24px;
+  background-color: var(--background);
+  border-bottom: 3px solid var(--hub-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.platform-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.platform-logo {
+  height: 32px;
+  width: auto;
+}
+
+.platform-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.platform-header-center {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.platform-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Platform Switcher */
+.platform-switcher {
+  position: relative;
+}
+
+.platform-selector {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid var(--hub-primary);
+  border-radius: 4px;
+  padding: 8px 32px 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.platform-selector:hover {
+  background-color: rgba(var(--hub-primary-rgb), 0.1);
+}
+
+.platform-selector:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--hub-primary-rgb), 0.3);
+}
+
+.platform-switcher::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--text);
+  pointer-events: none;
+}
+
+/* Notification Indicator */
+.notification-indicator {
+  position: relative;
+}
+
+.notification-button {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  color: var(--text);
+}
+
+.notification-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--error);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.theme-button {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  color: var(--text);
+}
+
+.theme-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.theme-button.active {
+  color: var(--hub-primary);
+}
+
+/* Platform-specific variables */
+:root {
+  /* Hub */
+  --hub-primary: #6a24fe;
+  --hub-primary-rgb: 106, 36, 254;
+  
+  /* Immortals */
+  --immortals-primary: #24a0fe;
+  --immortals-primary-rgb: 36, 160, 254;
+  
+  /* Ascenders */
+  --ascenders-primary: #fe7e24;
+  --ascenders-primary-rgb: 254, 126, 36;
+  
+  /* Neothinkers */
+  --neothinkers-primary: #24fe9a;
+  --neothinkers-primary-rgb: 36, 254, 154;
+  
+  /* Base */
+  --background: #ffffff;
+  --text: #15151e;
+  --error: #ff3b5c;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #15151e;
+    --text: #f5f5f7;
+  }
+  
+  .platform-selector:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .notification-button:hover,
+  .theme-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+} 
