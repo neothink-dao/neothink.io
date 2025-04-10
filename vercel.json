@@ -1,7 +1,6 @@
 {
-  "framework": "nextjs",
+  "version": 2,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "pnpm install",
-  "buildCommand": "turbo build",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
-  "version": 2
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
 } 
