@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "installCommand": "cd ../.. && npm install -g pnpm@8.15.4 && pnpm install",
-  "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/hub...",
+  "installCommand": "cd ../.. && npm install -g pnpm@8.15.4 && export PATH=\"/root/.npm-global/bin:$PATH\" && pnpm install --no-frozen-lockfile",
+  "buildCommand": "cd ../.. && export PATH=\"/root/.npm-global/bin:$PATH\" && pnpm turbo run build --filter=@neothink/hub...",
   "outputDirectory": ".next",
   "git": {
     "deploymentEnabled": {
