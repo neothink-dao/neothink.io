@@ -3,6 +3,7 @@ import { createClient } from '@neothink/core';
 import { analytics } from '@neothink/analytics';
 import { getUser } from '@neothink/hooks/api';
 import achievementsHandler from '../../pages/api/achievements';
+import { createAchievementTests } from '@neothink/testing/api/achievements';
 
 // Mock the @neothink/core createClient function
 jest.mock('@neothink/core', () => ({
@@ -205,4 +206,7 @@ describe('Achievements API', () => {
       message: 'Unexpected error',
     });
   });
-}); 
+});
+
+// Use shared test suite for Neothinkers achievements
+createAchievementTests('neothinkers', achievementsHandler); 
