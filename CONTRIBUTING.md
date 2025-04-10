@@ -1,11 +1,15 @@
 # Contributing to Neothink Platforms
 
-Welcome to the Neothink ecosystem! We're excited to have you join us in building transformative digital experiences that elevate human consciousness and potential. Our platform consists of four interconnected applications, each focusing on a unique aspect of human advancement:
+Welcome to the Neothink ecosystem! We're focused on building and improving our four core platforms:
 
 - **Hub** (go.neothink.io) - Holistic growth platform for Superachievers
 - **Ascenders** (www.joinascenders.org) - Prosperity through Ascension and FLOW
 - **Immortals** (www.joinimmortals.org) - Longevity and health optimization
 - **Neothinkers** (www.joinneothinkers.org) - Community and collaborative growth
+
+## Important Note
+
+We ONLY accept contributions that directly enhance these four platforms. Any contributions not aligned with improving these specific platforms will not be accepted.
 
 ## Quick Start
 
@@ -58,53 +62,40 @@ Welcome to the Neothink ecosystem! We're excited to have you join us in building
 
 ## Areas for Contribution
 
-### 1. Platform Enhancements
-- **Hub**: Improve dashboard UI, add AI-powered insights
-- **Ascenders**: Enhance financial tracking, add prosperity metrics
-- **Immortals**: Implement health tracking, longevity analytics
-- **Neothinkers**: Build community features, collaborative tools
+### Platform-Specific Enhancements ONLY
+We are looking for contributions in these specific areas:
 
-### 2. AI Integration
-- **ChatInterface Enhancements**:
-  - Improve animation transitions in `apps/*/components/Chat.tsx` using Framer Motion
-  - Add typing indicators and response streaming
-  - Enhance conversation context management
-  - Implement platform-specific response styles
-  
-- **Feedback Analysis**:
-  - Improve sentiment analysis accuracy in the `FeedbackDashboard` component
-  - Enhance visualization of sentiment trends
-  - Implement automated categorization of feedback
-  
-- **Edge Functions**:
-  - Enhance `supabase/functions/summarize.ts` logic for better content summarization
-  - Improve vector embedding generation for semantic search
-  - Optimize real-time notification triggers
-  
-- **Admin Tools**:
-  - Enhance analytics dashboards with AI-powered insights
-  - Improve content moderation tools
-  - Develop better visualization for cross-platform user journeys
+1. **Hub Platform** (go.neothink.io)
+   - Dashboard improvements
+   - AI-powered insights
+   - Cross-platform integration features
+   - Superachiever journey optimization
 
-### 3. UX/UI Contributions
-- Implement responsive designs using Tailwind CSS
-- Create fluid animations with Framer Motion
-- Ensure consistent design language across platforms
-- Optimize for accessibility (WCAG AA compliance)
-- Design mobile-first experiences for all components
-- Implement dark/light theme support
+2. **Ascenders Platform** (www.joinascenders.org)
+   - Financial tracking enhancements
+   - Prosperity metrics
+   - FLOW system improvements
+   - Business system optimization
 
-### 4. Cross-Platform Features
-- Improve navigation between platforms
-- Enhance state synchronization
-- Add unified notifications
-- Optimize authentication flows with Supabase Auth
+3. **Immortals Platform** (www.joinimmortals.org)
+   - Health tracking features
+   - Longevity analytics
+   - Project Life integration
+   - Wellness optimization tools
 
-## Development Workflow
+4. **Neothinkers Platform** (www.joinneothinkers.org)
+   - Community feature enhancements
+   - Collaborative tools
+   - Learning system improvements
+   - Knowledge integration
 
-1. **Choose Your Focus**:
-   - Pick a platform (`apps/<n>`) or shared package (`packages/<n>`)
-   - Check existing issues or create a new one
+## Development Guidelines
+
+1. **Platform Focus**
+   - Every contribution MUST enhance one or more of our four platforms
+   - Changes should align with platform-specific goals
+   - Features must integrate with existing platform capabilities
+   - Code should follow platform-specific patterns
 
 2. **Create a Branch**:
    ```bash
