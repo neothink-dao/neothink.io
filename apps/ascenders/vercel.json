@@ -4,6 +4,12 @@
   "installCommand": "cd ../.. && npm install -g pnpm@8.15.4 && pnpm install",
   "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/ascenders...",
   "outputDirectory": ".next",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "development": true
+    }
+  },
   "ignoreCommand": "git diff HEAD^ HEAD --quiet ./ ../../packages/",
   "version": 2
 } 
