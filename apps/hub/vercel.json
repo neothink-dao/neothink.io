@@ -1,7 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/hub...",
+  "buildCommand": "pnpm turbo run build --filter=@neothink/hub...",
+  "installCommand": "pnpm install",
   "outputDirectory": ".next",
+  "ignoreCommand": "git diff HEAD^ HEAD --quiet ./ ../../packages/",
   "version": 2
 } 
