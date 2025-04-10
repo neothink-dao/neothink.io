@@ -39,7 +39,8 @@
     "vitest": "^1.3.1"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.0.0",
+    "pnpm": ">=8.15.4"
   },
   "packageManager": "pnpm@8.15.4",
   "pnpm": {
@@ -48,6 +49,10 @@
       "react": "^18.2.0",
       "react-dom": "^18.2.0"
     },
-    "networkTimeout": 300000
+    "networkTimeout": 300000,
+    "registryUrl": "https://registry.npmjs.org/",
+    "npmRegistryServer": "https://registry.npmjs.org/",
+    "strictSSL": false,
+    "networkConcurrency": 4
   }
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "pnpm turbo run build --filter=@neothink/hub...",
-  "installCommand": "pnpm install",
+  "buildCommand": "cd ../.. && pnpm install --no-frozen-lockfile && pnpm turbo run build --filter=@neothink/hub...",
+  "installCommand": "cd ../.. && pnpm install --no-frozen-lockfile",
   "outputDirectory": ".next",
   "ignoreCommand": "git diff HEAD^ HEAD --quiet ./ ../../packages/",
   "version": 2
