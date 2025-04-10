@@ -1,118 +1,208 @@
 import { createClient } from '@supabase/supabase-js';
-import { Database } from 'database-types';
-import OpenAI from 'openai';
+import { Configuration, OpenAIApi } from 'openai';
+import type { Database } from '@neothink/database-types';
 
-type ChatRequest = {
-  message: string;
-  userId: string;
-  appName: 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
-  previousMessages?: Array<{ role: 'user' | 'assistant'; content: string }>;
-};
+interface ChatMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+}
 
-type ChatResponse = {
-  response: string;
-  error?: string;
-};
+interface ChatPreferences {
+  model?: string;
+  temperature?: number;
+  maxTokens?: number;
+  systemPrompt?: string;
+  [key: string]: any;
+}
 
-/**
- * Handles chatbot requests across all Neothink platforms
- * 
- * @param supabaseUrl - The Supabase project URL
- * @param supabaseKey - The Supabase service role key (for admin access)
- * @param openaiKey - OpenAI API key
- */
 export class NeothinkChatbot {
   private supabase;
   private openai;
-  
+  private defaultSystemPrompt: string;
+
   constructor(
-    supabaseUrl: string,
-    supabaseKey: string,
-    openaiKey: string
+    supabaseUrl: string, 
+    supabaseKey: string, 
+    openaiApiKey: string
   ) {
+    // Initialize Supabase client
     this.supabase = createClient<Database>(supabaseUrl, supabaseKey);
-    this.openai = new OpenAI({
-      apiKey: openaiKey,
-    });
-  }
-
-  /**
-   * Get app-specific system prompt
-   */
-  private getSystemPrompt(appName: ChatRequest['appName']): string {
-    const prompts = {
-      hub: "You are an AI assistant for the Neothink Hub platform, focused on holistic growth for Superachievers. Provide insights that integrate knowledge from all Neothink platforms.",
-      ascenders: "You are an AI assistant for Ascenders, focused on helping users achieve financial prosperity through Ascension and FLOW methodologies.",
-      immortals: "You are an AI assistant for Immortals, focused on longevity and health optimization strategies to extend lifespan and improve quality of life.",
-      neothinkers: "You are an AI assistant for Neothinkers, focused on community building and collaborative consciousness expansion."
-    };
     
-    return prompts[appName];
+    // Initialize OpenAI
+    const configuration = new Configuration({
+      apiKey: openaiApiKey,
+    });
+    this.openai = new OpenAIApi(configuration);
+
+    // Default system prompt
+    this.defaultSystemPrompt = `You are a helpful AI assistant for the Neothink platform. 
+Answer questions accurately, concisely, and helpfully. 
+If you don't know something, say so rather than making up information.
+Be friendly and conversational, but prioritize accuracy and helpfulness.`;
   }
 
   /**
-   * Process a chat request and store in database
+   * Generate a response from the AI given a conversation history
    */
-  async processChat(request: ChatRequest): Promise<ChatResponse> {
+  async generateResponse(
+    messages: ChatMessage[],
+    additionalContext: string = '',
+    preferences: ChatPreferences = {}
+  ): Promise<string> {
     try {
-      // Build conversation history
-      const messages = [
-        { role: 'system', content: this.getSystemPrompt(request.appName) },
-        ...(request.previousMessages || []),
-        { role: 'user', content: request.message }
-      ] as OpenAI.Chat.ChatCompletionMessageParam[];
-
-      // Get response from OpenAI
-      const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4-turbo',
-        messages,
-        temperature: 0.7,
-        max_tokens: 1000,
+      // Prepare messages array
+      const systemPrompt = preferences.systemPrompt || this.defaultSystemPrompt;
+      
+      // Add additional context to system prompt if available
+      const enhancedSystemPrompt = additionalContext 
+        ? `${systemPrompt}\n\nAdditional context that may be helpful:\n${additionalContext}`
+        : systemPrompt;
+      
+      const formattedMessages = [
+        { role: 'system', content: enhancedSystemPrompt },
+        ...messages
+      ];
+      
+      // Get model preferences
+      const model = preferences.model || 'gpt-4';
+      const temperature = preferences.temperature || 0.7;
+      const maxTokens = preferences.maxTokens || 800;
+      
+      // Call OpenAI API
+      const completion = await this.openai.createChatCompletion({
+        model,
+        messages: formattedMessages,
+        temperature,
+        max_tokens: maxTokens,
       });
-
-      const response = completion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
-
-      // Store in database
-      await this.supabase.from('chat_history').insert({
-        app_name: request.appName,
-        user_id: request.userId,
-        message: request.message,
-        response
-      });
-
-      return { response };
+      
+      // Extract the response
+      const responseMessage = completion.data.choices[0]?.message?.content || 'I apologize, but I was unable to generate a response.';
+      
+      return responseMessage;
     } catch (error) {
-      console.error('Error processing chat:', error);
-      return { 
-        response: 'I apologize, but I encountered an error processing your request.',
-        error: error instanceof Error ? error.message : String(error)
-      };
+      console.error('Error generating AI response:', error);
+      throw error;
     }
   }
 
   /**
-   * Retrieve chat history for a user
+   * Analyze sentiment of a text
    */
-  async getChatHistory(userId: string, appName: ChatRequest['appName'], limit = 50) {
-    const { data, error } = await this.supabase
-      .from('chat_history')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('app_name', appName)
-      .order('created_at', { ascending: false })
-      .limit(limit);
+  async analyzeSentiment(text: string): Promise<'positive' | 'negative' | 'neutral'> {
+    try {
+      const promptText = `Please analyze the sentiment of the following text and respond with only one word: "positive", "negative", or "neutral".
       
-    if (error) throw error;
-    return data;
+Text: "${text}"
+
+Sentiment:`;
+      
+      const completion = await this.openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: promptText,
+        max_tokens: 10,
+        temperature: 0.3,
+      });
+      
+      const response = completion.data.choices[0]?.text?.trim().toLowerCase() || 'neutral';
+      
+      // Ensure we only return valid sentiment values
+      if (response.includes('positive')) return 'positive';
+      if (response.includes('negative')) return 'negative';
+      return 'neutral';
+    } catch (error) {
+      console.error('Error analyzing sentiment:', error);
+      return 'neutral'; // Default to neutral on error
+    }
   }
 
   /**
-   * Format chat history for OpenAI context
+   * Generate a title for a conversation based on its content
    */
-  formatChatHistory(history: Database['public']['Tables']['chat_history']['Row'][]) {
-    return history.map(entry => [
-      { role: 'user' as const, content: entry.message },
-      { role: 'assistant' as const, content: entry.response }
-    ]).flat().reverse();
+  async generateConversationTitle(messages: ChatMessage[]): Promise<string> {
+    try {
+      // Extract user messages to form context
+      const userMessages = messages
+        .filter(m => m.role === 'user')
+        .map(m => m.content)
+        .join('\n');
+      
+      const promptText = `Based on the following conversation fragments, generate a short, concise title (5 words or less):
+      
+${userMessages.substring(0, 1000)}
+
+Title:`;
+      
+      const completion = await this.openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: promptText,
+        max_tokens: 30,
+        temperature: 0.5,
+      });
+      
+      const title = completion.data.choices[0]?.text?.trim() || 'New Conversation';
+      return title;
+    } catch (error) {
+      console.error('Error generating conversation title:', error);
+      return 'New Conversation';
+    }
+  }
+
+  /**
+   * Generate suggestions for potential responses or actions
+   */
+  async generateSuggestions(
+    messages: ChatMessage[],
+    count: number = 3
+  ): Promise<string[]> {
+    try {
+      const promptText = `Based on the following conversation, generate ${count} brief suggestions for how the user might respond or what actions they might take next. Each suggestion should be 1-2 sentences at most.
+      
+${messages.map(m => `${m.role}: ${m.content}`).join('\n')}
+
+Provide exactly ${count} numbered suggestions, one per line:`;
+      
+      const completion = await this.openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: promptText,
+        max_tokens: 200,
+        temperature: 0.7,
+      });
+      
+      const response = completion.data.choices[0]?.text?.trim() || '';
+      
+      // Split by numbered lines and clean up
+      const suggestions = response
+        .split(/\d+\./)
+        .filter(line => line.trim().length > 0)
+        .map(line => line.trim())
+        .slice(0, count);
+      
+      // If we didn't get enough suggestions, pad with empty ones
+      while (suggestions.length < count) {
+        suggestions.push('');
+      }
+      
+      return suggestions;
+    } catch (error) {
+      console.error('Error generating suggestions:', error);
+      return Array(count).fill('');
+    }
+  }
+
+  /**
+   * Moderate content to check for inappropriate material
+   */
+  async moderateContent(content: string): Promise<boolean> {
+    try {
+      const response = await this.openai.createModeration({
+        input: content,
+      });
+      
+      return response.data.results[0]?.flagged || false;
+    } catch (error) {
+      console.error('Error in content moderation:', error);
+      return false; // Default to allowing content if moderation fails
+    }
   }
 } 

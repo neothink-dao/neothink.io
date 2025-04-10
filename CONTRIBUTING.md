@@ -17,7 +17,7 @@ Welcome to the Neothink ecosystem! We're excited to have you join us in building
 
 2. **Install Dependencies**:
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Environment Setup**:
@@ -29,10 +29,13 @@ Welcome to the Neothink ecosystem! We're excited to have you join us in building
 4. **Run a Platform**:
    ```bash
    # Run a specific platform
-   turbo run dev --filter=hub
-   turbo run dev --filter=ascenders
-   turbo run dev --filter=immortals
-   turbo run dev --filter=neothinkers
+   pnpm run dev:hub
+   pnpm run dev:ascenders
+   pnpm run dev:immortals
+   pnpm run dev:neothinkers
+   
+   # Run all platforms
+   pnpm run dev
    ```
 
 ## Project Structure
@@ -45,10 +48,12 @@ Welcome to the Neothink ecosystem! We're excited to have you join us in building
 │   └── neothinkers/       # Community platform
 │
 ├── packages/              # Shared capabilities
-│   ├── database/         # Supabase integration
+│   ├── database-types/   # Supabase schema types
 │   ├── platform-bridge/  # Cross-platform state
 │   ├── ai-integration/   # AI capabilities
 │   └── ui/               # Design system
+│
+├── supabase/             # Database migrations and Edge Functions
 ```
 
 ## Areas for Contribution
@@ -60,21 +65,45 @@ Welcome to the Neothink ecosystem! We're excited to have you join us in building
 - **Neothinkers**: Build community features, collaborative tools
 
 ### 2. AI Integration
-- Implement user-facing chatbots
-- Add administrative summaries
-- Enhance content recommendations
-- Develop semantic search
+- **ChatInterface Enhancements**:
+  - Improve animation transitions in `apps/*/components/Chat.tsx` using Framer Motion
+  - Add typing indicators and response streaming
+  - Enhance conversation context management
+  - Implement platform-specific response styles
+  
+- **Feedback Analysis**:
+  - Improve sentiment analysis accuracy in the `FeedbackDashboard` component
+  - Enhance visualization of sentiment trends
+  - Implement automated categorization of feedback
+  
+- **Edge Functions**:
+  - Enhance `supabase/functions/summarize.ts` logic for better content summarization
+  - Improve vector embedding generation for semantic search
+  - Optimize real-time notification triggers
+  
+- **Admin Tools**:
+  - Enhance analytics dashboards with AI-powered insights
+  - Improve content moderation tools
+  - Develop better visualization for cross-platform user journeys
 
-### 3. Cross-Platform Features
+### 3. UX/UI Contributions
+- Implement responsive designs using Tailwind CSS
+- Create fluid animations with Framer Motion
+- Ensure consistent design language across platforms
+- Optimize for accessibility (WCAG AA compliance)
+- Design mobile-first experiences for all components
+- Implement dark/light theme support
+
+### 4. Cross-Platform Features
 - Improve navigation between platforms
 - Enhance state synchronization
 - Add unified notifications
-- Optimize authentication flows
+- Optimize authentication flows with Supabase Auth
 
 ## Development Workflow
 
 1. **Choose Your Focus**:
-   - Pick a platform (`apps/<name>`) or shared package (`packages/<name>`)
+   - Pick a platform (`apps/<n>`) or shared package (`packages/<n>`)
    - Check existing issues or create a new one
 
 2. **Create a Branch**:
@@ -85,16 +114,16 @@ Welcome to the Neothink ecosystem! We're excited to have you join us in building
 3. **Development**:
    ```bash
    # Run specific platform
-   turbo run dev --filter=<platform-name>
+   pnpm run dev:<platform-name>
    
    # Run all platforms
-   turbo run dev
+   pnpm run dev
    ```
 
 4. **Testing**:
    ```bash
    # Run tests for your changes
-   turbo run test --filter=<platform-name>
+   pnpm run test --filter=<platform-name>
    ```
 
 5. **Submit Changes**:

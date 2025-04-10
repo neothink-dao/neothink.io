@@ -1,18 +1,23 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import { RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 
-export type ChatMessage = {
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
+export interface ChatMessage {
   id: string
-  app_name: string
   user_id: string
-  session_id: string
+  app_name: string
   message: string
   role: 'user' | 'assistant' | 'system'
+  metadata: Record<string, any>
   created_at: string
+  session_id?: string
   conversation_id?: string
   tokens_used: number
-  metadata: Record<string, any>
 }
 
 type SubscriptionOptions = {
@@ -30,7 +35,6 @@ export function useChatSubscription(options: SubscriptionOptions) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
-  const supabase = createClientComponentClient()
   
   useEffect(() => {
     let channel: RealtimeChannel | null = null
@@ -166,4 +170,57 @@ export function useChatSubscription(options: SubscriptionOptions) {
  *   )
  * }
  * ```
- */ 
+ */
+
+export const subscribeToChatUpdates = (
+  userId: string,
+  appName: string = 'hub',
+  onMessage: (message: ChatMessage) => void
+): RealtimeChannel => {
+  // Subscribe to chat_history changes for the specific user and app
+  const channel = supabase
+    .channel('chat_updates')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'chat_history',
+        filter: `user_id=eq.${userId} AND app_name=eq.${appName}`
+      },
+      (payload: RealtimePostgresChangesPayload<ChatMessage>) => {
+        onMessage(payload.new as ChatMessage)
+      }
+    )
+    .subscribe()
+
+  return channel
+}
+
+// Example usage in a React component:
+/*
+import { useEffect } from 'react'
+import { useUser } from '@supabase/auth-helpers-react'
+import { subscribeToChatUpdates, type ChatMessage } from './chat-subscription'
+
+export function ChatComponent() {
+  const user = useUser()
+
+  useEffect(() => {
+    if (!user) return
+
+    const channel = subscribeToChatUpdates(user.id, 'hub', (message) => {
+      console.log('New chat message:', message)
+      // Update your UI state here
+    })
+
+    return () => {
+      channel.unsubscribe()
+    }
+  }, [user])
+
+  return (
+    // Your chat UI
+  )
+}
+*/ 

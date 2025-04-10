@@ -33,27 +33,87 @@ POST /api/auth/register
 POST /api/auth/logout
 ```
 
-### AI Integration (Planned)
+### AI Integration
 
 ```typescript
+// AI Chat Interface
 POST /api/chat
 {
-  prompt: string;
-  app: 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
-  context?: {
-    userId: string;
-    platformData?: any;
-  }
+  message: string;               // The user's message
+  appName: 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
+  conversationId?: string;       // Optional: continue existing conversation
+  metadata?: object;             // Optional: additional context
 }
-// Returns: Streamed GPT-3.5 response
+// Returns: Streamed response with conversation context
+// Authentication: Supabase Auth required
+// Response format:
+{
+  conversationId: string;        // UUID for the conversation
+  response: string;              // AI-generated response
+  messageId: string;             // UUID for this specific message
+}
 
+// Feedback Analysis & Summarization
 POST /api/summarize
 {
-  app_name: string;
-  content?: string;
-  userId?: string;
+  app_name: string;              // Platform name for context
+  timeframe?: string;            // Optional: time period to analyze
+  category?: string;             // Optional: feedback category
 }
-// Returns: { summary: string }
+// Returns: Summary with sentiment analysis
+// Authentication: Admin-only access required
+// Response format:
+{
+  summary: string;               // Text summary of the feedback
+  sentiment: {
+    positive: number;            // Percentage (0-100)
+    neutral: number;             // Percentage (0-100)
+    negative: number;            // Percentage (0-100)
+  },
+  trends: [{
+    category: string;
+    volume: number;
+    sentiment: string;
+  }],
+  recommendations: string[]      // AI-generated action items
+}
+
+// Vector Search
+POST /api/search
+{
+  query: string;                 // Natural language search query
+  collection: string;            // What to search: 'content', 'conversations', etc.
+  app_name?: string;             // Optional: specific platform context
+  limit?: number;                // Optional: max results (default: 5)
+}
+// Returns: Semantically similar content
+// Authentication: Supabase Auth required
+// Response format:
+{
+  results: [{
+    id: string;
+    content: string;
+    similarity: number;          // Score between 0-1
+    metadata: object;
+  }]
+}
+
+// User Preferences
+GET /api/ai/preferences
+// Returns: User's AI preferences
+
+PUT /api/ai/preferences
+{
+  model?: string;                // Preferred AI model
+  systemPrompt?: string;         // Custom system instructions
+  temperature?: number;          // Creativity setting (0-1)
+  features?: {                   // Feature toggles
+    notifications: boolean;
+    suggestions: boolean;
+    analytics: boolean;
+  }
+}
+// Returns: Updated preferences
 ```
 
 ## Platform-Specific APIs
@@ -82,6 +142,16 @@ POST /api/knowledge/articles
   content: string;
   tags: string[];
 }
+
+// Conversations
+GET /api/conversations
+// Returns all user conversations
+
+GET /api/conversations/:id
+// Returns specific conversation with messages
+
+DELETE /api/conversations/:id
+// Deletes a conversation
 ```
 
 ### Ascenders (www.joinascenders.org)
@@ -96,6 +166,15 @@ POST /api/wealth/transactions
   category: string;
   date: string;
 }
+
+// AI Financial Advisor
+POST /api/advisor/analyze
+{
+  financialData: object;
+  goals: string[];
+  timeframe: string;
+}
+// Returns financial analysis and recommendations
 
 // Education
 GET /api/education/courses
@@ -113,6 +192,15 @@ POST /api/health/metrics
   value: number;
   date: string;
 }
+
+// AI Health Analysis
+POST /api/health/analyze
+{
+  metrics: object;
+  goals: string[];
+  protocols: string[];
+}
+// Returns health insights and protocol recommendations
 
 // Protocols
 GET /api/protocols
@@ -136,6 +224,13 @@ POST /api/community/posts
   tags?: string[];
 }
 
+// AI Content Analysis
+POST /api/community/analyze
+{
+  content: string;
+}
+// Returns content analysis, keyword extraction, and topic suggestions
+
 // Events
 GET /api/events
 POST /api/events
@@ -157,6 +252,7 @@ All API endpoints follow a standard error response format:
     code: string;
     message: string;
     details?: any;
+    requestId?: string;     // For tracking in logs
   }
 }
 ```
@@ -167,12 +263,47 @@ Common error codes:
 - `validation/error`: Invalid input data
 - `not_found`: Resource not found
 - `server_error`: Internal server error
+- `rate_limit`: Too many requests
+- `ai/unavailable`: AI service temporarily unavailable
 
 ## Rate Limiting
 
 API endpoints are rate-limited to:
 - 100 requests per minute for authenticated users
 - 20 requests per minute for unauthenticated users
+- 50 AI requests per hour per user (chat, summarize, analyze)
+
+## Streaming Responses
+
+For AI-generated content, we use streaming responses to improve user experience:
+
+```typescript
+// Example client code for handling streamed responses
+const response = await fetch('/api/chat', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  body: JSON.stringify({
+    message: 'Hello AI assistant',
+    appName: 'hub'
+  })
+});
+
+const reader = response.body.getReader();
+const decoder = new TextDecoder();
+let result = '';
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  
+  const chunk = decoder.decode(value);
+  result += chunk;
+  // Update UI with each chunk
+}
+```
 
 ## Versioning
 

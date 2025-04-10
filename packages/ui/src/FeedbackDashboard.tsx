@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { format } from 'date-fns';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from 'database-types';
 
@@ -27,6 +29,42 @@ interface FeedbackDashboardProps {
   showHeader?: boolean;
   showUsers?: boolean;
 }
+
+const SentimentIcon = ({ value }: { value: number }) => {
+  if (value > 0.3) {
+    return (
+      <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    );
+  }
+  if (value < -0.3) {
+    return (
+      <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+};
+
+const StatusBadge = ({ status }: { status: FeedbackItem['sentiment'] }) => {
+  const colors = {
+    positive: 'bg-green-100 text-green-800',
+    negative: 'bg-red-100 text-red-800',
+    neutral: 'bg-gray-100 text-gray-800'
+  };
+
+  return (
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[status as keyof typeof colors]}`}>
+      {status?.charAt(0).toUpperCase() + status?.slice(1)}
+    </span>
+  );
+};
 
 export const FeedbackDashboard: React.FC<FeedbackDashboardProps> = ({
   isAdmin,

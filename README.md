@@ -9,11 +9,31 @@ A monorepo containing four Next.js applications focused on human advancement and
 
 ## Features
 
-- 🧠 AI-powered chatbots for personalized guidance
-- 📊 Real-time feedback and sentiment analysis
-- 🔄 Cross-platform integration
-- 🛡️ Enterprise-grade security
-- 🎨 Beautiful, modern UI/UX
+- 🧠 **AI-powered Experience**:
+  - Platform-specific chatbots providing tailored guidance for Ascenders, Immortals, and Neothinkers
+  - Real-time conversation updates with semantic search for contextual responses
+  - Vector embeddings for improved memory across interactions
+  - Sentiment analysis for personalized feedback
+
+- 📊 **Admin Analytics**:
+  - Real-time feedback dashboard with sentiment visualization
+  - Cross-platform user activity tracking and insights
+  - AI-powered content suggestions based on user engagement
+
+- 🔄 **Real-time Notifications**:
+  - Instant updates across all platforms
+  - Personalized alerts based on user activity and preferences
+  - Event-driven architecture with Supabase Realtime
+
+- 🛡️ **Enterprise-grade Security**:
+  - Row-Level Security (RLS) with Supabase Auth
+  - End-to-end encryption for sensitive data
+  - Comprehensive audit logging
+
+- 🎨 **Integrated UI/UX**:
+  - Responsive Tailwind designs across all platforms
+  - Smooth Framer Motion animations
+  - Consistent branded experience
 
 ## Getting Started
 
@@ -25,18 +45,38 @@ A monorepo containing four Next.js applications focused on human advancement and
 
 2. **Install Dependencies**
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Set Up Environment Variables**
    ```bash
    cp .env.example .env.local
    ```
-   Edit `.env.local` with your Supabase and OpenAI credentials.
+   
+   Required environment variables:
+   ```
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   
+   # OpenAI Configuration
+   OPENAI_API_KEY=your_openai_api_key
+   
+   # App Configuration
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   ```
 
 4. **Run Development Server**
    ```bash
-   npm run dev
+   # Run all applications
+   pnpm run dev
+   
+   # Run a specific application
+   pnpm run dev:hub
+   pnpm run dev:ascenders
+   pnpm run dev:immortals
+   pnpm run dev:neothinkers
    ```
 
 ## Documentation

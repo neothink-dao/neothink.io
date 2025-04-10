@@ -1,245 +1,166 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useChatSubscription } from '@neothink/hub/lib/supabase/chat-subscription';
 
-interface Message {
+interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
+  message: string;
+  role: 'user' | 'assistant' | 'system';
+  created_at: string;
 }
 
 interface ChatInterfaceProps {
   appName: 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
-  apiEndpoint?: string;
-  showTitle?: boolean;
-  maxHeight?: string;
+  userId: string;
+  onSendMessage: (message: string) => Promise<void>;
+  className?: string;
 }
 
-const defaultMessages: Message[] = [
-  {
-    id: 'welcome',
-    role: 'assistant',
-    content: 'Hello! How can I assist you today?',
-    timestamp: new Date(),
+const appThemes = {
+  hub: {
+    primary: 'bg-indigo-600',
+    secondary: 'bg-indigo-100',
+    accent: 'text-indigo-600',
+    gradient: 'from-indigo-500 to-purple-600'
   },
-];
+  ascenders: {
+    primary: 'bg-emerald-600',
+    secondary: 'bg-emerald-100',
+    accent: 'text-emerald-600',
+    gradient: 'from-emerald-500 to-teal-600'
+  },
+  immortals: {
+    primary: 'bg-violet-600',
+    secondary: 'bg-violet-100',
+    accent: 'text-violet-600',
+    gradient: 'from-violet-500 to-purple-600'
+  },
+  neothinkers: {
+    primary: 'bg-blue-600',
+    secondary: 'bg-blue-100',
+    accent: 'text-blue-600',
+    gradient: 'from-blue-500 to-indigo-600'
+  }
+};
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   appName,
-  apiEndpoint = '/api/chat',
-  showTitle = true,
-  maxHeight = '500px',
+  userId,
+  onSendMessage,
+  className = ''
 }) => {
-  const [messages, setMessages] = useState<Message[]>(defaultMessages);
-  const [inputValue, setInputValue] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const supabase = useSupabaseClient();
-  const user = useUser();
+  const theme = appThemes[appName];
 
-  // App-specific styling
-  const getAppTheme = () => {
-    switch (appName) {
-      case 'hub':
-        return {
-          primary: '#4f46e5',
-          gradient: 'from-indigo-600 to-purple-600',
-          bg: 'bg-indigo-50',
-        };
-      case 'ascenders':
-        return {
-          primary: '#16a34a',
-          gradient: 'from-green-600 to-emerald-600',
-          bg: 'bg-green-50',
-        };
-      case 'immortals':
-        return {
-          primary: '#0284c7',
-          gradient: 'from-blue-600 to-cyan-600',
-          bg: 'bg-blue-50',
-        };
-      case 'neothinkers':
-        return {
-          primary: '#dc2626',
-          gradient: 'from-red-600 to-orange-600',
-          bg: 'bg-red-50',
-        };
+  // Use real-time chat subscription
+  const { messages, isLoading, error } = useChatSubscription({
+    userId,
+    onInsert: (message) => {
+      if (message.role === 'assistant') {
+        setIsTyping(false);
+      }
     }
+  });
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const theme = getAppTheme();
-
-  // Scroll to bottom of messages
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollToBottom();
   }, [messages]);
-
-  // Fetch chat history on component mount
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      if (!user) return;
-      
-      try {
-        const { data, error } = await supabase
-          .from('chat_history')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('app_name', appName)
-          .order('created_at', { ascending: false })
-          .limit(10);
-          
-        if (error) throw error;
-        
-        if (data && data.length > 0) {
-          // Convert database records to messages format
-          const historyMessages: Message[] = [];
-          
-          data.reverse().forEach((item) => {
-            historyMessages.push({
-              id: `${item.id}-user`,
-              role: 'user',
-              content: item.message,
-              timestamp: new Date(item.created_at),
-            });
-            
-            historyMessages.push({
-              id: `${item.id}-assistant`,
-              role: 'assistant',
-              content: item.response,
-              timestamp: new Date(item.created_at),
-            });
-          });
-          
-          setMessages(historyMessages);
-        }
-      } catch (error) {
-        console.error('Error fetching chat history:', error);
-      }
-    };
-    
-    fetchChatHistory();
-  }, [appName, supabase, user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!inputValue.trim() || isSubmitting || !user) return;
-    
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: inputValue,
-      timestamp: new Date(),
-    };
-    
-    setMessages((prev) => [...prev, userMessage]);
-    setInputValue('');
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: userMessage.content,
-          appName,
-        }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response');
-      }
-      
-      const botMessage: Message = {
-        id: `${Date.now()}-assistant`,
-        role: 'assistant',
-        content: data.response,
-        timestamp: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      
-      const errorMessage: Message = {
-        id: `${Date.now()}-error`,
-        role: 'assistant',
-        content: 'Sorry, I encountered an error processing your request. Please try again later.',
-        timestamp: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsSubmitting(false);
-    }
+    if (!inputMessage.trim()) return;
+
+    setIsTyping(true);
+    setInputMessage('');
+    await onSendMessage(inputMessage.trim());
+  };
+
+  const messageVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="rounded-lg shadow-md overflow-hidden border border-gray-200">
-      {showTitle && (
-        <div className={`bg-gradient-${theme.gradient} p-4`}>
-          <h3 className="text-lg font-semibold text-white">
-            {appName.charAt(0).toUpperCase() + appName.slice(1)} Assistant
-          </h3>
-        </div>
-      )}
-      
-      <div 
-        className={`${theme.bg} p-4 overflow-y-auto`}
-        style={{ maxHeight }}
-      >
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`mb-4 ${
-              message.role === 'user' ? 'text-right' : 'text-left'
-            }`}
-          >
-            <div
-              className={`inline-block rounded-lg p-3 max-w-[80%] ${
-                message.role === 'user'
-                  ? `bg-${theme.primary} text-white`
-                  : 'bg-white'
-              }`}
+    <div className={`flex flex-col h-full rounded-lg overflow-hidden shadow-xl ${className}`}>
+      {/* Header */}
+      <div className={`${theme.primary} px-4 py-3 text-white`}>
+        <h3 className="text-lg font-semibold">Neothink AI Assistant</h3>
+        <p className="text-sm opacity-80">Ask me anything about {appName.charAt(0).toUpperCase() + appName.slice(1)}</p>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+        <AnimatePresence>
+          {messages.map((message) => (
+            <motion.div
+              key={message.id}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={messageVariants}
+              transition={{ duration: 0.3 }}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              {message.content}
+              <div
+                className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                  message.role === 'user'
+                    ? `${theme.primary} text-white`
+                    : `${theme.secondary} ${theme.accent}`
+                }`}
+              >
+                <p className="text-sm">{message.message}</p>
+                <span className="text-xs opacity-70 mt-1 block">
+                  {new Date(message.created_at).toLocaleTimeString()}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        
+        {isTyping && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex justify-start"
+          >
+            <div className={`${theme.secondary} rounded-lg px-4 py-2`}>
+              <div className="flex space-x-2">
+                <div className="w-2 h-2 rounded-full bg-gray-600 animate-bounce" />
+                <div className="w-2 h-2 rounded-full bg-gray-600 animate-bounce delay-100" />
+                <div className="w-2 h-2 rounded-full bg-gray-600 animate-bounce delay-200" />
+              </div>
             </div>
-          </div>
-        ))}
+          </motion.div>
+        )}
         <div ref={messagesEndRef} />
       </div>
-      
-      <form onSubmit={handleSubmit} className="bg-white p-3 border-t border-gray-200">
-        <div className="flex items-center">
+
+      {/* Input */}
+      <form onSubmit={handleSubmit} className="p-4 bg-white border-t">
+        <div className="flex space-x-2">
           <input
             type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={isSubmitting || !user}
+            className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-opacity-50"
+            style={{ '--tw-ring-color': `var(--${appName}-primary)` } as any}
           />
           <button
             type="submit"
-            className={`bg-${theme.primary} text-white p-2 rounded-r-md disabled:opacity-50`}
-            disabled={isSubmitting || !inputValue.trim() || !user}
+            disabled={!inputMessage.trim() || isTyping}
+            className={`${theme.primary} text-white px-6 py-2 rounded-lg font-medium 
+              hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed`}
           >
-            {isSubmitting ? (
-              <span className="inline-block animate-spin">↻</span>
-            ) : (
-              'Send'
-            )}
+            Send
           </button>
         </div>
-        {!user && (
-          <p className="text-xs text-red-500 mt-1">
-            Please log in to use the chat feature.
-          </p>
-        )}
       </form>
     </div>
   );
