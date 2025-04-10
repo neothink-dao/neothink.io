@@ -1,98 +1,88 @@
-# Neothink Documentation Index
+# Neothink Platform Documentation
 
-This document serves as the central index for all documentation in the Neothink platform ecosystem.
+Welcome to the Neothink Platform documentation. This comprehensive guide covers all aspects of our unified platform serving Hub, Immortals, Ascenders, and Neothinkers applications.
 
-## Getting Started
+## 🚀 Quick Start
+- [First Steps](getting-started/index.md) - Get up and running in 5 minutes
+- [Development Setup](getting-started/development.md) - Set up your local development environment
+- [Environment Configuration](getting-started/environment.md) - Configure your environment variables
 
-- [Getting Started Guide](./GETTING-STARTED.md) - Quick start guide for new developers
-- [Environment Setup](./ENV-TEMPLATE.md) - Setting up your development environment
-- [Monorepo Structure](./development/MONOREPO-GUIDE.md) - Understanding the repository structure
+## 👥 User Guides
+- [Hub Platform Guide](platforms/hub/README.md) - Neo-Tech knowledge hub
+- [Immortals Platform Guide](platforms/immortals/README.md) - Immortal society platform
+- [Ascenders Platform Guide](platforms/ascenders/README.md) - Neo-Tech business platform
+- [Neothinkers Platform Guide](platforms/neothinkers/README.md) - Neo-Think learning platform
 
-## Architecture & Design
+## 🛠 Administrator Guides
+- [Platform Administration](admin/README.md) - Complete admin guide
+- [Security Management](admin/security.md) - Security features and best practices
+- [User Management](admin/user-management.md) - Managing users and permissions
+- [Content Management](admin/content-management.md) - Managing platform content
+- [Analytics & Reporting](admin/analytics.md) - Understanding platform metrics
 
-- [Technical Implementation](./TECHNICAL-IMPLEMENTATION.md) - Overview of technical implementation
-- [Sacred Geometry Design System](./sacred-geometry-design-system.md) - Design system documentation
-- [Component Library](./component-library.md) - Shared UI component documentation
-- [Unified Platform Architecture](./UNIFIED-PLATFORM.md) - Cross-platform architecture
-- [Why Modern Stack](./WHY-MODERN-STACK.md) - Technology choices explained
+## 🏗 Architecture
+- [System Overview](architecture/README.md) - High-level architecture
+- [Database Schema](architecture/database.md) - Database structure and relationships
+- [Authentication System](architecture/auth.md) - Auth implementation details
+- [UI Components](architecture/ui.md) - UI architecture and components
+- [API Documentation](architecture/api.md) - API endpoints and usage
 
-## Database & Data Management
+## 🔒 Security
+- [Security Overview](security/README.md) - Security architecture
+- [Authentication Flows](security/auth-flows.md) - User authentication processes
+- [Authorization & RBAC](security/rbac.md) - Role-based access control
+- [Data Protection](security/data-protection.md) - Data security measures
+- [Compliance](security/compliance.md) - Security compliance standards
 
-- [Database Schema](./database-schema.md) - Database schema documentation
-- [Database Functions](./database/DATABASE_FUNCTIONS.md) - Comprehensive database functions reference
-- [Role-Based Access Control](./RBAC-SYSTEM.md) - RBAC system overview
-- [RBAC Implementation](./RBAC-IMPLEMENTATION.md) - Detailed RBAC implementation
-- [Roles Schema](./database/ROLES_SCHEMA.md) - Database schema for roles system
-- [Role Utility Functions](./database/ROLE_UTILS.md) - Role utility functions reference
+## 💻 Development
+- [Contributing Guide](contributing/README.md) - How to contribute
+- [Code Standards](contributing/code-standards.md) - Coding guidelines
+- [Testing Guide](contributing/testing.md) - Testing practices
+- [CI/CD Pipeline](contributing/ci-cd.md) - Deployment workflow
+- [Monorepo Structure](contributing/monorepo.md) - Understanding the monorepo
 
-## Authentication & Security
+## 🔄 Integration
+- [Supabase Integration](integration/supabase.md) - Database and auth
+- [Vercel Deployment](integration/vercel.md) - Deployment configuration
+- [AI Tools](integration/ai-tools.md) - AI feature integration
+- [External Services](integration/external-services.md) - Third-party integrations
 
-- [Authentication Implementation Summary](./auth-implementation-summary.md) - Current state of auth implementation
-- [Authentication Flows](./auth-flow-documentation.md) - Detailed authentication flows
-- [User Authentication Flows](./user-authentication-flows.md) - User-facing auth journey
-- [Cross-Platform Navigation](./cross-platform-navigation.md) - Platform switching mechanics
-- [Security](./security.md) - Security implementation and best practices
+## 🎨 Design System
+- [Sacred Geometry System](design/sacred-geometry.md) - Design principles
+- [Component Library](design/components.md) - UI component documentation
+- [Styling Guide](design/styling.md) - CSS and styling guidelines
+- [Responsive Design](design/responsive.md) - Mobile-first approach
 
-## API & Integration
+## 📱 Features
+- [Cross-Platform Navigation](features/navigation.md) - Navigation system
+- [Content Management](features/content.md) - Content features
+- [User Profiles](features/profiles.md) - Profile management
+- [Analytics](features/analytics.md) - Analytics features
+- [Search](features/search.md) - Search functionality
 
-- [API Documentation](./api-documentation.md) - API endpoints and usage
-- [GraphQL Schema](./api/GRAPHQL.md) - GraphQL API documentation
-- [Webhooks](./api/WEBHOOKS.md) - Webhook integration documentation
-- [External Services](./api/EXTERNAL-SERVICES.md) - Integration with external services
+## 🔧 Troubleshooting
+- [Common Issues](troubleshooting/common-issues.md) - Frequent problems
+- [Debug Guide](troubleshooting/debugging.md) - Debugging tools
+- [Error Codes](troubleshooting/error-codes.md) - Error reference
+- [Support](troubleshooting/support.md) - Getting help
 
-## Development & Deployment
+## 📈 Performance
+- [Optimization Guide](performance/optimization.md) - Performance tips
+- [Monitoring](performance/monitoring.md) - System monitoring
+- [Scaling](performance/scaling.md) - Scaling guidelines
 
-- [Route Structure](./development/ROUTE-STRUCTURE.md) - Routing conventions across platforms
-- [Authentication Status](./development/AUTHENTICATION-STATUS.md) - Status of authentication system
-- [Deployment Guide](./development/DEPLOYMENT-GUIDE.md) - Deployment procedures and environments
-- [Refactoring Summary](./REFACTORING-SUMMARY.md) - Summary of refactoring efforts
+## 📚 References
+- [API Reference](reference/api.md) - Complete API documentation
+- [Database Reference](reference/database.md) - Database documentation
+- [Configuration Reference](reference/configuration.md) - Config options
+- [CLI Tools](reference/cli.md) - Command line tools
 
-## Project Management
+## 🔄 Updates
+- [Changelog](updates/changelog.md) - Version history
+- [Migration Guide](updates/migration.md) - Upgrading guide
+- [Roadmap](updates/roadmap.md) - Future plans
 
-- [Implementation Plan](./implementation-plan.md) - Detailed implementation plan
-- [Master Plan](./MASTER-PLAN.md) - High-level project roadmap
-- [Next Steps for Completion](./next-steps-for-completion.md) - Remaining work to achieve 100% completion
-- [Improvements](./IMPROVEMENTS.md) - Planned improvements and optimizations
-
-## Platform-Specific Documentation
-
-### Hub (go.neothink.io)
-
-- [Hub Overview](./platforms/hub/overview.md) - Central platform documentation
-- [Hub Dashboard](./platforms/hub/dashboard.md) - Dashboard features and functionality
-- [Platform Switching](./platforms/hub/platform-switching.md) - Platform navigation features
-
-### Ascenders (joinascenders.com)
-
-- [Ascenders Overview](./platforms/ascenders/overview.md) - Platform overview
-- [Business Goal Tracking](./platforms/ascenders/goal-tracking.md) - Business goal features
-- [Metrics Dashboard](./platforms/ascenders/metrics-dashboard.md) - Business metrics visualization
-
-### Neothinkers (joinneothinkers.com)
-
-- [Neothinkers Overview](./platforms/neothinkers/overview.md) - Platform overview
-- [Thought Exercises](./platforms/neothinkers/exercises.md) - Thought exercise system
-- [Progress Tracking](./platforms/neothinkers/progress.md) - Progress tracking features
-
-### Immortals (joinimmortals.com)
-
-- [Immortals Overview](./platforms/immortals/overview.md) - Platform overview
-- [Health Metrics](./platforms/immortals/health-metrics.md) - Health tracking features
-- [Legacy Creation](./platforms/immortals/legacy.md) - Legacy creation tools
-- [Data Integration](./platforms/immortals/data-integration.md) - External health data integration
-
-## Contributing
-
-- [Contributing Guide](../CONTRIBUTING.md) - How to contribute to the project
-- [Code Standards](./development/CODE-STANDARDS.md) - Coding standards and guidelines
-- [Pull Request Process](./development/PR-PROCESS.md) - Process for submitting changes
-
-## Troubleshooting
-
-- [Common Issues](./troubleshooting/COMMON-ISSUES.md) - Solutions to common problems
-- [Debugging Guide](./troubleshooting/DEBUGGING.md) - Debugging techniques
-- [FAQ](./troubleshooting/FAQ.md) - Frequently asked questions
-
----
-
-This documentation is regularly updated to reflect the current state of the Neothink platform ecosystem. If you find any discrepancies or have suggestions for improvements, please submit a pull request or create an issue. 
+## 🤝 Community
+- [Contributing](community/contributing.md) - How to contribute
+- [Code of Conduct](community/code-of-conduct.md) - Community guidelines
+- [Support](community/support.md) - Getting help 
