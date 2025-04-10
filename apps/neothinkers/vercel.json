@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd apps/neothinkers && next build",
+  "outputDirectory": "apps/neothinkers/.next",
+  "installCommand": "pnpm install"
+} 

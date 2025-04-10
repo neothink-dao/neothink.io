@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd apps/immortals && next build",
+  "outputDirectory": "apps/immortals/.next",
+  "installCommand": "pnpm install"
+} 

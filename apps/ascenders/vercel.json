@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd apps/ascenders && next build",
+  "outputDirectory": "apps/ascenders/.next",
+  "installCommand": "pnpm install"
+} 

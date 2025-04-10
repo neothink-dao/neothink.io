@@ -1,5 +1,6 @@
 {
   "framework": "nextjs",
-  "rootDirectory": "apps/hub",
-  "outputDirectory": ".next"
+  "buildCommand": "cd apps/hub && next build",
+  "outputDirectory": "apps/hub/.next",
+  "installCommand": "pnpm install"
 } 
