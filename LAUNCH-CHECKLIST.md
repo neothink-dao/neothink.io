@@ -2,7 +2,23 @@
 
 Use this checklist to ensure all platforms are ready for production users.
 
-## Pre-Launch Technical Verification
+## 1. Run Automated Pre-Launch Verification
+
+```bash
+# Run the automated verification script
+pnpm launch-check
+```
+
+This will check:
+- Vercel configuration for all apps
+- Environment variables
+- Supabase connection
+- Git status
+- Dependencies
+- Build verification
+- Database migrations
+
+## 2. Pre-Launch Technical Verification (Manual)
 
 ### Repository Setup
 
@@ -18,6 +34,7 @@ Use this checklist to ensure all platforms are ready for production users.
 - [ ] Proper indexes are in place for performance
 - [ ] Row-level security policies are configured
 - [ ] Backups are enabled
+- [ ] Health monitoring tables are set up
 - [ ] Database schema is documented
 
 ### CI/CD
@@ -42,7 +59,7 @@ Use this checklist to ensure all platforms are ready for production users.
 - [ ] API rate limiting is configured
 - [ ] Content Security Policy is set up
 
-## Pre-Launch Content and UX
+## 3. Pre-Launch Content and UX
 
 - [ ] All pages have meta tags and proper SEO
 - [ ] Favicon and app icons are set
@@ -53,7 +70,15 @@ Use this checklist to ensure all platforms are ready for production users.
 - [ ] Contact information is up to date
 - [ ] Privacy policy and terms of service are published
 
-## User Testing
+## 4. Cross-Platform Verification
+
+- [ ] Platform switching works correctly
+- [ ] Authentication persists across platforms
+- [ ] User preferences are consistent across platforms
+- [ ] Platform status indicators are working
+- [ ] Real-time notifications sync across platforms
+
+## 5. User Testing
 
 - [ ] All user flows have been tested
 - [ ] Mobile responsiveness is verified
@@ -61,38 +86,42 @@ Use this checklist to ensure all platforms are ready for production users.
 - [ ] Authentication and authorization work as expected
 - [ ] Core features are functional
 
-## Launch Process
+## 6. Monitoring Setup
 
-1. Run final checks:
-   ```bash
-   node scripts/launch-check.js
-   ```
+- [ ] Health checks are configured for all platforms
+- [ ] Platform status system is working
+- [ ] Error tracking is set up
+- [ ] Analytics are configured
+- [ ] User feedback mechanism is in place
 
-2. Commit final changes:
+## 7. Launch Process
+
+1. Commit final changes:
    ```bash
    git add .
    git commit -m "Launch preparation"
    git push
    ```
 
-3. Verify deployments in Vercel dashboard:
+2. Verify deployments in Vercel dashboard:
    - Hub: https://vercel.com/neothink-dao/hub
    - Ascenders: https://vercel.com/neothink-dao/ascenders
    - Neothinkers: https://vercel.com/neothink-dao/neothinkers
    - Immortals: https://vercel.com/neothink-dao/immortals
 
-4. Test production deployments:
+3. Test production deployments:
    - Hub: https://go.neothink.io
    - Ascenders: https://joinascenders.org
    - Neothinkers: https://joinneothinkers.org
    - Immortals: https://joinimmortals.org
 
-5. Monitor analytics and logs for any issues
+4. Monitor analytics and logs for any issues
 
-## Post-Launch
+## 8. Post-Launch
 
 - [ ] Set up monitoring alerts
 - [ ] Configure uptime monitoring
 - [ ] Establish error tracking
 - [ ] Create system status page
+- [ ] Collect initial user feedback
 - [ ] Plan first iteration of improvements based on user feedback 

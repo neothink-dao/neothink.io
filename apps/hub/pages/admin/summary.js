@@ -1,8 +1,51 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { FeedbackDashboard } from 'packages/ui/src/FeedbackDashboard';
 import { useFeedbackSubscription } from '../../lib/supabase/feedback-subscription';
 import { format } from 'date-fns';
+import dynamic from 'next/dynamic';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
+import { RefreshCw } from 'lucide-react';
+
+// Import chart components with dynamic loading for better performance
+const DynamicBarChart = dynamic(
+  () => import('recharts').then((mod) => mod.BarChart),
+  { ssr: false, loading: () => <div className="h-64 animate-pulse bg-gray-100 rounded-lg" /> }
+);
+
+const DynamicBar = dynamic(() => import('recharts').then((mod) => mod.Bar), { ssr: false });
+const DynamicXAxis = dynamic(() => import('recharts').then((mod) => mod.XAxis), { ssr: false });
+const DynamicYAxis = dynamic(() => import('recharts').then((mod) => mod.YAxis), { ssr: false });
+const DynamicCartesianGrid = dynamic(() => import('recharts').then((mod) => mod.CartesianGrid), { ssr: false });
+const DynamicTooltip = dynamic(() => import('recharts').then((mod) => mod.Tooltip), { ssr: false });
+const DynamicLegend = dynamic(() => import('recharts').then((mod) => mod.Legend), { ssr: false });
+const DynamicResponsiveContainer = dynamic(() => import('recharts').then((mod) => mod.ResponsiveContainer), { ssr: false });
 
 // Icons for dashboard
 const RefreshIcon = () => (
@@ -49,27 +92,33 @@ export default function AdminSummaryPage() {
   const [summary, setSummary] = useState(null);
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [error, setError] = useState(null);
+  const [feedbackTrends, setFeedbackTrends] = useState([]);
+  const [isLoadingTrends, setIsLoadingTrends] = useState(false);
   const supabase = useSupabaseClient();
   const user = useUser();
+  const { toast } = useToast();
 
-  // Check if user is admin
-  const [isAdmin, setIsAdmin] = useState(false);
+  // Check if user is admin or family_admin
+  const [userRole, setUserRole] = useState(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  
   useEffect(() => {
     if (user) {
       // Get user metadata to check role
       supabase.auth.getUser().then(({ data }) => {
         if (data.user) {
-          const userRole = data.user.app_metadata?.role || 
-                          data.user.user_metadata?.role || 
-                          'user';
-          setIsAdmin(userRole === 'admin');
+          const role = data.user.app_metadata?.role || 
+                      data.user.user_metadata?.role || 
+                      'user';
+          setUserRole(role);
+          setIsAuthorized(['admin', 'family_admin'].includes(role));
         }
       });
     }
   }, [user, supabase]);
 
   // Use real-time subscription for feedback
-  const { feedbackItems, isLoading, updateFeedbackStatus } = useFeedbackSubscription({
+  const { feedbackItems, isLoading: isLoadingFeedback, updateFeedbackStatus } = useFeedbackSubscription({
     appName: appFilter !== 'all' ? appFilter : undefined,
     status: statusFilter !== 'all' ? statusFilter : undefined,
     onStatusChange: (feedback) => {
@@ -77,8 +126,9 @@ export default function AdminSummaryPage() {
       console.log(`Feedback ${feedback.id} status changed to ${feedback.status}`);
     },
     onNewFeedback: () => {
-      // Refresh summary on new feedback
+      // Refresh summary and trends on new feedback
       fetchSummary();
+      fetchFeedbackTrends();
     }
   });
 
@@ -111,13 +161,62 @@ export default function AdminSummaryPage() {
       setIsLoadingSummary(false);
     }
   };
-
-  // Fetch summary on initial load and when filters change
-  useEffect(() => {
-    if (isAdmin) {
-      fetchSummary();
+  
+  // Fetch feedback trends from the feedback_trends view
+  const fetchFeedbackTrends = async () => {
+    if (!isAuthorized) return;
+    
+    setIsLoadingTrends(true);
+    try {
+      let query = supabase
+        .from('feedback_trends')
+        .select('*')
+        .order('feedback_date', { ascending: false });
+      
+      // Apply app filter if not 'all'
+      if (appFilter !== 'all') {
+        query = query.eq('app_name', appFilter);
+      }
+      
+      // Apply date range based on period
+      const now = new Date();
+      let dateLimit;
+      
+      switch (period) {
+        case 'day':
+          dateLimit = new Date(now.setDate(now.getDate() - 1)).toISOString();
+          break;
+        case 'week':
+          dateLimit = new Date(now.setDate(now.getDate() - 7)).toISOString();
+          break;
+        case 'month':
+          dateLimit = new Date(now.setMonth(now.getMonth() - 1)).toISOString();
+          break;
+        default:
+          dateLimit = new Date(now.setDate(now.getDate() - 7)).toISOString();
+      }
+      
+      query = query.gte('feedback_date', dateLimit);
+      
+      const { data, error } = await query;
+      
+      if (error) throw error;
+      setFeedbackTrends(data || []);
+    } catch (err) {
+      console.error('Error fetching feedback trends:', err);
+      setError(err.message || 'Failed to fetch feedback trends');
+    } finally {
+      setIsLoadingTrends(false);
     }
-  }, [isAdmin, appFilter, period]);
+  };
+
+  // Fetch summary and trends on initial load and when filters change
+  useEffect(() => {
+    if (isAuthorized) {
+      fetchSummary();
+      fetchFeedbackTrends();
+    }
+  }, [isAuthorized, appFilter, period]);
 
   // Change feedback status
   const handleStatusChange = async (id, newStatus) => {
@@ -147,7 +246,7 @@ export default function AdminSummaryPage() {
     );
   }
 
-  if (!isAdmin) {
+  if (!isAuthorized) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
@@ -156,6 +255,7 @@ export default function AdminSummaryPage() {
           </h1>
           <p className="text-gray-600 mb-4 text-center">
             You do not have permission to access the admin dashboard.
+            Only admin and family_admin roles can view this page.
           </p>
           <div className="flex justify-center">
             <a 
@@ -170,99 +270,190 @@ export default function AdminSummaryPage() {
     );
   }
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
-        <p className="text-gray-600">
-          Review feedback and AI interaction analytics across all Neothink platforms
-        </p>
-      </header>
+  // Display limited view for family_admin role if applicable
+  const isFamilyAdmin = userRole === 'family_admin';
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-6 p-4 bg-white rounded-lg shadow">
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">Platform</label>
-          <select 
-            value={appFilter} 
-            onChange={(e) => setAppFilter(e.target.value)}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-            <option value="all">All Platforms</option>
-            <option value="hub">Hub</option>
-            <option value="ascenders">Ascenders</option>
-            <option value="immortals">Immortals</option>
-            <option value="neothinkers">Neothinkers</option>
-          </select>
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">Sentiment</label>
-          <select 
-            value={sentimentFilter} 
-            onChange={(e) => setSentimentFilter(e.target.value)}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-            <option value="all">All Sentiments</option>
-            <option value="positive">Positive</option>
-            <option value="negative">Negative</option>
-            <option value="neutral">Neutral</option>
-            <option value="undefined">Undefined</option>
-          </select>
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">Status</label>
-          <select 
-            value={statusFilter} 
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="processing">Processing</option>
-            <option value="processed">Processed</option>
-            <option value="archived">Archived</option>
-          </select>
-        </div>
-        
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">Time Period</label>
-          <select 
-            value={period} 
-            onChange={(e) => setPeriod(e.target.value)}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-            <option value="day">Last 24 Hours</option>
-            <option value="week">Last 7 Days</option>
-            <option value="month">Last 30 Days</option>
-          </select>
-        </div>
-        
-        <div className="flex flex-col ml-auto">
-          <label className="text-sm font-medium text-gray-700 mb-1 opacity-0">Refresh</label>
-          <button 
-            onClick={fetchSummary}
-            disabled={isLoadingSummary}
-            className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
-          >
-            {isLoadingSummary ? (
-              <>
-                <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Loading...
-              </>
-            ) : (
-              <>
-                <RefreshIcon />
-                <span className="ml-2">Refresh</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
+  const [trends, setTrends] = useState([]);
+  const [selectedApp, setSelectedApp] = useState('all');
+  const [selectedRole, setSelectedRole] = useState('all');
+
+  // Check if user has admin access
+  const checkAdminAccess = async () => {
+    if (!user) return false;
+
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      console.error('Error checking admin access:', error);
+      return false;
+    }
+
+    return ['admin', 'family_admin'].includes(profile?.role);
+  };
+
+  // Load feedback trends
+  const loadTrends = async () => {
+    setIsLoadingTrends(true);
+    try {
+      const { data, error } = await supabase
+        .from('feedback_trends')
+        .select('*')
+        .order('feedback_date', { ascending: false });
+
+      if (error) throw error;
+
+      setTrends(data || []);
+      toast({
+        title: 'Dashboard updated',
+        description: 'Latest feedback trends loaded successfully.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error loading trends',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoadingTrends(false);
+    }
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      const isAdmin = await checkAdminAccess();
+      if (!isAdmin) {
+        toast({
+          title: 'Access denied',
+          description: 'You need admin privileges to view this dashboard.',
+          variant: 'destructive',
+        });
+        return;
+      }
+      loadTrends();
+    };
+
+    init();
+  }, [user]);
+
+  // Filter trends based on selected options
+  const filteredTrends = trends.filter(trend => {
+    const appMatch = selectedApp === 'all' || trend.app_name === selectedApp;
+    const roleMatch = selectedRole === 'all' || trend.user_role === selectedRole;
+    return appMatch && roleMatch;
+  });
+
+  // Calculate statistics
+  const stats = {
+    total: filteredTrends.reduce((sum, t) => sum + t.feedback_count, 0),
+    apps: [...new Set(trends.map(t => t.app_name))],
+    roles: [...new Set(trends.map(t => t.user_role))],
+  };
+
+  // Calculate engagement score (0-100)
+  const getEngagementScore = (count) => {
+    const max = Math.max(...filteredTrends.map(t => t.feedback_count));
+    return max === 0 ? 0 : Math.round((count / max) * 100);
+  };
+
+  return (
+    <div className="container mx-auto p-6 space-y-6">
+      <Card className="bg-gradient-to-r from-blue-500/5 to-indigo-600/5">
+        <CardHeader>
+          <CardTitle className="text-2xl">Feedback Dashboard</CardTitle>
+          <CardDescription>
+            Track user engagement and feedback trends across applications
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-4 mb-6">
+            <Select value={selectedApp} onValueChange={setSelectedApp}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select app" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Apps</SelectItem>
+                {stats.apps.map(app => (
+                  <SelectItem key={app} value={app}>
+                    {app.charAt(0).toUpperCase() + app.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={selectedRole} onValueChange={setSelectedRole}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Roles</SelectItem>
+                {stats.roles.map(role => (
+                  <SelectItem key={role} value={role}>
+                    {role.charAt(0).toUpperCase() + role.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Button
+              onClick={loadTrends}
+              disabled={isLoadingTrends}
+              className="ml-auto"
+              variant="outline"
+            >
+              <RefreshCw
+                className={`h-4 w-4 mr-2 ${isLoadingTrends ? 'animate-spin' : ''}`}
+              />
+              Refresh
+            </Button>
+          </div>
+
+          <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>App</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Feedback Count</TableHead>
+                  <TableHead>Engagement</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTrends.map((trend) => (
+                  <TableRow
+                    key={`${trend.app_name}-${trend.user_role}-${trend.feedback_date}`}
+                    className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <TableCell>
+                      {new Date(trend.feedback_date).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {trend.app_name}
+                    </TableCell>
+                    <TableCell>{trend.user_role}</TableCell>
+                    <TableCell>{trend.feedback_count}</TableCell>
+                    <TableCell className="w-[200px]">
+                      <div className="flex items-center gap-2">
+                        <Progress
+                          value={getEngagementScore(trend.feedback_count)}
+                          className="h-2"
+                        />
+                        <span className="text-sm text-gray-500">
+                          {getEngagementScore(trend.feedback_count)}%
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Analytics Summary */}
       {summary && (
@@ -421,7 +612,7 @@ export default function AdminSummaryPage() {
         <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
             Feedback List
-            {isLoading && <span className="ml-2 inline-block animate-pulse">Loading...</span>}
+            {isLoadingFeedback && <span className="ml-2 inline-block animate-pulse">Loading...</span>}
           </h3>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">
             {filteredFeedback.length} items matching your filters

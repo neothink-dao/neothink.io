@@ -7,9 +7,35 @@
   "git": {
     "deploymentEnabled": {
       "main": true,
-      "development": true
+      "development": true,
+      "preview": true
     }
   },
   "ignoreCommand": "git diff HEAD^ HEAD --quiet ./ ../../packages/",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/health-check",
+      "schedule": "*/15 * * * *"
+    }
+  ],
   "version": 2
 } 

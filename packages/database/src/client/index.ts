@@ -79,35 +79,54 @@ const safeStorage = {
   }
 };
 
-let supabaseClient: ReturnType<typeof createClient<Database>> | null = null;
+// Cache for clients to avoid creating multiple instances
+const clientCache: Record<string, ReturnType<typeof createClient<Database>>> = {};
 
+/**
+ * Gets a cached Supabase client or creates a new one
+ * @returns A Supabase client instance
+ */
 export function getSupabaseClient() {
-  if (supabaseClient) return supabaseClient;
+  const cacheKey = 'default-client';
   
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (clientCache[cacheKey]) {
+    return clientCache[cacheKey];
+  }
   
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error('Missing Supabase environment variables');
   }
   
-  supabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
-  return supabaseClient;
+  clientCache[cacheKey] = createClient<Database>(supabaseUrl, supabaseAnonKey);
+  return clientCache[cacheKey];
 }
 
+/**
+ * Creates a Supabase client with service role key for admin operations
+ * @param serviceRoleKey Optional service role key (uses env var if not provided)
+ * @returns A Supabase client with admin privileges
+ */
 export function getServiceClient(serviceRoleKey?: string) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const cacheKey = `service-client-${serviceRoleKey || 'default'}`;
+  
+  if (clientCache[cacheKey]) {
+    return clientCache[cacheKey];
+  }
+  
   const serviceKey = serviceRoleKey || process.env.SUPABASE_SERVICE_ROLE_KEY;
   
   if (!supabaseUrl || !serviceKey) {
     throw new Error('Missing Supabase service role credentials');
   }
   
-  return createClient<Database>(supabaseUrl, serviceKey, {
+  clientCache[cacheKey] = createClient<Database>(supabaseUrl, serviceKey, {
     auth: {
       persistSession: false,
+      autoRefreshToken: false,
     },
   });
+  
+  return clientCache[cacheKey];
 }
 
 /**
@@ -117,21 +136,23 @@ export function getServiceClient(serviceRoleKey?: string) {
  * @returns A configured Supabase client
  */
 export function createPlatformClient(platformSlug: PlatformSlug = 'hub', customOptions = {}) {
+  const cacheKey = `platform-client-${platformSlug}-${JSON.stringify(customOptions)}`;
+  
+  if (clientCache[cacheKey]) {
+    return clientCache[cacheKey];
+  }
+  
   // Get platform-specific settings or fallback to hub
   const platformConfig = platformSettings[platformSlug] || platformSettings.hub;
 
-  return createClient<Database>(supabaseUrl || '', supabaseAnonKey || '', {
+  clientCache[cacheKey] = createClient<Database>(supabaseUrl || '', supabaseAnonKey || '', {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: true,
       flowType: "pkce",
       storageKey: platformConfig.storageKey,
-      storage: {
-        getItem: (key) => safeStorage.getItem(key),
-        setItem: (key, value) => safeStorage.setItem(key, value),
-        removeItem: (key) => safeStorage.removeItem(key),
-      },
+      storage: safeStorage,
     },
     global: {
       headers: platformConfig.headers,
@@ -143,25 +164,38 @@ export function createPlatformClient(platformSlug: PlatformSlug = 'hub', customO
     },
     ...customOptions
   });
+  
+  return clientCache[cacheKey];
 }
 
 // Create a default client for the hub platform
 export const supabase = createPlatformClient('hub');
 
-// Create admin client for server-side operations
+/**
+ * Creates an admin client for server-side operations
+ * @returns A Supabase client with admin privileges
+ */
 export function createAdminClient() {
+  const cacheKey = 'admin-client';
+  
+  if (clientCache[cacheKey]) {
+    return clientCache[cacheKey];
+  }
+  
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   
   if (!supabaseServiceKey) {
     throw new Error('Missing Supabase service role key. Check your environment variables.');
   }
   
-  return createClient<Database>(supabaseUrl || '', supabaseServiceKey, {
+  clientCache[cacheKey] = createClient<Database>(supabaseUrl || '', supabaseServiceKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false
     }
   });
+  
+  return clientCache[cacheKey];
 }
 
 // Export default admin client for server operations
