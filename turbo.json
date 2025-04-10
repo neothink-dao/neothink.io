@@ -4,22 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**",
-        "storybook-static/**"
-      ],
-      "env": [
-        "NEXT_PUBLIC_SUPABASE_URL",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-        "NEXT_PUBLIC_VERCEL_ENV",
-        "NEXT_PUBLIC_PLATFORM_NAME",
-        "NEXT_PUBLIC_PLATFORM_SLUG",
-        "NEXT_PUBLIC_BASE_URL"
-      ],
-      "cache": true
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "deploy": {
       "dependsOn": ["build", "test", "lint"],
@@ -29,9 +14,7 @@
       "cache": false,
       "persistent": true
     },
-    "lint": {
-      "outputs": []
-    },
+    "lint": {},
     "test": {
       "dependsOn": ["build"],
       "outputs": ["coverage/**"],

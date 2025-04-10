@@ -1,6 +1,6 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "cd apps/immortals && next build",
-  "outputDirectory": "apps/immortals/.next",
-  "installCommand": "pnpm install"
+  "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/immortals...",
+  "outputDirectory": ".next"
 } 

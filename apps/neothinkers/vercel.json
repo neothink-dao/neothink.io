@@ -1,6 +1,6 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "cd apps/neothinkers && next build",
-  "outputDirectory": "apps/neothinkers/.next",
-  "installCommand": "pnpm install"
+  "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/neothinkers...",
+  "outputDirectory": ".next"
 } 
