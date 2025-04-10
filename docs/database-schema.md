@@ -16,13 +16,296 @@ This document provides a comprehensive overview of the Neothink platform's datab
 
 ## Overview
 
-The Neothink database is built on PostgreSQL using Supabase and implements:
+The Neothink platform uses Supabase (PostgreSQL) as its database. This document outlines the database schema, including tables, relationships, and Row Level Security (RLS) policies.
 
-- **Multi-tenant architecture**: Data isolation between platforms and organizations
-- **Row-level security (RLS)**: Granular access control at the row level
-- **Realtime subscriptions**: Live updates for collaborative features
-- **Full-text search**: Efficient content discovery
-- **Type safety**: Generated TypeScript types for all tables
+## Tables
+
+### profiles
+User profiles and subscription information.
+
+```sql
+CREATE TABLE profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id),
+    username TEXT UNIQUE,
+    full_name TEXT,
+    avatar_url TEXT,
+    subscription_tier TEXT CHECK (subscription_tier IN ('free', 'premium', 'superachiever')),
+    subscription_status TEXT CHECK (subscription_status IN ('active', 'inactive', 'cancelled')),
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### token_balances
+Tracks user token balances for LUCK, LIVE, LOVE, and LIFE tokens.
+
+```sql
+CREATE TABLE token_balances (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    luck_balance INTEGER NOT NULL DEFAULT 0,
+    live_balance INTEGER NOT NULL DEFAULT 0,
+    love_balance INTEGER NOT NULL DEFAULT 0,
+    life_balance INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### token_transactions
+Records all token earning and spending activities.
+
+```sql
+CREATE TABLE token_transactions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    token_type TEXT CHECK (token_type IN ('LUCK', 'LIVE', 'LOVE', 'LIFE')),
+    amount INTEGER NOT NULL,
+    source TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### posts
+Social media posts with token tags.
+
+```sql
+CREATE TABLE posts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    content TEXT NOT NULL,
+    author_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    token_tag TEXT CHECK (token_tag IN ('LUCK', 'LIVE', 'LOVE', 'LIFE')),
+    reward_processed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### rooms
+Chat rooms with different access levels.
+
+```sql
+CREATE TABLE rooms (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    description TEXT,
+    room_type TEXT CHECK (room_type IN ('public', 'premium', 'superachiever', 'private')),
+    created_at TIMESTAMPTZ DEFAULT now(),
+    created_by UUID REFERENCES auth.users(id) ON DELETE SET NULL
+);
+```
+
+### messages
+Chat messages with token rewards.
+
+```sql
+CREATE TABLE messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    content TEXT NOT NULL,
+    room_id UUID REFERENCES rooms(id) ON DELETE CASCADE,
+    sender_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    token_tag TEXT CHECK (token_tag IN ('LUCK', 'LIVE', 'LOVE', 'LIFE')),
+    reward_processed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+## Indexes
+
+### Performance Indexes
+```sql
+-- Token balances
+CREATE INDEX idx_token_balances_user ON token_balances(user_id);
+
+-- Token transactions
+CREATE INDEX idx_token_transactions_user ON token_transactions(user_id);
+CREATE INDEX idx_token_transactions_created ON token_transactions(created_at DESC);
+
+-- Posts
+CREATE INDEX idx_posts_author ON posts(author_id);
+CREATE INDEX idx_posts_created ON posts(created_at DESC);
+CREATE INDEX idx_posts_token_tag ON posts(token_tag);
+
+-- Rooms
+CREATE INDEX idx_rooms_type ON rooms(room_type);
+CREATE INDEX idx_rooms_created ON rooms(created_at DESC);
+
+-- Messages
+CREATE INDEX idx_messages_room ON messages(room_id);
+CREATE INDEX idx_messages_sender ON messages(sender_id);
+CREATE INDEX idx_messages_created ON messages(created_at DESC);
+```
+
+## Row Level Security (RLS) Policies
+
+### Token Balances
+```sql
+-- Users can only view their own token balances
+CREATE POLICY "Users can view own token balances"
+ON token_balances FOR SELECT
+USING (auth.uid() = user_id);
+
+-- System can update token balances (for rewards)
+CREATE POLICY "System can update token balances"
+ON token_balances FOR ALL
+USING (true)
+WITH CHECK (true);
+```
+
+### Posts
+```sql
+-- Anyone can read posts
+CREATE POLICY "Anyone can read posts"
+ON posts FOR SELECT
+USING (true);
+
+-- Users can create posts based on subscription
+CREATE POLICY "Users can create posts"
+ON posts FOR INSERT
+WITH CHECK (
+    EXISTS (
+        SELECT 1 FROM profiles
+        WHERE id = auth.uid()
+        AND subscription_status = 'active'
+    )
+);
+```
+
+### Messages
+```sql
+-- Users can read messages in rooms they have access to
+CREATE POLICY "Read messages based on room access"
+ON messages FOR SELECT
+USING (
+    EXISTS (
+        SELECT 1 FROM rooms r
+        WHERE r.id = room_id
+        AND (
+            r.room_type = 'public'
+            OR (r.room_type = 'premium' AND is_premium_subscriber(auth.uid()))
+            OR (r.room_type = 'superachiever' AND is_superachiever(auth.uid()))
+        )
+    )
+);
+
+-- Users can send messages based on subscription and room type
+CREATE POLICY "Send messages based on subscription"
+ON messages FOR INSERT
+WITH CHECK (
+    EXISTS (
+        SELECT 1 FROM rooms r
+        WHERE r.id = room_id
+        AND (
+            (r.room_type = 'public')
+            OR (r.room_type = 'premium' AND is_premium_subscriber(auth.uid()))
+            OR (r.room_type = 'superachiever' AND is_superachiever(auth.uid()))
+        )
+    )
+);
+```
+
+## Functions
+
+### Subscription Checks
+```sql
+-- Check if user has premium subscription
+CREATE OR REPLACE FUNCTION is_premium_subscriber(user_uuid UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN EXISTS (
+        SELECT 1 FROM profiles
+        WHERE id = user_uuid
+        AND subscription_tier IN ('premium', 'superachiever')
+        AND subscription_status = 'active'
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Check if user has superachiever subscription
+CREATE OR REPLACE FUNCTION is_superachiever(user_uuid UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN EXISTS (
+        SELECT 1 FROM profiles
+        WHERE id = user_uuid
+        AND subscription_tier = 'superachiever'
+        AND subscription_status = 'active'
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+```
+
+### Token Award Functions
+```sql
+-- Award tokens for posts
+CREATE OR REPLACE FUNCTION award_post_tokens()
+RETURNS TRIGGER AS $$
+DECLARE
+    token_amount INT;
+    token_col TEXT;
+BEGIN
+    -- Determine token amount based on subscription and day
+    token_amount := CASE
+        WHEN EXTRACT(DOW FROM NEW.created_at) = 0 THEN 5  -- Sunday
+        ELSE 1
+    END;
+    
+    -- Multiply token amount for premium subscribers
+    SELECT 
+        CASE 
+            WHEN subscription_tier = 'premium' THEN token_amount * 2
+            WHEN subscription_tier = 'superachiever' THEN token_amount * 3
+            ELSE token_amount
+        END INTO token_amount
+    FROM profiles
+    WHERE id = NEW.author_id;
+    
+    -- Update token balance
+    UPDATE token_balances
+    SET 
+        luck_balance = CASE WHEN NEW.token_tag = 'LUCK' THEN luck_balance + token_amount ELSE luck_balance END,
+        live_balance = CASE WHEN NEW.token_tag = 'LIVE' THEN live_balance + token_amount ELSE live_balance END,
+        love_balance = CASE WHEN NEW.token_tag = 'LOVE' THEN love_balance + token_amount ELSE love_balance END,
+        life_balance = CASE WHEN NEW.token_tag = 'LIFE' THEN life_balance + token_amount ELSE life_balance END,
+        updated_at = now()
+    WHERE user_id = NEW.author_id;
+    
+    -- Mark reward as processed
+    NEW.reward_processed := true;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+## Real-time Subscriptions
+
+The following tables are configured for real-time updates:
+- messages (INSERT)
+- posts (INSERT)
+- token_balances (UPDATE)
+- token_transactions (INSERT)
+
+## Backup and Recovery
+
+Daily backups are automatically created and retained for 30 days. Point-in-time recovery is available within this window.
+
+## Security Considerations
+
+1. All tables have RLS policies enabled
+2. Sensitive operations use security definer functions
+3. Token calculations happen server-side
+4. All monetary transactions are logged
+5. Regular security audits are performed
+
+## Performance Optimization
+
+1. Appropriate indexes are created for common queries
+2. Partitioning is used for large tables (messages, posts)
+3. Regular VACUUM and ANALYZE operations are scheduled
+4. Query performance is monitored and optimized
+
+For more information about the database design or to suggest improvements, please contact the database team at db-team@neothink.io.
 
 ## Core Tables
 

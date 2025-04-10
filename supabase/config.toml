@@ -64,10 +64,46 @@ sql_paths = ["./seed.sql"]
 
 [realtime]
 enabled = true
-# Bind realtime via either IPv4 or IPv6. (default: IPv4)
-# ip_version = "IPv6"
-# The maximum length in bytes of HTTP request headers. (default: 4096)
-# max_header_length = 4096
+max_subscription_connection_count = 10000
+
+[realtime.presence]
+enabled = true
+
+[[realtime.publication]]
+name = "public_realtime"
+tables = [
+    "public.messages",
+    "public.posts",
+    "public.token_balances",
+    "public.token_transactions",
+    "public.rooms"
+]
+
+[realtime.publication.security]
+verify_peer = true
+verify_expiry = true
+
+[realtime.broadcast]
+enabled = true
+max_message_size = 1048576 # 1MB
+max_message_count = 100
+
+[realtime.subscription]
+max_timeout = 60000 # 60 seconds
+replication_lag_threshold = 5000 # 5 seconds
+
+[realtime.performance]
+max_concurrent_subscriptions = 10000
+max_concurrent_broadcasts = 5000
+max_concurrent_presence = 5000
+
+[realtime.logging]
+level = "info"
+format = "json"
+
+[realtime.metrics]
+enabled = true
+interval = 10000 # 10 seconds
 
 [studio]
 enabled = true
@@ -311,3 +347,8 @@ s3_region = "env(S3_REGION)"
 s3_access_key = "env(S3_ACCESS_KEY)"
 # Configures AWS_SECRET_ACCESS_KEY for S3 bucket
 s3_secret_key = "env(S3_SECRET_KEY)"
+
+[functions.process-sunday-rewards]
+verify_jwt = false
+[functions.process-sunday-rewards.schedule]
+cron = "0 23 * * 0"  # Run at 11:00 PM UTC every Sunday

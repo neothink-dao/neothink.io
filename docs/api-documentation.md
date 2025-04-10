@@ -4,7 +4,196 @@ This document provides a comprehensive overview of the API endpoints available a
 
 ## Authentication
 
-### Authentication Flow
+All API endpoints require authentication using a JWT token. Include the token in the Authorization header:
+
+```http
+Authorization: Bearer <token>
+```
+
+## Base URL
+
+```
+https://dlmpxgzxdtqxyzsmpaxx.supabase.co
+```
+
+## Endpoints
+
+### User Management
+
+#### Get User Profile
+```http
+GET /rest/v1/profiles?id=eq.<user_id>
+```
+
+#### Update User Profile
+```http
+PATCH /rest/v1/profiles?id=eq.<user_id>
+```
+
+### Token System
+
+#### Get Token Balance
+```http
+GET /rest/v1/token_balances?user_id=eq.<user_id>
+```
+
+Response:
+```json
+{
+  "luck_balance": 100,
+  "live_balance": 50,
+  "love_balance": 75,
+  "life_balance": 25,
+  "updated_at": "2025-03-20T12:00:00Z"
+}
+```
+
+#### Get Token Transaction History
+```http
+GET /rest/v1/token_transactions?user_id=eq.<user_id>&order=created_at.desc
+```
+
+Response:
+```json
+[
+  {
+    "id": "uuid",
+    "user_id": "user_uuid",
+    "token_type": "LUCK",
+    "amount": 5,
+    "source": "sunday_post",
+    "created_at": "2025-03-20T12:00:00Z"
+  }
+]
+```
+
+### Posts
+
+#### Create Post
+```http
+POST /rest/v1/posts
+```
+
+Request body:
+```json
+{
+  "content": "string",
+  "token_tag": "LUCK|LIVE|LOVE|LIFE",
+  "author_id": "user_uuid"
+}
+```
+
+#### Get Posts
+```http
+GET /rest/v1/posts?select=*,author:profiles(*)&order=created_at.desc
+```
+
+### Chat System
+
+#### Get Room Messages
+```http
+GET /rest/v1/messages?room_id=eq.<room_id>&order=created_at.desc
+```
+
+#### Send Message
+```http
+POST /rest/v1/messages
+```
+
+Request body:
+```json
+{
+  "content": "string",
+  "room_id": "room_uuid",
+  "sender_id": "user_uuid",
+  "token_tag": "LUCK|LIVE|LOVE|LIFE"
+}
+```
+
+### Real-time Subscriptions
+
+#### Subscribe to Room Messages
+```javascript
+supabase
+  .channel('room_messages')
+  .on(
+    'postgres_changes',
+    {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'messages',
+      filter: `room_id=eq.${roomId}`
+    },
+    (payload) => {
+      // Handle new message
+    }
+  )
+  .subscribe()
+```
+
+#### Subscribe to Token Balance Updates
+```javascript
+supabase
+  .channel('token_updates')
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'token_balances',
+      filter: `user_id=eq.${userId}`
+    },
+    (payload) => {
+      // Handle token balance update
+    }
+  )
+  .subscribe()
+```
+
+## Rate Limits
+
+- Free tier: 100 requests/minute
+- Premium tier: 500 requests/minute
+- Superachiever tier: 1000 requests/minute
+
+## Error Handling
+
+All endpoints return standard HTTP status codes:
+
+- 200: Success
+- 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
+- 404: Not Found
+- 429: Too Many Requests
+- 500: Internal Server Error
+
+Error response format:
+```json
+{
+  "error": {
+    "code": "string",
+    "message": "string",
+    "details": {}
+  }
+}
+```
+
+## Security Best Practices
+
+1. Always use HTTPS
+2. Never expose API keys in client-side code
+3. Implement proper error handling
+4. Use Row Level Security (RLS) policies
+5. Monitor API usage for suspicious activity
+
+## Support
+
+For technical support or questions about the API, please contact:
+- Email: api-support@neothink.io
+- Documentation: https://docs.neothink.io/api
+
+## Authentication Flow
 
 All authenticated requests use JWT tokens provided by Supabase Auth. The typical authentication flow is:
 
