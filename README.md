@@ -1,290 +1,59 @@
-# Neothink Platform Ecosystem
-
-![Neothink Logo](https://via.placeholder.com/150x50?text=Neothink)
+# Neothink Platform
 
-> *"Elevate consciousness through integrated digital experiences"*
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14.1-black.svg)](https://nextjs.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-2.39-green.svg)](https://supabase.io/)
-
-## 🌟 Overview
-
-The Neothink Platform Ecosystem is a unified application architecture that powers multiple interconnected platforms, each targeting specific aspects of human advancement and consciousness expansion:
-
-- **Hub** - Central knowledge repository and integration point
-- **Ascenders** - Financial sovereignty and wealth creation
-- **Immortals** - Longevity, health optimization, and transcendence
-- **Neothinkers** - Community, connection, and collaborative thought
+A monorepo containing four Next.js applications focused on human advancement and consciousness expansion:
 
-All platforms share core infrastructure, state management, AI capabilities, and design systems while maintaining their unique identities and specialized features.
+- **Hub** (go.neothink.io) - Holistic growth platform for Superachievers
+- **Ascenders** (www.joinascenders.org) - Prosperity through Ascension and FLOW
+- **Immortals** (www.joinimmortals.org) - Longevity and health optimization
+- **Neothinkers** (www.joinneothinkers.org) - Community and collaborative growth
 
-## 🧩 Architecture
-
-### Platform Architecture Diagram
+## Features
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                    NEOTHINK PLATFORMS                       │
-├────────────┬────────────┬─────────────────┬───────────────┤
-│    Hub     │ Ascenders  │    Immortals    │  Neothinkers  │
-├────────────┴────────────┴─────────────────┴───────────────┤
-│                      SHARED PACKAGES                        │
-├────────────┬────────────┬─────────────────┬───────────────┤
-│  Database  │ AI Engine  │ Platform Bridge │      UI       │
-└────────────┴────────────┴─────────────────┴───────────────┘
-```
+- 🧠 AI-powered chatbots for personalized guidance
+- 📊 Real-time feedback and sentiment analysis
+- 🔄 Cross-platform integration
+- 🛡️ Enterprise-grade security
+- 🎨 Beautiful, modern UI/UX
 
-### Directory Structure
+## Getting Started
 
-```
-├── apps/                   # Platform applications
-│   ├── hub/                # Central knowledge platform
-│   ├── ascenders/          # Financial sovereignty platform
-│   ├── immortals/          # Longevity and health platform 
-│   └── neothinkers/        # Community platform
-│
-├── packages/               # Shared capabilities
-│   ├── database/           # Data persistence and schema
-│   ├── platform-bridge/    # Cross-platform state management
-│   ├── ai-integration/     # AI services and vector storage
-│   └── ui/                 # Design system components
-│
-└── infrastructure/         # Deployment and CI/CD
-```
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/neothink-dao/neothink.io.git
+   cd neothink.io
+   ```
 
-## 🚀 Getting Started
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-### Prerequisites
+3. **Set Up Environment Variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Edit `.env.local` with your Supabase and OpenAI credentials.
 
-- Node.js 20.x+ (LTS recommended)
-- npm 10.x+
-- Git
-- Supabase account and project
-- OpenAI API key (for AI features)
-- Vercel account (for deployment)
+4. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
 
-### First-Time Setup
+## Documentation
 
-1. **Clone and install dependencies:**
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Database Schema](supabase/README.md)
+- [API Documentation](docs/api.md)
 
-```bash
-git clone https://github.com/neothink-dao/neothink.io.git
-cd neothink.io
-npm install
-```
+## License
 
-2. **Environment configuration:**
+Proprietary - All Rights Reserved
 
-```bash
-cp .env.example .env.local
-```
+Copyright © 2025 Neothink DAO and The Mark Hamilton Family
 
-Edit `.env.local` with your API keys and configuration values:
+This software is protected by copyright law and international treaties. 
+Unauthorized reproduction or distribution of this software, or any portion of it, 
+may result in severe civil and criminal penalties, and will be prosecuted 
+to the maximum extent possible under law.
 
-```
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-
-# OpenAI Configuration
-OPENAI_API_KEY=your-openai-key
-OPENAI_ORG_ID=your-org-id
-
-# Platform-Specific Configuration
-NEXT_PUBLIC_HUB_URL=go.neothink.io
-NEXT_PUBLIC_ASCENDERS_URL=www.joinascenders.org
-NEXT_PUBLIC_IMMORTALS_URL=www.joinimmortals.org
-NEXT_PUBLIC_NEOTHINKERS_URL=www.joinneothinkers.org
-```
-
-3. **Start development server:**
-
-```bash
-# Run all platforms
-npm run dev
-
-# Run specific platform
-npm run dev:hub
-npm run dev:ascenders
-npm run dev:immortals
-npm run dev:neothinkers
-```
-
-### Development Workflow
-
-Our development process follows these principles:
-
-1. **Feature branches** - Create branches from `main` for each feature
-2. **Atomic commits** - Make small, focused commits with clear messages
-3. **Pull requests** - All changes go through PR review before merging
-4. **CI/CD pipeline** - Automated testing and deployment
-
-## 🧠 Key Technologies
-
-### Core Stack
-
-- **TypeScript** - Type-safe development across the ecosystem
-- **Next.js** - React framework with App Router and Server Components
-- **Supabase** - Backend with real-time capabilities and vector storage
-- **OpenAI** - Foundation models for natural language and embeddings
-
-### Platform Bridge
-
-The platform bridge enables seamless transitions between Neothink platforms:
-
-- State synchronization across platforms
-- Unified preference management
-- Cross-platform notifications
-- Seamless navigation
-
-### AI Integration
-
-Our AI integration layer provides:
-
-- Context-aware conversation capabilities
-- Semantic search with vector embeddings
-- Personalized recommendations
-- Content generation and summarization
-
-## 📚 Platform Packages
-
-### Database
-
-```typescript
-// Example: Database client usage
-import { supabase } from '@neothink/database';
-
-// Query user preferences
-const { data } = await supabase
-  .from('platform_preferences')
-  .select('*')
-  .eq('user_id', userId);
-```
-
-### Platform Bridge
-
-```typescript
-// Example: Cross-platform navigation
-import { usePlatformBridge } from '@neothink/platform-bridge';
-
-function PlatformSwitcher() {
-  const { navigateToPlatform } = usePlatformBridge();
-  
-  return (
-    <button onClick={() => navigateToPlatform('immortals')}>
-      Switch to Immortals
-    </button>
-  );
-}
-```
-
-### AI Integration
-
-```typescript
-// Example: AI text generation
-import { useAI } from '@neothink/ai-integration';
-
-function AIAssistant() {
-  const { generateText, isGenerating } = useAI();
-  
-  const handleQuestion = async (question) => {
-    const response = await generateText(question);
-    setAnswer(response);
-  };
-  
-  // Component implementation...
-}
-```
-
-## 🗄️ Database Schema
-
-Our Supabase database includes these key tables:
-
-| Table | Purpose | Key Fields |
-|-------|---------|------------|
-| `platform_preferences` | User preferences by platform | `user_id`, `platform`, `preferences` |
-| `platform_state` | Cross-platform state | `user_id`, `platform`, `key`, `value` |
-| `ai_conversations` | Conversation history | `user_id`, `messages`, `metadata` |
-| `ai_embeddings` | Vector embeddings | `content`, `embedding`, `metadata` |
-
-## 📱 Platform Features
-
-### Hub (go.neothink.io)
-
-- Central knowledge repository and integration hub
-- Unified dashboard for all Neothink platforms
-- AI-powered search and content discovery
-- Administrative tools and analytics
-- Cross-platform user management
-
-### Ascenders (www.joinascenders.org)
-
-- Comprehensive wealth strategy tools
-- Financial education and training content
-- Investment tracking and portfolio optimization
-- Wealth creation frameworks and methodologies
-- Community-driven financial insights
-
-### Immortals (www.joinimmortals.org)
-
-- Advanced health protocols and tracking
-- Biometric data integration and analysis
-- Longevity research and personalized recommendations
-- Health optimization algorithms
-- Wellness community and expert network
-
-### Neothinkers (www.joinneothinkers.org)
-
-- Vibrant community forums and discussions
-- Collaborative thought and project spaces
-- Event management and coordination
-- Knowledge sharing and mentorship
-- Cross-platform integration for unified experiences
-
-## 👩‍💻 Contributing
-
-We welcome contributions that help build and improve the Neothink ecosystem. Our goal is to create a powerful platform that elevates consciousness and human potential through integrated digital experiences.
-
-### How to Contribute
-
-1. **Join the Team**: Contact us to discuss how you can help build the Neothink ecosystem
-2. **Development Process**:
-   - Clone the repository
-   - Create a feature branch from `main` for your work
-   - Follow our coding standards and architecture patterns
-   - Submit pull requests for review
-   - Participate in code reviews and discussions
-
-### Development Guidelines
-
-- Write clean, maintainable, and well-documented code
-- Follow TypeScript best practices and maintain type safety
-- Ensure cross-platform compatibility
-- Add tests for new features
-- Keep commits focused and descriptive
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed technical guidelines and workflow.
-
-## 🚢 Deployment
-
-Each platform is deployed independently to its own domain:
-
-# Deploy specific platform
-npm run deploy:hub         # Deploys to go.neothink.io
-npm run deploy:ascenders   # Deploys to www.joinascenders.org
-npm run deploy:immortals   # Deploys to www.joinimmortals.org
-npm run deploy:neothinkers # Deploys to www.joinneothinkers.org
-
-## 📑 License
-
-Copyright © 2024 Neothink Digital Asset Organization. All rights reserved.
-
-This software and its documentation are proprietary and confidential. 
-No part of this software may be reproduced, distributed, or transmitted in any form or by any means 
-without the prior written permission of Neothink Digital Asset Organization.
-
----
-
-<p align="center">Built with ❤️ by the Neothink team</p> 
+Built with ❤️ by the Neothink+ team 

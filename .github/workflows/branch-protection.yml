@@ -1,0 +1,95 @@
+name: Branch Protection
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  verify:
+    name: Verify Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Type check
+        run: npm run type-check
+      
+      - name: Lint
+        run: npm run lint
+      
+      - name: Test
+        run: npm run test
+        
+      - name: Check for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  license-check:
+    name: License Compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check License Headers
+        run: |
+          #!/bin/bash
+          files=$(find . -type f -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx")
+          for file in $files; do
+            if ! grep -q "Copyright © 2025 Neothink DAO" "$file"; then
+              echo "Missing copyright header in $file"
+              exit 1
+            fi
+          done
+
+  protected-files:
+    name: Protected Files Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check Protected Files
+        run: |
+          protected_patterns=(
+            "packages/private/"
+            "**/sensitive/"
+            "**/.env"
+            "**/secrets/"
+          )
+          
+          for pattern in "${protected_patterns[@]}"; do
+            if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "$pattern"; then
+              echo "Changes detected in protected path: $pattern"
+              exit 1
+            fi
+          done 
