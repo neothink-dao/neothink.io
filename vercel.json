@@ -3,5 +3,5 @@
   "installCommand": "pnpm install",
   "buildCommand": "turbo build",
   "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
-  "version": 3
+  "version": 2
 } 

@@ -2,5 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "buildCommand": "cd ../.. && pnpm turbo run build --filter=@neothink/ascenders...",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "version": 2
 } 
