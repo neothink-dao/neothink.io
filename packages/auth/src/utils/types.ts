@@ -1,3 +1,5 @@
+import { PlatformSlug } from '@neothink/database/src/types/models';
+
 /**
  * Security event severity levels
  */
@@ -7,10 +9,17 @@ export type SecurityEventSeverity = 'low' | 'medium' | 'high' | 'critical';
  * Structure of a security event
  */
 export interface SecurityEvent {
+  platformSlug: string;
   eventType: string;
   severity: SecurityEventSeverity;
-  context: Record<string, any>;
-  details: Record<string, any>;
+  userId?: string;
+  requestIp?: string;
+  requestPath?: string;
+  requestMethod?: string;
+  requestHeaders?: Record<string, any>;
+  context?: Record<string, any>;
+  details?: Record<string, any>;
+  suspiciousActivity?: boolean;
 }
 
 /**
@@ -22,6 +31,16 @@ export const SecurityEventTypes = {
   AUTH_FAILURE: 'auth_failure',
   CSRF_FAILURE: 'csrf_failure',
   INVALID_REQUEST: 'invalid_request',
+  SECURITY_HEADER_VIOLATION: 'security_header_violation'
 } as const;
 
-export type SecurityEventType = typeof SecurityEventTypes[keyof typeof SecurityEventTypes]; 
+export type SecurityEventType = typeof SecurityEventTypes[keyof typeof SecurityEventTypes];
+
+/**
+ * CSRF protection options
+ */
+export interface CsrfOptions {
+  headerName?: string;
+  cookieName?: string;
+  tokenTtlHours?: number;
+} 

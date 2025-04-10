@@ -1,71 +1,69 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { SecurityEvent, SecurityEventSeverity } from '../types/security';
+import { SecurityEvent, SecurityEventSeverity, SecurityEventTypes } from './types';
 import { PlatformSlug } from '@neothink/database/src/types/models';
 import { NextRequest } from 'next/server';
-
-interface LogSecurityEventOptions {
-  platformSlug: PlatformSlug;
-  eventType: string;
-  severity: SecurityEventSeverity;
-  userId?: string;
-  context?: Record<string, any>;
-  details?: Record<string, any>;
-  request?: NextRequest;
-}
+import { createClient } from '@neothink/database';
 
 /**
- * Log a security event to the database
+ * Logs a security event to the security_events table
  */
-export async function logSecurityEvent(
-  supabase: SupabaseClient,
+export const logSecurityEvent = async (
+  supabaseAdmin: SupabaseClient,
   event: SecurityEvent
-): Promise<void> {
-  await supabase.from('security_events').insert({
-    event_type: event.eventType,
-    severity: event.severity,
-    context: event.context,
-    details: event.details,
-    created_at: new Date().toISOString(),
-  });
-}
+): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.from('security_events').insert({
+      platform_slug: event.platformSlug,
+      event_type: event.eventType,
+      severity: event.severity,
+      user_id: event.userId || null,
+      request_ip: event.requestIp || null,
+      request_path: event.requestPath || null,
+      request_method: event.requestMethod || null,
+      request_headers: event.requestHeaders || null,
+      context: event.context || {},
+      details: event.details || {},
+      suspicious_activity: event.suspiciousActivity || false,
+    });
+
+    if (error) {
+      console.error('Error logging security event:', error);
+    }
+  } catch (error) {
+    console.error('Error logging security event:', error);
+  }
+};
 
 /**
  * Helper function to create a security event
  */
 export function createSecurityEvent(
+  platformSlug: string,
   eventType: string,
   severity: SecurityEventSeverity,
-  context: Record<string, any>,
+  context: Record<string, any> = {},
   details: Record<string, any> = {}
 ): SecurityEvent {
   return {
+    platformSlug,
     eventType,
     severity,
     context,
     details,
+    suspiciousActivity: false
   };
 }
-
-/**
- * Common security event types
- */
-export const SecurityEventTypes = {
-  RATE_LIMIT_EXCEEDED: 'rate_limit_exceeded',
-  SUSPICIOUS_ACTIVITY: 'suspicious_activity',
-  AUTH_FAILURE: 'auth_failure',
-  CSRF_FAILURE: 'csrf_failure',
-  INVALID_TOKEN: 'invalid_token',
-  PLATFORM_ACCESS_DENIED: 'platform_access_denied',
-} as const;
 
 /**
  * Helper function to create a rate limit exceeded event
  */
 export function createRateLimitEvent(
+  platformSlug: string,
   identifier: string,
   context: Record<string, any>
 ): SecurityEvent {
   return createSecurityEvent(
+    platformSlug,
     SecurityEventTypes.RATE_LIMIT_EXCEEDED,
     'medium',
     context,
@@ -77,25 +75,30 @@ export function createRateLimitEvent(
  * Helper function to create a suspicious activity event
  */
 export function createSuspiciousActivityEvent(
+  platformSlug: string,
   details: Record<string, any>,
   context: Record<string, any>
 ): SecurityEvent {
-  return createSecurityEvent(
-    SecurityEventTypes.SUSPICIOUS_ACTIVITY,
-    'high',
+  return {
+    platformSlug,
+    eventType: SecurityEventTypes.SUSPICIOUS_ACTIVITY,
+    severity: 'high',
     context,
-    details
-  );
+    details,
+    suspiciousActivity: true
+  };
 }
 
 /**
  * Helper function to create an auth failure event
  */
 export function createAuthFailureEvent(
+  platformSlug: string,
   reason: string,
   context: Record<string, any>
 ): SecurityEvent {
   return createSecurityEvent(
+    platformSlug,
     SecurityEventTypes.AUTH_FAILURE,
     'medium',
     context,
@@ -108,16 +111,21 @@ export function createAuthFailureEvent(
  */
 export async function logSuspiciousActivity(
   supabase: SupabaseClient,
+  platformSlug: string,
   activityType: string,
   context: Record<string, any>,
   details: Record<string, any>
 ): Promise<void> {
   await logSecurityEvent(
     supabase,
-    `suspicious_activity.${activityType}`,
-    'medium',
-    context,
-    details
+    {
+      platformSlug,
+      eventType: `suspicious_activity.${activityType}`,
+      severity: 'medium',
+      context,
+      details,
+      suspiciousActivity: true
+    }
   );
 }
 
@@ -126,19 +134,37 @@ export async function logSuspiciousActivity(
  */
 export async function logAuthEvent(
   supabase: SupabaseClient,
+  platformSlug: string,
   eventType: string,
   context: Record<string, any>,
   details?: Record<string, any>
 ): Promise<void> {
   await logSecurityEvent(
     supabase,
-    `auth.${eventType}`,
-    'low',
-    context,
-    details
+    {
+      platformSlug,
+      eventType: `auth.${eventType}`,
+      severity: 'low',
+      context,
+      details: details || {},
+      suspiciousActivity: false
+    }
   );
 }
 
+interface LogSecurityEventOptions {
+  platformSlug: PlatformSlug;
+  eventType: string;
+  severity: SecurityEventSeverity;
+  userId?: string;
+  context?: Record<string, any>;
+  details?: Record<string, any>;
+  request?: NextRequest;
+}
+
+/**
+ * Log a security event using an options object
+ */
 export async function logSecurityEventFromOptions({
   platformSlug,
   eventType,
@@ -147,25 +173,27 @@ export async function logSecurityEventFromOptions({
   context = {},
   details = {},
   request,
-}: LogSecurityEventOptions) {
+}: LogSecurityEventOptions): Promise<void> {
   const supabase = createClient(platformSlug);
   
   // Extract request information if provided
   const requestInfo = request ? {
-    request_ip: request.ip || request.headers.get('x-forwarded-for') || 'unknown',
-    request_path: request.nextUrl.pathname,
-    request_headers: Object.fromEntries(request.headers.entries()),
+    requestIp: request.ip || request.headers.get('x-forwarded-for') || 'unknown',
+    requestPath: request.nextUrl.pathname,
+    requestMethod: request.method,
+    requestHeaders: Object.fromEntries(request.headers.entries()),
   } : {};
   
   try {
-    await supabase.from('security_events').insert({
-      platform_slug: platformSlug,
-      event_type: eventType,
+    await logSecurityEvent(supabase, {
+      platformSlug,
+      eventType,
       severity,
-      user_id: userId,
+      userId,
       context,
       details,
       ...requestInfo,
+      suspiciousActivity: false
     });
   } catch (error) {
     // Log to console if database logging fails

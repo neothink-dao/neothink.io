@@ -1,6 +1,8 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 import { SecurityEvent, SecurityEventSeverity } from '../index';
+import { createClient } from '@neothink/database';
+import crypto from 'crypto';
 
 /**
  * Methods that require CSRF protection
@@ -24,6 +26,9 @@ const DEFAULT_CONFIG: Required<CsrfConfig> = {
   headerName: 'X-CSRF-Token',
   cookieName: 'csrf-token',
 };
+
+// CSRF token validity duration in seconds (1 hour)
+const CSRF_TOKEN_VALIDITY = 3600;
 
 /**
  * Generates a cryptographically secure random token
@@ -175,6 +180,56 @@ async function logCsrfViolation(
   };
 
   await supabase.from('security_events').insert(securityEvent);
+}
+
+// Generate a CSRF token
+export function generateCsrfToken(): string {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+// Validate CSRF token
+export async function validateCsrfToken(request: NextRequest): Promise<boolean> {
+  // Only validate POST/PUT/DELETE/PATCH requests
+  if (!['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method)) {
+    return true;
+  }
+
+  const token = request.headers.get('x-csrf-token');
+  if (!token) {
+    return false;
+  }
+
+  const supabase = createClient('hub');
+  const now = Math.floor(Date.now() / 1000);
+
+  // Clean up expired tokens
+  await supabase
+    .from('csrf_tokens')
+    .delete()
+    .lt('expires_at', now);
+
+  // Check if token exists and is valid
+  const { data: tokenData } = await supabase
+    .from('csrf_tokens')
+    .select('token')
+    .eq('token', token)
+    .gte('expires_at', now)
+    .single();
+
+  return !!tokenData;
+}
+
+// Store a new CSRF token
+export async function storeCsrfToken(token: string): Promise<void> {
+  const supabase = createClient('hub');
+  const now = Math.floor(Date.now() / 1000);
+  
+  await supabase
+    .from('csrf_tokens')
+    .insert({
+      token,
+      expires_at: now + CSRF_TOKEN_VALIDITY
+    });
 }
 
 export {

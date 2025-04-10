@@ -1,347 +1,260 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@neothink/database';
 import { PlatformSlug } from '@neothink/database/src/types/models';
+import { SecurityEvent, SecurityEventTypes, CsrfOptions } from './types';
+import crypto from 'crypto';
+import { logSecurityEvent } from './security-logger';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { SecurityEvent, SecurityEventTypes, SecurityEventSeverity, SecurityEventType } from './types';
+import { validateCsrfToken } from './csrf';
 
 // Static asset paths that should skip middleware
 const staticAssetPaths = [
-  '/_next/',
-  '/static/',
+  '/_next/static/',
   '/favicon.ico',
   '/robots.txt',
   '/sitemap.xml',
 ];
 
-/**
- * Gets platform slug from host
- */
-export function getPlatformFromHost(host: string): PlatformSlug {
-  if (host.includes('ascenders')) return 'ascenders';
-  if (host.includes('immortals')) return 'immortals';
-  if (host.includes('neothinkers')) return 'neothinkers';
-  return 'hub';
-}
+// Rate limit configuration by endpoint type
+const rateLimitConfig = {
+  default: { limit: 100, window: 60 }, // 100 requests per minute
+  auth: { limit: 10, window: 60 }, // 10 auth requests per minute
+  api: { limit: 50, window: 60 }, // 50 API requests per minute
+  admin: { limit: 30, window: 60 }, // 30 admin requests per minute
+};
 
 /**
- * Logs a security event to the database
+ * Extracts platform slug from hostname
  */
-async function logSecurityEvent(
-  supabase: SupabaseClient,
-  event: SecurityEvent
-) {
-  try {
-    await supabase.from('security_events').insert({
-      event_type: event.eventType,
-      severity: event.severity,
-      context: event.context,
-      details: event.details,
-      created_at: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error('Failed to log security event:', error);
+export function getPlatformFromHost(host?: string | null): PlatformSlug | null {
+  if (!host) return null;
+  const subdomain = host.split('.')[0];
+  if (['hub', 'ascenders', 'immortals', 'neothinkers'].includes(subdomain)) {
+    return subdomain as PlatformSlug;
   }
+  return null;
 }
 
 /**
- * Checks if a request should be rate limited
- * 
- * @param supabase - Supabase client
- * @param identifier - Unique identifier for the rate limit (e.g. ip:endpoint)
- * @param limit - Maximum number of requests allowed in the window
- * @param windowSeconds - Time window in seconds
- * @returns true if request should be rate limited
+ * Checks for suspicious patterns in the request
  */
-async function checkRateLimit(
-  supabase: SupabaseClient,
-  identifier: string,
-  limit: number,
-  windowSeconds: number
-): Promise<boolean> {
-  try {
-    const now = new Date();
-    const windowStart = new Date(now.getTime() - (windowSeconds * 1000));
-    
-    // Clean up old rate limit entries
-    await supabase
-      .from('rate_limits')
-      .delete()
-      .lt('window_start', windowStart.toISOString());
-    
-    // Get current count
-    const { data: existing } = await supabase
-      .from('rate_limits')
-      .select('count')
-      .eq('identifier', identifier)
-      .gte('window_start', windowStart.toISOString())
-      .single();
-    
-    if (!existing) {
-      // First request in window
-      await supabase.from('rate_limits').insert({
-        identifier,
-        count: 1,
-        window_start: windowStart.toISOString(),
-        window_seconds: windowSeconds
-      });
-      return false;
-    }
-    
-    if (existing.count >= limit) {
-      return true;
-    }
-    
-    // Increment count
-    await supabase
-      .from('rate_limits')
-      .update({ count: existing.count + 1 })
-      .eq('identifier', identifier);
-    
-    return false;
-  } catch (error) {
-    console.error('Rate limit check failed:', error);
-    return false; // Fail open if rate limiting fails
-  }
-}
-
-/**
- * Detects suspicious activity in requests
- */
-async function detectSuspiciousActivity(
-  req: NextRequest,
-  supabase: SupabaseClient,
-  reqContext: any
-): Promise<Record<string, any> | null> {
+function isSuspiciousRequest(req: NextRequest): boolean {
   const path = req.nextUrl.pathname;
-  const query = Object.fromEntries(req.nextUrl.searchParams);
-  const method = req.method;
-  const userAgent = req.headers.get('user-agent') || 'unknown';
-  const clientIpHeader = req.headers.get('x-forwarded-for');
-  const clientIp = clientIpHeader ? clientIpHeader.split(',')[0].trim() : 'unknown';
+  const query = req.nextUrl.search;
   
-  // Common attack patterns
+  // Check for SQL injection attempts
   const sqlInjectionPatterns = [
-    /(%27)|(')|(--)|(#)/i,
-    /(%3D)|(=)[^\n]*((%27)|(')|(")|(%22)|(;))/i,
-    /(%27)|(')|(%22)/i,
-    /(%6F)|(o)|(%4F)|(%09)|(%0D)|(%0A)/i,
-    /union[\s]*select/i,
-    /exec[\s]*\(/i
+    /union\s+select/i,
+    /or\s+1=1/i,
+    /';\s*--/i,
+    /'\s*or\s*'1'='1/i
   ];
   
+  // Check for XSS attempts
   const xssPatterns = [
-    /<script[^>]*>.*?<\/script>/i,
-    /javascript:[^\s]*/i,
-    /onerror=[^\s]*/i,
-    /onload=[^\s]*/i,
-    /eval\([^)]*\)/i,
-    /expression\([^)]*\)/i
+    /<script\b[^>]*>/i,
+    /javascript:/i,
+    /on\w+\s*=/i
   ];
-  
-  const pathTraversalPatterns = [
-    /\.\.[\/\\]/i,
-    /\/etc\/[^\s]*/i,
-    /\/var\/[^\s]*/i,
-    /\/usr\/[^\s]*/i,
-    /\/root\/[^\s]*/i,
-    /\/proc\/[^\s]*/i
-  ];
-  
-  // Check query parameters and path for attack patterns
-  const queryString = JSON.stringify(query).toLowerCase();
-  const pathString = path.toLowerCase();
-  
-  // Check for SQL injection
-  const sqlInjection = sqlInjectionPatterns.some(pattern => 
-    pattern.test(queryString) || pattern.test(pathString)
-  );
-  
-  // Check for XSS
-  const xss = xssPatterns.some(pattern => 
-    pattern.test(queryString) || pattern.test(pathString)
-  );
   
   // Check for path traversal
-  const pathTraversal = pathTraversalPatterns.some(pattern => 
-    pattern.test(pathString)
-  );
-  
-  // Check for suspicious user agent
-  const suspiciousUserAgent = !userAgent || userAgent === 'unknown' || 
-    /^(curl|wget|postman|insomnia)/i.test(userAgent);
-  
-  // Check request rate from IP
-  const ipRequestCount = await supabase
-    .from('security_events')
-    .select('count', { count: 'exact' })
-    .eq('request_ip', clientIp)
-    .gte('created_at', new Date(Date.now() - 60000).toISOString()) // Last minute
-    .single();
-  
-  const highRequestRate = (ipRequestCount?.count || 0) > 100; // More than 100 requests per minute
-  
-  // Return null if no suspicious activity detected
-  if (!sqlInjection && !xss && !pathTraversal && !suspiciousUserAgent && !highRequestRate) {
-    return null;
-  }
-  
-  // Return details about suspicious activity
-  return {
-    sqlInjection,
-    xss,
-    pathTraversal,
-    suspiciousUserAgent,
-    highRequestRate,
-    userAgent,
-    clientIp,
-    requestPath: path,
-    requestMethod: method,
-    queryParams: query
-  };
-}
+  const pathTraversalPatterns = [
+    /\.\.\//,
+    /\.\.\\/, 
+    /%2e%2e\//i
+  ];
 
-interface SecurityEventOptions {
-  event: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  context?: Record<string, any>;
-  details?: Record<string, any>;
-  userId?: string;
+  const testString = `${path}${query}`;
+  return [
+    ...sqlInjectionPatterns,
+    ...xssPatterns,
+    ...pathTraversalPatterns
+  ].some(pattern => pattern.test(testString));
 }
 
 /**
- * Validates a CSP nonce to ensure it meets security requirements
+ * Checks rate limits for the request
  */
-function validateNonce(nonce: string): boolean {
-  // Nonce should be base64 encoded and at least 16 bytes
-  const base64Regex = /^[A-Za-z0-9+/=]{24,}$/;
-  return base64Regex.test(nonce);
+async function checkRateLimit(
+  req: NextRequest,
+  platformSlug: PlatformSlug
+): Promise<boolean> {
+  const supabase = createClient(platformSlug);
+  const path = req.nextUrl.pathname;
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.ip;
+  
+  // Determine rate limit based on endpoint
+  let config = rateLimitConfig.default;
+  if (path.startsWith('/api/auth')) {
+    config = rateLimitConfig.auth;
+  } else if (path.startsWith('/api/admin')) {
+    config = rateLimitConfig.admin;
+  } else if (path.startsWith('/api/')) {
+    config = rateLimitConfig.api;
+  }
+  
+  const identifier = `${platformSlug}:${clientIp}:${path}`;
+  const windowStart = new Date(Date.now() - config.window * 1000).toISOString();
+  
+  const { data: requests } = await supabase
+    .from('rate_limits')
+    .select('count')
+    .eq('identifier', identifier)
+    .gte('window_start', windowStart)
+    .single();
+    
+  return requests ? requests.count >= config.limit : false;
 }
 
 /**
  * Sets comprehensive security headers for all responses
  */
-function setSecurityHeaders(response: NextResponse): void {
-  // Generate a random nonce for CSP
-  const nonceBuffer = new Uint8Array(16);
-  crypto.getRandomValues(nonceBuffer);
-  const nonceBase64 = Buffer.from(nonceBuffer).toString('base64');
+export function setSecurityHeaders(req: NextRequest, res: Response): Response {
+  const nonce = crypto.randomBytes(16).toString('base64');
   
-  // Basic security headers
-  response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('X-XSS-Protection', '1; mode=block');
-  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none');
-  
-  // Strict CSP with nonce
-  const cspDirectives = [
-    "default-src 'self'",
-    "script-src 'self' 'nonce-" + nonceBase64 + "' 'strict-dynamic'",
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
-    "font-src 'self'",
-    "object-src 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-    "frame-ancestors 'none'",
-    "block-all-mixed-content",
-    "upgrade-insecure-requests"
-  ];
-  
-  response.headers.set('Content-Security-Policy', cspDirectives.join('; '));
-  
-  // HSTS (only in production)
-  if (process.env.NODE_ENV === 'production') {
-    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  }
-  
-  // Store nonce in response object for use in templates
-  (response as any).__cspNonce = nonceBase64;
+  const headers = new Headers(res.headers);
+  headers.set('X-Frame-Options', 'DENY');
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('X-XSS-Protection', '1; mode=block');
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  headers.set(
+    'Content-Security-Policy',
+    `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'strict-dynamic'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; object-src 'none';`
+  );
+  headers.set(
+    'Strict-Transport-Security',
+    'max-age=31536000; includeSubDomains; preload'
+  );
+
+  return new Response(res.body, {
+    status: res.status,
+    statusText: res.statusText,
+    headers
+  });
 }
 
-export async function middleware(req: NextRequest) {
-  // Skip middleware for static assets
-  const path = req.nextUrl.pathname;
-  if (staticAssetPaths.some(prefix => path.startsWith(prefix))) {
-    return new Response(null);
-  }
-  
-  // Initialize response that we may modify
-  const response = new Response(null);
-  
+export default async function middleware(req: NextRequest) {
   try {
-    // Get platform from request
-    const platformSlug = getPlatformFromHost(req.headers.get('host') || '');
-    
-    // Request context for logging
-    const reqContext = {
-      platformSlug,
-      userId: undefined,
-      isAuthenticated: false,
-      requestPath: path,
-    };
-    
-    // Initialize Supabase client
+    const platformSlug = getPlatformFromHost(req.headers.get('host'));
+    if (!platformSlug) {
+      return new Response('Not Found', { status: 404 });
+    }
+
     const supabase = createClient(platformSlug);
-    
-    // Check for suspicious activity
-    const isSuspicious = await detectSuspiciousActivity(req, supabase, reqContext);
-    if (isSuspicious) {
+
+    // Check rate limits
+    const isRateLimited = await checkRateLimit(req, platformSlug);
+    if (isRateLimited) {
       await logSecurityEvent(supabase, {
+        platformSlug,
+        eventType: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
+        severity: 'medium',
+        userId: undefined,
+        requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
+        requestPath: req.nextUrl.pathname,
+        requestMethod: req.method,
+        requestHeaders: Object.fromEntries(req.headers),
+        context: { path: req.nextUrl.pathname },
+        suspiciousActivity: true
+      });
+      return new Response('Too Many Requests', { status: 429 });
+    }
+
+    // Check for suspicious activity
+    if (isSuspiciousRequest(req)) {
+      await logSecurityEvent(supabase, {
+        platformSlug,
         eventType: SecurityEventTypes.SUSPICIOUS_ACTIVITY,
         severity: 'high',
-        context: reqContext,
-        details: { patterns: isSuspicious }
+        requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
+        requestPath: req.nextUrl.pathname,
+        requestMethod: req.method,
+        requestHeaders: Object.fromEntries(req.headers),
+        details: { path: req.nextUrl.pathname, headers: Object.fromEntries(req.headers) },
+        suspiciousActivity: true
       });
-      return new Response('Forbidden', { 
-        status: 403,
-        headers: {
-          'Content-Type': 'text/plain'
-        }
-      });
+      return new Response('Bad Request', { status: 400 });
     }
-    
-    // Apply rate limiting for sensitive endpoints
-    if (path.startsWith('/api/auth') || path.startsWith('/api/admin')) {
-      const identifier = `${platformSlug}:${req.ip}:${path}`;
-      const isRateLimited = await checkRateLimit(supabase, identifier, 100, 3600); // 100 requests per hour
-      
-      if (isRateLimited) {
+
+    // Validate CSRF token for mutations
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      const csrfResult = await validateCsrfToken(req);
+      if (!csrfResult) {
         await logSecurityEvent(supabase, {
-          eventType: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
-          severity: 'medium',
-          context: reqContext,
-          details: { ip: req.ip }
+          platformSlug,
+          eventType: SecurityEventTypes.CSRF_FAILURE,
+          severity: 'high',
+          requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
+          requestPath: req.nextUrl.pathname,
+          requestMethod: req.method,
+          requestHeaders: Object.fromEntries(req.headers),
+          details: { message: 'Invalid CSRF Token' },
+          suspiciousActivity: true
         });
-        return new Response('Too Many Requests', { 
-          status: 429,
-          headers: {
-            'Content-Type': 'text/plain',
-            'Retry-After': '3600'
-          }
-        });
+        return new Response('Invalid CSRF Token', { status: 403 });
       }
     }
-    
-    // Set security headers
-    setSecurityHeaders(response);
-    
-    // Log successful request
-    await logSecurityEvent(supabase, {
-      eventType: SecurityEventTypes.INVALID_REQUEST,
-      severity: 'low',
-      context: reqContext,
-      details: { path: req.nextUrl.pathname }
-    });
-    
-    return response;
+
+    // Add security headers
+    const response = await fetch(req);
+    return setSecurityHeaders(req, response);
   } catch (error) {
     console.error('Middleware error:', error);
-    return new Response('Internal Server Error', { 
-      status: 500,
-      headers: {
-        'Content-Type': 'text/plain'
-      }
-    });
+    return new Response('Internal Server Error', { status: 500 });
   }
+}
+
+export async function handleRateLimit(
+  req: NextRequest,
+  res: NextResponse,
+  platform: PlatformSlug,
+  supabase: SupabaseClient
+) {
+  const rateLimited = await checkRateLimit(req, platform);
+  const rateLimitResponse = rateLimited ? new Response('Too Many Requests', { status: 429 }) : null;
+  
+  if (rateLimited) {
+    // Log security event
+    await logSecurityEvent(supabase, {
+      platformSlug: platform,
+      eventType: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
+      severity: 'medium',
+      requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
+      requestPath: req.nextUrl.pathname,
+      requestMethod: req.method,
+      requestHeaders: Object.fromEntries(req.headers),
+      suspiciousActivity: true
+    });
+    
+    return rateLimitResponse;
+  }
+  
+  return null;
+}
+
+export function ensureCsrfToken(
+  req: NextRequest,
+  platform: PlatformSlug,
+  csrfOptions: CsrfOptions = {},
+  supabase: SupabaseClient
+) {
+  const valid = validateCsrfToken(req);
+  
+  if (!valid) {
+    // Log security event
+    logSecurityEvent(supabase, {
+      platformSlug: platform,
+      eventType: SecurityEventTypes.CSRF_FAILURE,
+      severity: 'high',
+      requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
+      requestPath: req.nextUrl.pathname,
+      requestMethod: req.method,
+      requestHeaders: Object.fromEntries(req.headers),
+      suspiciousActivity: true
+    }).catch(error => console.error('Failed to log CSRF security event:', error));
+    
+    return false;
+  }
+  
+  return true;
 }
