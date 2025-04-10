@@ -35,52 +35,24 @@ A monorepo containing four Next.js applications focused on human advancement and
   - Smooth Framer Motion animations
   - Consistent branded experience
 
-## Getting Started
+## Proprietary Software Notice
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/neothink-dao/neothink.io.git
-   cd neothink.io
-   ```
+This repository contains proprietary and confidential software. Access to this codebase is strictly limited to authorized Neothink+ team members and contractors who have signed the appropriate Non-Disclosure Agreements (NDAs).
 
-2. **Install Dependencies**
-   ```bash
-   pnpm install
-   ```
+### Access Requirements
+- Valid Neothink+ team credentials
+- Signed NDA on file
+- Explicit authorization from the Neothink+ leadership team
 
-3. **Set Up Environment Variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Required environment variables:
-   ```
-   # Supabase Configuration
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-   
-   # OpenAI Configuration
-   OPENAI_API_KEY=your_openai_api_key
-   
-   # App Configuration
-   NEXT_PUBLIC_APP_URL=http://localhost:3000
-   ```
-
-4. **Run Development Server**
-   ```bash
-   # Run all applications
-   pnpm run dev
-   
-   # Run a specific application
-   pnpm run dev:hub
-   pnpm run dev:ascenders
-   pnpm run dev:immortals
-   pnpm run dev:neothinkers
-   ```
+### Security Notice
+- Do not share access credentials
+- Do not fork or clone without authorization
+- Do not distribute any part of this codebase
+- Report any security concerns immediately
 
 ## Documentation
 
+Internal team members with proper authorization can access:
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Database Schema](supabase/README.md)
 - [API Documentation](docs/api.md)
