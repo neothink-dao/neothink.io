@@ -1,4 +1,4 @@
-# Neothink+ User Guide for Test Users
+# Neothink+ User Guide
 
 ## Overview
 
@@ -76,13 +76,13 @@ View upcoming events and register for participation:
 4. Register to receive Zoom links and calendar invitations
 5. Set reminders and add to your personal schedule
 
-## Test User Feedback
+## Feedback & Support
 
-As one of our first 100+ test users, your feedback is invaluable:
+We value your feedback and are here to help:
 1. Use the "Feedback" button available on every page
 2. Report any issues through the Help Center
-3. Participate in scheduled user testing sessions
-4. Complete the weekly survey to help shape the platform's future
+3. Share your suggestions and ideas
+4. Help shape the platform's future through our feedback system
 
 ## Support
 
@@ -91,4 +91,4 @@ For technical assistance or general questions:
 - Live chat: Available on all platform dashboards
 - Help Center: Accessible from the account menu
 
-Thank you for being part of our test user community! 
+Thank you for being part of the Neothink community! 

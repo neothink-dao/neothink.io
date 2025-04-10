@@ -295,48 +295,6 @@ export default async function handler(req, res) {
 - Sensitive payment information is never stored in our database
 - All subscription operations are logged for audit purposes
 
-## Testing Subscriptions
-
-### Test Mode
-
-The system supports a test mode for development and testing:
-
-1. Set `NEXT_PUBLIC_STRIPE_TEST_MODE=true` in the environment
-2. Use Stripe test cards for payment processing
-3. Test users will have the `is_test_account` flag set in their metadata
-
-### Creating Test Subscriptions
-
-For testing platform access without actual payments:
-
-```typescript
-// Only works with guardian access and in development/staging environments
-export async function createTestSubscription(userId, planSlug) {
-  const { data: plan } = await supabase
-    .from('subscription_plans')
-    .select('id')
-    .eq('slug', planSlug)
-    .single();
-  
-  if (!plan) throw new Error('Plan not found');
-  
-  const now = new Date();
-  const endDate = new Date();
-  endDate.setMonth(endDate.getMonth() + 1);
-  
-  return supabase
-    .from('user_subscriptions')
-    .insert({
-      user_id: userId,
-      plan_id: plan.id,
-      status: 'active',
-      current_period_start: now.toISOString(),
-      current_period_end: endDate.toISOString(),
-      metadata: { is_test: true }
-    });
-}
-```
-
 ## Reporting
 
 The system provides key subscription metrics:
