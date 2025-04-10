@@ -57,18 +57,20 @@ All platforms share core infrastructure, state management, AI capabilities, and 
 
 ### Prerequisites
 
-- Node.js 20.x+
+- Node.js 20.x+ (LTS recommended)
 - npm 10.x+
-- Supabase account
+- Git
+- Supabase account and project
 - OpenAI API key (for AI features)
+- Vercel account (for deployment)
 
 ### First-Time Setup
 
 1. **Clone and install dependencies:**
 
 ```bash
-git clone https://github.com/neothink/platform-monorepo.git
-cd platform-monorepo
+git clone https://github.com/neothink-dao/neothink.io.git
+cd neothink.io
 npm install
 ```
 
@@ -81,9 +83,20 @@ cp .env.example .env.local
 Edit `.env.local` with your API keys and configuration values:
 
 ```
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-NEXT_PUBLIC_OPENAI_API_KEY=your-openai-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# OpenAI Configuration
+OPENAI_API_KEY=your-openai-key
+OPENAI_ORG_ID=your-org-id
+
+# Platform-Specific Configuration
+NEXT_PUBLIC_HUB_URL=go.neothink.io
+NEXT_PUBLIC_ASCENDERS_URL=www.joinascenders.org
+NEXT_PUBLIC_IMMORTALS_URL=www.joinimmortals.org
+NEXT_PUBLIC_NEOTHINKERS_URL=www.joinneothinkers.org
 ```
 
 3. **Start development server:**
@@ -198,29 +211,37 @@ Our Supabase database includes these key tables:
 
 ## 📱 Platform Features
 
-### Hub
+### Hub (go.neothink.io)
 
-- Knowledge repository and content management
-- Central dashboard and platform integration
+- Central knowledge repository and integration hub
+- Unified dashboard for all Neothink platforms
+- AI-powered search and content discovery
 - Administrative tools and analytics
+- Cross-platform user management
 
-### Ascenders
+### Ascenders (www.joinascenders.org)
 
-- Wealth strategy tools
-- Financial education content
-- Investment tracking and optimization
+- Comprehensive wealth strategy tools
+- Financial education and training content
+- Investment tracking and portfolio optimization
+- Wealth creation frameworks and methodologies
+- Community-driven financial insights
 
-### Immortals
+### Immortals (www.joinimmortals.org)
 
-- Health protocols and tracking
-- Biometric integration
+- Advanced health protocols and tracking
+- Biometric data integration and analysis
 - Longevity research and personalized recommendations
+- Health optimization algorithms
+- Wellness community and expert network
 
-### Neothinkers
+### Neothinkers (www.joinneothinkers.org)
 
-- Community forums and discussions
-- Collaborative projects
-- Events and connections
+- Vibrant community forums and discussions
+- Collaborative thought and project spaces
+- Event management and coordination
+- Knowledge sharing and mentorship
+- Cross-platform integration for unified experiences
 
 ## 👩‍💻 Contributing
 
@@ -258,7 +279,11 @@ npm run deploy:neothinkers # Deploys to www.joinneothinkers.org
 
 ## 📑 License
 
-Proprietary © Neothink
+Copyright © 2024 Neothink Digital Asset Organization. All rights reserved.
+
+This software and its documentation are proprietary and confidential. 
+No part of this software may be reproduced, distributed, or transmitted in any form or by any means 
+without the prior written permission of Neothink Digital Asset Organization.
 
 ---
 
