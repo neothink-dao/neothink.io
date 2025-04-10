@@ -96,6 +96,7 @@ npm run dev
 npm run dev:hub
 npm run dev:ascenders
 npm run dev:immortals
+npm run dev:neothinkers
 ```
 
 ### Development Workflow
@@ -237,12 +238,11 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
 
 Each platform is deployed independently to its own domain:
 
-```bash
 # Deploy specific platform
-npm run deploy:hub         # Deploys to hub.neothink.io
-npm run deploy:ascenders   # Deploys to ascenders.neothink.io
-npm run deploy:immortals   # Deploys to immortals.neothink.io
-```
+npm run deploy:hub         # Deploys to go.neothink.io
+npm run deploy:ascenders   # Deploys to www.joinascenders.org
+npm run deploy:immortals   # Deploys to www.joinimmortals.org
+npm run deploy:neothinkers # Deploys to www.joinneothinkers.org
 
 ## 📑 License
 
