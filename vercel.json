@@ -1,6 +1,6 @@
 {
-  "version": 2,
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
   "installCommand": "pnpm install",
   "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
 } 
