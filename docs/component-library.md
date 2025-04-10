@@ -378,7 +378,7 @@ import {
       <TableCell>INV001</TableCell>
       <TableCell>Paid</TableCell>
       <TableCell>Credit Card</TableCell>
-      <TableCell className="text-right">$250.00</TableCell>
+      <TableCell className="text-right">Value</TableCell>
     </TableRow>
   </TableBody>
 </Table>

@@ -30,7 +30,7 @@ Our current approach isn't just inefficient—it's actively limiting our members
 Our modern stack enables experiences impossible with third-party tools:
 
 ### For Members: Complete Achievement
-- **One Simple Experience**: Single login, one subscription ($297/m for everything)
+- **One Simple Experience**: Single login, one unified subscription for everything
 - **Natural Discovery**: "You're scaling your business? Here's how to maintain peak performance"
 - **Integrated Wisdom**: Content that connects business, mindset, and health optimization
 - **Maximum Value**: Access to all premium features across platforms

@@ -13,9 +13,9 @@ Welcome to the Neothink+ ecosystem! Our integrated platforms are designed to enh
 
 1. Sign up at neothink.io.
 2. Log in and subscribe to your chosen platform(s):
-   - Ascenders: $99/month
-   - Neothinkers: $99/month
-   - Immortals: $99/month
+   - Ascenders
+   - Neothinkers
+   - Immortals
    - Hub access is included with any subscription
 3. Use the routes below to explore the content and features.
 

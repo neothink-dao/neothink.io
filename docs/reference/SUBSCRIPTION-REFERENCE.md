@@ -24,7 +24,6 @@ CREATE TABLE public.subscription_plans (
   name TEXT NOT NULL,
   slug TEXT NOT NULL UNIQUE,
   description TEXT,
-  price DECIMAL(10, 2) NOT NULL,
   interval TEXT NOT NULL CHECK (interval IN ('month', 'year')),
   platform_access TEXT[] NOT NULL, -- Array of platform slugs this plan grants access to
   is_active BOOLEAN NOT NULL DEFAULT true,
@@ -36,10 +35,10 @@ CREATE TABLE public.subscription_plans (
 ```
 
 Default plans are:
-- **Ascenders** ($99/month) - Access to Ascension + FLOW + Ascenders
-- **Neothinkers** ($99/month) - Access to Neothink + Mark Hamilton + Neothinkers
-- **Immortals** ($99/month) - Access to Immortalis + Project Life + Immortals
-- **Superachiever** ($297/month) - Access to all platforms
+- **Ascenders** - Access to Ascension + FLOW + Ascenders
+- **Neothinkers** - Access to Neothink + Mark Hamilton + Neothinkers
+- **Immortals** - Access to Immortalis + Project Life + Immortals
+- **Superachiever** - Access to all platforms
 
 ### User Subscriptions
 
