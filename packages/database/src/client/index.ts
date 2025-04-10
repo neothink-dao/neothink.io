@@ -1,5 +1,6 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 import { PlatformSlug } from '../types/models';
+import { Database } from '../types';
 
 // These env vars are set in each app but with consistent naming
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
@@ -78,17 +79,48 @@ const safeStorage = {
   }
 };
 
+let supabaseClient: ReturnType<typeof createClient<Database>> | null = null;
+
+export function getSupabaseClient() {
+  if (supabaseClient) return supabaseClient;
+  
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing Supabase environment variables');
+  }
+  
+  supabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
+  return supabaseClient;
+}
+
+export function getServiceClient(serviceRoleKey?: string) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = serviceRoleKey || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !serviceKey) {
+    throw new Error('Missing Supabase service role credentials');
+  }
+  
+  return createClient<Database>(supabaseUrl, serviceKey, {
+    auth: {
+      persistSession: false,
+    },
+  });
+}
+
 /**
  * Creates a Supabase client with platform-specific settings
  * @param platformSlug The platform identifier (hub, ascenders, neothinkers, immortals)
  * @param customOptions Additional options to merge with platform-specific settings
  * @returns A configured Supabase client
  */
-export function createClient(platformSlug: PlatformSlug = 'hub', customOptions = {}) {
+export function createPlatformClient(platformSlug: PlatformSlug = 'hub', customOptions = {}) {
   // Get platform-specific settings or fallback to hub
   const platformConfig = platformSettings[platformSlug] || platformSettings.hub;
 
-  return createSupabaseClient(supabaseUrl || '', supabaseAnonKey || '', {
+  return createClient<Database>(supabaseUrl || '', supabaseAnonKey || '', {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
@@ -114,7 +146,7 @@ export function createClient(platformSlug: PlatformSlug = 'hub', customOptions =
 }
 
 // Create a default client for the hub platform
-export const supabase = createClient('hub');
+export const supabase = createPlatformClient('hub');
 
 // Create admin client for server-side operations
 export function createAdminClient() {
@@ -124,7 +156,7 @@ export function createAdminClient() {
     throw new Error('Missing Supabase service role key. Check your environment variables.');
   }
   
-  return createSupabaseClient(supabaseUrl || '', supabaseServiceKey, {
+  return createClient<Database>(supabaseUrl || '', supabaseServiceKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false

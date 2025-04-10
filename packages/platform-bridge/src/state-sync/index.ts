@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { PlatformSlug, PlatformState } from '../types';
+import { PlatformSlug, PlatformState, PlatformStateEntity } from '../types';
+import { DEFAULT_PREFERENCES, DB_TABLES, STORAGE_KEYS, TIME_CONFIG } from '../constants';
 
 /**
  * Service for managing cross-platform state synchronization
@@ -20,7 +21,7 @@ export class StateSyncService {
   static async savePlatformState(
     userId: string,
     platform: PlatformSlug,
-    state: Record<string, any>
+    state: Record<string, unknown>
   ): Promise<boolean> {
     try {
       // Get current state
@@ -43,7 +44,7 @@ export class StateSyncService {
       
       // Save to Supabase
       const { error } = await this.supabase
-        .from('user_platform_state')
+        .from(DB_TABLES.STATE)
         .upsert({
           user_id: userId,
           state: updatedState,
@@ -75,7 +76,7 @@ export class StateSyncService {
       
       // If not in cache, fetch from Supabase
       const { data, error } = await this.supabase
-        .from('user_platform_state')
+        .from(DB_TABLES.STATE)
         .select('state')
         .eq('user_id', userId)
         .single();
@@ -105,7 +106,7 @@ export class StateSyncService {
   static async getInitialPlatformState(
     userId: string,
     platform: PlatformSlug
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     try {
       const state = await this.getPlatformState(userId);
       
@@ -144,7 +145,7 @@ export class StateSyncService {
       const targetState = state[toPlatform] || {};
       
       // Create new state with transferred keys
-      const newState: Record<string, any> = { ...targetState };
+      const newState: Record<string, unknown> = { ...targetState };
       
       // Transfer all or specific keys
       if (stateKeys) {
@@ -179,54 +180,10 @@ export class StateSyncService {
         neothinkers: null
       },
       preferences: {
-        hub: {
-          theme: 'system',
-          notifications: true,
-          emailDigest: 'weekly',
-          language: 'en',
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          accessibility: {
-            reduceMotion: false,
-            highContrast: false,
-            largeText: false
-          }
-        },
-        immortals: {
-          theme: 'system',
-          notifications: true,
-          emailDigest: 'weekly',
-          language: 'en',
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          accessibility: {
-            reduceMotion: false,
-            highContrast: false,
-            largeText: false
-          }
-        },
-        ascenders: {
-          theme: 'system',
-          notifications: true,
-          emailDigest: 'weekly',
-          language: 'en',
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          accessibility: {
-            reduceMotion: false,
-            highContrast: false,
-            largeText: false
-          }
-        },
-        neothinkers: {
-          theme: 'system',
-          notifications: true,
-          emailDigest: 'weekly',
-          language: 'en',
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          accessibility: {
-            reduceMotion: false,
-            highContrast: false,
-            largeText: false
-          }
-        }
+        hub: DEFAULT_PREFERENCES,
+        immortals: DEFAULT_PREFERENCES,
+        ascenders: DEFAULT_PREFERENCES,
+        neothinkers: DEFAULT_PREFERENCES
       },
       recentItems: {
         hub: [],
@@ -250,7 +207,11 @@ export class StateSyncService {
    */
   private static updateLocalStateCache(userId: string, state: PlatformState): void {
     try {
-      localStorage.setItem(`neothink_state_${userId}`, JSON.stringify(state));
+      const stateWithMeta = {
+        ...state,
+        cachedAt: Date.now()
+      };
+      localStorage.setItem(`${STORAGE_KEYS.STATE}${userId}`, JSON.stringify(stateWithMeta));
     } catch (error) {
       console.error('Failed to update local state cache:', error);
     }
@@ -263,8 +224,20 @@ export class StateSyncService {
    */
   private static getStateFromCache(userId: string): PlatformState | null {
     try {
-      const cachedState = localStorage.getItem(`neothink_state_${userId}`);
-      return cachedState ? JSON.parse(cachedState) : null;
+      const cachedData = localStorage.getItem(`${STORAGE_KEYS.STATE}${userId}`);
+      if (!cachedData) return null;
+      
+      const parsedData = JSON.parse(cachedData);
+      
+      // If no timestamp or cache is expired, return null
+      if (!parsedData.cachedAt) return null;
+      
+      const cacheAge = Date.now() - parsedData.cachedAt;
+      if (cacheAge > TIME_CONFIG.STATE_CACHE_TTL) return null;
+      
+      // Remove cache metadata before returning
+      const { cachedAt, ...state } = parsedData;
+      return state;
     } catch (error) {
       console.error('Failed to get state from cache:', error);
       return null;
@@ -280,18 +253,60 @@ export class StateSyncService {
     try {
       // Remove from Supabase
       const { error } = await this.supabase
-        .from('user_platform_state')
+        .from(DB_TABLES.STATE)
         .delete()
         .eq('user_id', userId);
       
       if (error) throw error;
       
       // Clear local cache
-      localStorage.removeItem(`neothink_state_${userId}`);
+      localStorage.removeItem(`${STORAGE_KEYS.STATE}${userId}`);
       
       return true;
     } catch (error) {
       console.error('Failed to clear state:', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Add item to recent items
+   * @param userId User ID
+   * @param platform Current platform
+   * @param itemId Item ID to add
+   * @param maxItems Maximum number of items to keep (default: 10)
+   * @returns Success status
+   */
+  static async addRecentItem(
+    userId: string,
+    platform: PlatformSlug,
+    itemId: string,
+    maxItems: number = 10
+  ): Promise<boolean> {
+    try {
+      const state = await this.getPlatformState(userId);
+      
+      // Get current recent items
+      const recentItems = [...(state.recentItems[platform] || [])];
+      
+      // Remove item if it exists to avoid duplicates
+      const existingIndex = recentItems.indexOf(itemId);
+      if (existingIndex > -1) {
+        recentItems.splice(existingIndex, 1);
+      }
+      
+      // Add item to the beginning
+      recentItems.unshift(itemId);
+      
+      // Limit the number of items
+      const limitedItems = recentItems.slice(0, maxItems);
+      
+      // Update state
+      return this.savePlatformState(userId, platform, {
+        recentItems: limitedItems
+      });
+    } catch (error) {
+      console.error('Failed to add recent item:', error);
       return false;
     }
   }

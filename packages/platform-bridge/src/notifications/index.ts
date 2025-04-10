@@ -1,5 +1,11 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js';
-import { CrossPlatformNotification, NotificationPriority, PlatformSlug } from '../types';
+import { 
+  CrossPlatformNotification, 
+  NotificationPriority, 
+  PlatformSlug,
+  NotificationEntity
+} from '../types';
+import { DB_TABLES, TIME_CONFIG } from '../constants';
 
 /**
  * Service for managing cross-platform notifications
@@ -34,7 +40,7 @@ export class NotificationService {
   ): Promise<boolean> {
     try {
       const { error } = await this.supabase
-        .from('cross_platform_notifications')
+        .from(DB_TABLES.NOTIFICATIONS)
         .insert({
           user_id: userId,
           source_platform: sourcePlatform,
@@ -72,7 +78,7 @@ export class NotificationService {
   ): Promise<CrossPlatformNotification[]> {
     try {
       const { data, error } = await this.supabase
-        .from('cross_platform_notifications')
+        .from(DB_TABLES.NOTIFICATIONS)
         .select('*')
         .eq('user_id', userId)
         .contains('target_platforms', platforms)
@@ -82,22 +88,31 @@ export class NotificationService {
       if (error) throw error;
       
       // Map the database response to our type
-      return (data || []).map(notification => ({
-        id: notification.id,
-        userId: notification.user_id,
-        sourcePlatform: notification.source_platform,
-        targetPlatforms: notification.target_platforms,
-        title: notification.title,
-        content: notification.content,
-        actionUrl: notification.action_url,
-        priority: notification.priority,
-        read: notification.read,
-        createdAt: notification.created_at
-      }));
+      return (data || []).map(this.mapNotificationFromEntity);
     } catch (error) {
       console.error('Failed to get notifications:', error);
       return [];
     }
+  }
+  
+  /**
+   * Map database entity to our type
+   * @param entity Database entity
+   * @returns CrossPlatformNotification
+   */
+  private static mapNotificationFromEntity(entity: any): CrossPlatformNotification {
+    return {
+      id: entity.id,
+      userId: entity.user_id,
+      sourcePlatform: entity.source_platform,
+      targetPlatforms: entity.target_platforms,
+      title: entity.title,
+      content: entity.content,
+      actionUrl: entity.action_url,
+      priority: entity.priority,
+      read: entity.read,
+      createdAt: entity.created_at
+    };
   }
   
   /**
@@ -114,7 +129,7 @@ export class NotificationService {
       if (notificationIds.length === 0) return true;
       
       const { error } = await this.supabase
-        .from('cross_platform_notifications')
+        .from(DB_TABLES.NOTIFICATIONS)
         .update({ read: true })
         .eq('user_id', userId)
         .in('id', notificationIds);
@@ -151,7 +166,7 @@ export class NotificationService {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'cross_platform_notifications',
+          table: DB_TABLES.NOTIFICATIONS,
           filter: `user_id=eq.${userId}`,
         },
         (payload: any) => {
@@ -162,22 +177,8 @@ export class NotificationService {
             notification.target_platforms &&
             notification.target_platforms.some((p: PlatformSlug) => platforms.includes(p))
           ) {
-            // Convert to our notification type
-            const typedNotification: CrossPlatformNotification = {
-              id: notification.id,
-              userId: notification.user_id,
-              sourcePlatform: notification.source_platform,
-              targetPlatforms: notification.target_platforms,
-              title: notification.title,
-              content: notification.content,
-              actionUrl: notification.action_url,
-              priority: notification.priority,
-              read: notification.read,
-              createdAt: notification.created_at
-            };
-            
-            // Call the callback
-            callback(typedNotification);
+            // Call the callback with the mapped notification
+            callback(this.mapNotificationFromEntity(notification));
           }
         }
       )
@@ -214,7 +215,7 @@ export class NotificationService {
   ): Promise<number> {
     try {
       const { count, error } = await this.supabase
-        .from('cross_platform_notifications')
+        .from(DB_TABLES.NOTIFICATIONS)
         .select('*', { count: 'exact', head: true })
         .eq('user_id', userId)
         .eq('read', false)
@@ -227,6 +228,45 @@ export class NotificationService {
       console.error('Failed to get unread notification count:', error);
       return 0;
     }
+  }
+  
+  /**
+   * Get notifications with auto-refresh
+   * @param userId User ID
+   * @param platforms Platforms to get notifications for
+   * @param limit Maximum number of notifications to get
+   * @param callback Callback function for notifications
+   * @returns Cleanup function
+   */
+  static subscribeToNotificationsWithPolling(
+    userId: string,
+    platforms: PlatformSlug[],
+    limit: number = 20,
+    callback: (notifications: CrossPlatformNotification[]) => void
+  ): () => void {
+    // Initial fetch
+    this.getNotifications(userId, platforms, limit).then(callback);
+    
+    // Set up real-time updates
+    const subscriptionId = this.subscribeToNotifications(
+      userId,
+      platforms,
+      () => {
+        // Refetch notifications when a new one comes in
+        this.getNotifications(userId, platforms, limit).then(callback);
+      }
+    );
+    
+    // Set up polling for backup (in case real-time fails)
+    const interval = setInterval(() => {
+      this.getNotifications(userId, platforms, limit).then(callback);
+    }, TIME_CONFIG.NOTIFICATION_CHECK_INTERVAL);
+    
+    // Return cleanup function
+    return () => {
+      this.unsubscribeFromNotifications(subscriptionId);
+      clearInterval(interval);
+    };
   }
 }
 

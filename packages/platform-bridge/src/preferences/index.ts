@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { PlatformPreferences, PlatformSlug } from '../types';
+import { PlatformPreferences, PlatformSlug, PlatformPreferencesEntity } from '../types';
+import { DEFAULT_PREFERENCES, DB_TABLES, STORAGE_KEYS } from '../constants';
 
 /**
  * Service for managing user preferences across platforms
@@ -21,8 +22,13 @@ export class PreferencesService {
     platform: PlatformSlug
   ): Promise<PlatformPreferences> {
     try {
+      // Try getting from cache first for better performance
+      const cachedPreferences = this.getPreferencesFromCache(userId, platform);
+      if (cachedPreferences) return cachedPreferences;
+      
+      // If not in cache, get from database
       const { data, error } = await this.supabase
-        .from('user_platform_preferences')
+        .from(DB_TABLES.PREFERENCES)
         .select('preferences')
         .eq('user_id', userId)
         .eq('platform_slug', platform)
@@ -30,10 +36,15 @@ export class PreferencesService {
       
       if (error) throw error;
       
-      return data?.preferences || this.getDefaultPreferences();
+      const preferences = data?.preferences || DEFAULT_PREFERENCES;
+      
+      // Update cache
+      this.updateLocalPreferencesCache(userId, platform, preferences);
+      
+      return preferences;
     } catch (error) {
       console.error(`Failed to get user preferences for ${platform}:`, error);
-      return this.getDefaultPreferences();
+      return DEFAULT_PREFERENCES;
     }
   }
   
@@ -61,7 +72,7 @@ export class PreferencesService {
       
       // Update last accessed timestamp
       const { error } = await this.supabase
-        .from('user_platform_preferences')
+        .from(DB_TABLES.PREFERENCES)
         .upsert({
           user_id: userId,
           platform_slug: platform,
@@ -83,25 +94,6 @@ export class PreferencesService {
   }
   
   /**
-   * Get default preferences
-   * @returns Default platform preferences
-   */
-  static getDefaultPreferences(): PlatformPreferences {
-    return {
-      theme: 'system',
-      notifications: true,
-      emailDigest: 'weekly',
-      language: 'en',
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      accessibility: {
-        reduceMotion: false,
-        highContrast: false,
-        largeText: false
-      }
-    };
-  }
-  
-  /**
    * Update local preferences cache
    * @param userId User ID
    * @param platform Platform slug
@@ -113,10 +105,13 @@ export class PreferencesService {
     preferences: PlatformPreferences
   ): void {
     try {
-      const cacheKey = `neothink_preferences_${userId}`;
+      const cacheKey = `${STORAGE_KEYS.PREFERENCES}${userId}`;
       const preferenceCache = JSON.parse(localStorage.getItem(cacheKey) || '{}');
       
-      preferenceCache[platform] = preferences;
+      preferenceCache[platform] = {
+        ...preferences,
+        cachedAt: Date.now()
+      };
       
       localStorage.setItem(cacheKey, JSON.stringify(preferenceCache));
     } catch (error) {
@@ -135,10 +130,20 @@ export class PreferencesService {
     platform: PlatformSlug
   ): PlatformPreferences | null {
     try {
-      const cacheKey = `neothink_preferences_${userId}`;
+      const cacheKey = `${STORAGE_KEYS.PREFERENCES}${userId}`;
       const preferenceCache = JSON.parse(localStorage.getItem(cacheKey) || '{}');
+      const cachedData = preferenceCache[platform];
       
-      return preferenceCache[platform] || null;
+      // If no cached data or cache is expired, return null
+      if (!cachedData || !cachedData.cachedAt) return null;
+      
+      // Return null if cache is older than the TTL
+      const cacheAge = Date.now() - cachedData.cachedAt;
+      if (cacheAge > 60 * 60 * 1000) return null; // 1 hour TTL
+      
+      // Remove cache metadata before returning
+      const { cachedAt, ...preferences } = cachedData;
+      return preferences;
     } catch (error) {
       console.error('Failed to get preferences from cache:', error);
       return null;
@@ -171,6 +176,19 @@ export class PreferencesService {
       console.error('Failed to sync preferences across platforms:', error);
       return false;
     }
+  }
+  
+  /**
+   * Reset preferences to default for a specific platform
+   * @param userId User ID
+   * @param platform Platform to reset
+   * @returns Success status
+   */
+  static async resetPreferences(
+    userId: string,
+    platform: PlatformSlug
+  ): Promise<boolean> {
+    return this.saveUserPreferences(userId, platform, DEFAULT_PREFERENCES);
   }
 }
 

@@ -1,4 +1,9 @@
-import { PlatformNavigationItem, PlatformSlug, PLATFORM_URLS } from '../types';
+import { 
+  PlatformNavigationItem, 
+  PlatformSlug, 
+  NavigationContext
+} from '../types';
+import { PLATFORM_URLS, STORAGE_KEYS } from '../constants';
 
 /**
  * Navigation service for cross-platform navigation
@@ -13,7 +18,7 @@ export class NavigationService {
   static navigateToPlatform(
     platform: PlatformSlug,
     path?: string,
-    context?: Record<string, any>
+    context?: NavigationContext
   ): string {
     const baseUrl = PLATFORM_URLS[platform];
     let url = baseUrl;
@@ -97,12 +102,12 @@ export class NavigationService {
   static storeLastLocation(platform: PlatformSlug, path: string): void {
     try {
       const lastLocations = JSON.parse(
-        localStorage.getItem('neothink_last_locations') || '{}'
+        localStorage.getItem(STORAGE_KEYS.LAST_LOCATIONS) || '{}'
       );
       
       lastLocations[platform] = path;
       
-      localStorage.setItem('neothink_last_locations', JSON.stringify(lastLocations));
+      localStorage.setItem(STORAGE_KEYS.LAST_LOCATIONS, JSON.stringify(lastLocations));
     } catch (error) {
       console.error('Failed to store last location:', error);
     }
@@ -116,7 +121,7 @@ export class NavigationService {
   static getLastLocation(platform: PlatformSlug): string | null {
     try {
       const lastLocations = JSON.parse(
-        localStorage.getItem('neothink_last_locations') || '{}'
+        localStorage.getItem(STORAGE_KEYS.LAST_LOCATIONS) || '{}'
       );
       
       return lastLocations[platform] || null;
@@ -124,6 +129,21 @@ export class NavigationService {
       console.error('Failed to get last location:', error);
       return null;
     }
+  }
+  
+  /**
+   * Detect the current platform based on the hostname
+   * @returns Current platform slug
+   */
+  static detectCurrentPlatform(): PlatformSlug {
+    if (typeof window === 'undefined') return 'hub';
+    
+    const hostname = window.location.hostname;
+    
+    if (hostname.includes('immortals')) return 'immortals';
+    if (hostname.includes('ascenders')) return 'ascenders';
+    if (hostname.includes('neothinkers')) return 'neothinkers';
+    return 'hub';
   }
   
   /**
@@ -139,21 +159,14 @@ export class NavigationService {
   ): string {
     // Store the current location if preserving state
     if (preserveState) {
-      const currentPlatform = window.location.hostname.includes('immortals')
-        ? 'immortals'
-        : window.location.hostname.includes('ascenders')
-        ? 'ascenders'
-        : window.location.hostname.includes('neothinkers')
-        ? 'neothinkers'
-        : 'hub';
-      
+      const currentPlatform = this.detectCurrentPlatform();
       this.storeLastLocation(currentPlatform, window.location.pathname);
     }
     
     // Get the target URL
     const url = this.navigateToPlatform(platform, path, {
-      source_platform: window.location.hostname,
-      preserve_state: preserveState ? '1' : '0'
+      sourcePlatform: this.detectCurrentPlatform(),
+      preserveState: preserveState
     });
     
     return url;
