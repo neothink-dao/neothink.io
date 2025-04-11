@@ -83,4 +83,96 @@ For those using multiple platforms, the Hub can:
 - Offer cross-platform insights
 - Enable broader community connections
 
+# Neothink DAO Hub
+
+## Overview
+
+The Hub serves as the central platform connecting all Neothink DAO applications and services. It provides a unified experience for users to access and interact with the entire ecosystem.
+
+## Core Features
+
+### Current Features
+- Unified dashboard
+- Cross-platform navigation
+- Community features
+- Progress tracking
+- Resource library
+
+### Planned Features
+- Enhanced AI integration
+- Advanced analytics
+- Personalized recommendations
+- Community collaboration tools
+
+## Technical Stack
+
+- **Framework**: Next.js 14
+- **Database**: Supabase
+- **State Management**: Platform Bridge
+- **Authentication**: Supabase Auth
+- **AI**: OpenAI GPT-4
+
+## Architecture
+
+The Hub follows a modular architecture that enables:
+- Independent platform operation
+- Shared resource access
+- Cross-platform data sync
+- Unified user experience
+
+## Development Guidelines
+
+### 1. Code Organization
+- Follow monorepo structure
+- Use shared components
+- Implement proper typing
+- Document all features
+
+### 2. Testing
+- Write comprehensive tests
+- Use testing library
+- Implement E2E tests
+- Monitor coverage
+
+### 3. Performance
+- Optimize loading
+- Cache effectively
+- Monitor metrics
+- Regular audits
+
+## API Integration
+
+### Current Endpoints
+- `/api/auth/*`
+- `/api/user/*`
+- `/api/content/*`
+- `/api/analytics/*`
+
+### Planned Endpoints
+- `/api/ai/*`
+- `/api/insights/*`
+- `/api/community/*`
+
+## Security
+
+- Role-based access
+- Data encryption
+- Regular audits
+- Compliance checks
+
+## Deployment
+
+- Vercel hosting
+- GitHub actions
+- Automated testing
+- Staged releases
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) for:
+- Setup guide
+- Code standards
+- PR process
+- Review guidelines
+
 // ... existing technical documentation ... 
