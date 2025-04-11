@@ -125,3 +125,6 @@ Potential improvements:
 - Add pgvector extension for AI embeddings
 - Create Content table for AI-generated content
 - Add analytics functions for cross-platform insights 
+
+1. **Database migrations** in `supabase/migrations`
+2. **Database types** in `packages/database-types` 

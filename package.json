@@ -1,5 +1,5 @@
 {
-  "name": "neothink-monorepo",
+  "name": "@neothink/monorepo",
   "version": "0.1.0",
   "private": true,
   "description": "Neothink Platform - Elevating consciousness through integrated digital experiences",
@@ -15,21 +15,23 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
     "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky install",
+    "type-check": "turbo run type-check",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push",
+    "db:studio": "turbo run db:studio",
     "dev:hub": "turbo run dev --filter=hub",
     "dev:ascenders": "turbo run dev --filter=ascenders",
     "dev:immortals": "turbo run dev --filter=immortals",
     "dev:neothinkers": "turbo run dev --filter=neothinkers",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "clean": "turbo run clean && rm -rf node_modules",
     "clean:packages": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "type-check": "turbo run type-check",
-    "db:generate": "turbo run db:generate",
-    "db:push": "turbo run db:push",
-    "supabase:deploy": "turbo run supabase:deploy",
     "launch-check": "node scripts/launch-check.js",
     "preinstall": "npx only-allow pnpm"
   },
@@ -43,24 +45,22 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.18",
-    "eslint": "^8.53.0",
-    "eslint-config-next": "15.3.0",
-    "postcss": "^8.4.35",
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
+    "@types/node": "^20.11.25",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.1.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "tailwindcss": "^3.4.1",
-    "turbo": "^1.12.5",
-    "typescript": "^5.4.5",
-    "vitest": "^1.3.1",
-    "@types/framer-motion": "^10.18.0",
-    "@types/date-fns": "^2.6.0",
-    "node-fetch": "^2.7.0",
-    "chalk": "^4.1.2",
-    "dotenv": "^16.4.5"
+    "turbo": "^1.12.4",
+    "typescript": "^5.4.2"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -74,5 +74,14 @@
       "react-dom": "^18.2.0"
     },
     "networkTimeout": 300000
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }

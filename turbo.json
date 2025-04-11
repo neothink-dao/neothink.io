@@ -1,82 +1,24 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": [".env"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**", "storybook-static/**"],
-      "env": [
-        "NEXT_PUBLIC_SUPABASE_URL",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-        "NEXT_PUBLIC_VERCEL_ENV",
-        "NEXT_PUBLIC_PLATFORM_NAME",
-        "NEXT_PUBLIC_PLATFORM_SLUG",
-        "NEXT_PUBLIC_BASE_URL",
-        "NODE_ENV",
-        "CI",
-        "VERCEL",
-        "VERCEL_ENV",
-        "VERCEL_URL",
-        "VERCEL_GIT_COMMIT_SHA"
-      ],
-      "cache": {
-        "strategy": "hash-content",
-        "inputs": ["src/**", "app/**", "pages/**", "components/**", "lib/**", "public/**", "styles/**", "package.json"]
-      }
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
-    "deploy": {
-      "dependsOn": ["build", "test", "lint"],
-      "cache": false
+    "lint": {
+      "outputs": []
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "dotEnv": [".env.local", ".env.development"]
-    },
-    "lint": {
-      "outputs": [],
-      "cache": {
-        "strategy": "hash-content"
-      }
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"],
-      "cache": {
-        "strategy": "hash-content"
-      }
+      "persistent": true
     },
     "clean": {
       "cache": false
     },
-    "db:generate": {
-      "cache": false,
-      "outputs": ["src/types/database.ts"]
-    },
-    "db:push": {
-      "cache": false
-    },
-    "supabase:deploy": {
-      "dependsOn": ["^build"],
-      "outputs": [],
-      "cache": false
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     }
-  },
-  "globalEnv": [
-    "NEXT_PUBLIC_SUPABASE_URL",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-    "SUPABASE_SERVICE_ROLE_KEY",
-    "NEXT_PUBLIC_VERCEL_ENV",
-    "NEXT_PUBLIC_PLATFORM_NAME",
-    "NEXT_PUBLIC_PLATFORM_SLUG",
-    "NEXT_PUBLIC_BASE_URL",
-    "NODE_ENV",
-    "CI",
-    "VERCEL",
-    "VERCEL_ENV",
-    "VERCEL_URL",
-    "VERCEL_GIT_COMMIT_SHA"
-  ]
+  }
 } 

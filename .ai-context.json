@@ -3,7 +3,7 @@
   "lastUpdated": "2023-04-15T08:30:00Z",
   "projectInfo": {
     "name": "Neothink Platforms",
-    "description": "Monorepo for Neothink platform applications including go.neothink.io, joinascenders.com, joinneothinkers.com, and joinimmortals.com",
+    "description": "Monorepo for Neothink platform applications including go.neothink.io, www.joinascenders.org, www.joinneothinkers.org, and www.joinimmortals.org",
     "architecture": "Next.js monorepo with Supabase backend and TailwindCSS styling",
     "repositoryStructure": {
       "apps": [
@@ -61,7 +61,7 @@
           "Ascenders Community"
         ],
         "pricing": "$197/month",
-        "url": "https://joinascenders.com"
+        "url": "https://www.joinascenders.org"
       },
       {
         "name": "Neothinker",
@@ -74,13 +74,13 @@
           "Neothinkers Community"
         ],
         "pricing": "$197/month",
-        "url": "https://joinneothinkers.com"
+        "url": "https://www.joinneothinkers.org"
       },
       {
         "name": "Immortals",
         "slug": "immortals",
         "description": "Premium platform for advanced members",
-        "url": "https://joinimmortals.com"
+        "url": "https://www.joinimmortals.org"
       }
     ],
     "database": {

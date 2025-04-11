@@ -18,3 +18,5 @@ export const schema = {
   aiEmbeddings: 'ai_embeddings',
   aiUsageMetrics: 'ai_usage_metrics',
 };
+
+export * from './sharding';

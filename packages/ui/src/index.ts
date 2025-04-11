@@ -20,3 +20,10 @@ export * from './chat/Message';
 
 // Zoom Components
 export * from './zoom/ZoomAttendance';
+
+// New components
+export * from '../components/Navigation'
+export * from '../components/AuthenticatedLayout'
+export * from '../components/ErrorBoundary'
+export * from '../components/LoadingState'
+export * from '../components/PlatformAccess'

@@ -1,13 +1,21 @@
 'use client';
 
-import { Button } from '@neothink/ui';
+import { Hero } from '@neothink/ui/components/marketing'
 
-export default function Home() {
+export default function NeothinkersLandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold mb-8">Welcome to Neothinkers</h1>
-      <p className="text-xl mb-8">Your journey in the Neothink community starts here</p>
-      <Button variant="neothinkers">Get Started</Button>
+    <main>
+      <Hero
+        platform="neothinkers"
+        title="Expand Your Intellectual Horizons"
+        subtitle="Join a community of curious minds dedicated to exploring new ideas, challenging assumptions, and pushing the boundaries of human knowledge."
+        ctaText="Start Exploring"
+        ctaLink="/signup"
+        secondaryCtaText="Learn More"
+        secondaryCtaLink="/about"
+        imageSrc="/images/neothinkers-preview.jpg"
+      />
+      {/* Additional marketing sections will be added here */}
     </main>
-  );
+  )
 } 

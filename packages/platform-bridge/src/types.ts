@@ -8,9 +8,9 @@ export type PlatformSlug = 'hub' | 'immortals' | 'ascenders' | 'neothinkers';
  */
 export const PLATFORM_URLS: Record<PlatformSlug, string> = {
   hub: 'https://go.neothink.io',
-  immortals: 'https://joinimmortals.com',
-  ascenders: 'https://joinascenders.com',
-  neothinkers: 'https://joinneothinkers.com'
+  immortals: 'https://www.joinimmortals.org',
+  ascenders: 'https://www.joinascenders.org',
+  neothinkers: 'https://www.joinneothinkers.org'
 };
 
 /**

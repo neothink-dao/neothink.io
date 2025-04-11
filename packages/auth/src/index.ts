@@ -87,3 +87,17 @@ export interface SecurityEvent {
   };
   details: Record<string, any>;
 }
+
+// Components
+export * from './components/AuthForm'
+export * from './components/SignInForm'
+export * from './components/SignUpForm'
+export * from './components/ForgotPasswordForm'
+export * from './components/UpdatePasswordForm'
+export * from './components/ErrorPage'
+
+// Supabase
+export * from './lib/supabase/client'
+
+// Middleware
+export { middleware } from './middleware'

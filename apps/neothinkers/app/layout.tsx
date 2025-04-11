@@ -1,20 +1,27 @@
-'use client';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Providers } from '@/components/providers'
 
-import { AuthProvider } from '@neothink/auth';
-import './globals.css';
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Neothinkers - Unlock Your Full Potential',
+  description: 'Join the Neothink movement and transform your thinking to achieve extraordinary results.',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        <AuthProvider platformSlug="neothinkers">
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <Providers>
           {children}
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
-  );
+  )
 } 

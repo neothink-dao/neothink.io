@@ -37,5 +37,6 @@
       "schedule": "*/15 * * * *"
     }
   ],
-  "version": 2
+  "version": 2,
+  "extends": "../../vercel.base.json"
 } 

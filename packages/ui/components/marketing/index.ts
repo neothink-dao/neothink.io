@@ -1,0 +1,6 @@
+export * from './hero'
+export * from './features'
+export * from './testimonials'
+export * from './pricing'
+export * from './cta'
+export * from './footer' 

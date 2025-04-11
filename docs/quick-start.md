@@ -1,204 +1,154 @@
-# Neothink Quick Start Guide
+# Quick Start Guide
 
-Welcome to the Neothink Platform Ecosystem! This guide will help you get up and running quickly.
+Welcome to the Neothink+ ecosystem! This guide will help you get started with development across our platforms.
 
-## 1. Environment Setup
+## Prerequisites
 
-### Prerequisites
+- Node.js 18.x or later
+- pnpm 8.15.4 or later
+- Git
+- Supabase CLI
+- Docker (for local development)
 
-- **Node.js**: Version 20.x or later
-- **npm**: Version 10.x or later
-- **Git**: Latest version recommended
-- **Code Editor**: VS Code with recommended extensions
-- **API Keys**: Supabase and OpenAI access
+## Initial Setup
 
-### Initial Setup
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/neothink-dao/neothink.io.git
+   cd neothink.io
+   ```
 
-1. Clone the repository:
+2. **Install Dependencies**
+   ```bash
+   pnpm install
+   ```
 
-```bash
-git clone https://github.com/neothink/platform-monorepo.git
-cd platform-monorepo
-```
+3. **Environment Configuration**
+   ```bash
+   cp .env.example .env
+   ```
+   Update the following variables in `.env`:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `POSTHOG_KEY`
+   - `SENTRY_DSN`
+   - `OPENAI_API_KEY`
 
-2. Install dependencies:
+4. **Start Local Development**
+   ```bash
+   # Start Supabase locally
+   pnpm supabase start
 
-```bash
-npm install
-```
+   # Start all applications
+   pnpm dev
 
-3. Set up environment variables:
+   # Or start a specific platform
+   pnpm dev --filter=@neothink/hub
+   ```
 
-```bash
-cp .env.example .env.local
-```
+## Development Workflow
 
-4. Edit `.env.local` with your API keys:
+1. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-```
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-NEXT_PUBLIC_OPENAI_API_KEY=your-openai-key
-```
+2. **Run Tests**
+   ```bash
+   pnpm test
+   pnpm test:e2e
+   ```
 
-## 2. Development Workflow
+3. **Check Types and Lint**
+   ```bash
+   pnpm type-check
+   pnpm lint
+   ```
 
-### Running the Development Server
+4. **Build for Production**
+   ```bash
+   pnpm build
+   ```
 
-Start a specific platform:
+## Platform-Specific Development
 
-```bash
-# Run Hub platform
-npm run dev:hub
-
-# Run Ascenders platform
-npm run dev:ascenders
-
-# Run Immortals platform
-npm run dev:immortals
-
-# Run all platforms
-npm run dev
-```
-
-### Workspace Tour
-
-Here's what's in the monorepo:
-
-- **`/apps`**: Individual platform applications
-- **`/packages`**: Shared code and utilities
-- **`/infrastructure`**: Deployment and CI/CD configuration
-
-### Key Packages
-
-- **`@neothink/database`**: Database access and schemas
-- **`@neothink/platform-bridge`**: Cross-platform state management
-- **`@neothink/ai-integration`**: AI utilities and vector search
-- **`@neothink/ui`**: Shared UI components
-
-## 3. Supabase Setup
-
-### Tables Structure
-
-The database includes these key tables:
-
-| Table | Purpose |
-|-------|---------|
-| `platform_preferences` | User preferences by platform |
-| `platform_state` | Shared state between platforms |
-| `ai_conversations` | AI conversation history |
-| `ai_embeddings` | Vector embeddings for semantic search |
-
-### Local Development
-
-1. If using Supabase locally:
-
-```bash
-npx supabase start
-```
-
-2. Run initial migrations:
-
-```bash
-npm run db:setup
-```
-
-## 4. Feature Development
-
-### Adding a New Feature
-
-1. Create a feature branch:
-
-```bash
-git checkout -b feature/amazing-feature
-```
-
-2. Implement your changes following our coding standards
-3. Write tests for your feature
-4. Create a pull request
-
-### Working with Shared Packages
-
-Importing from shared packages:
-
-```typescript
-// Database access
-import { getSupabaseClient } from '@neothink/database';
-
-// Platform bridge
-import { usePlatformBridge } from '@neothink/platform-bridge';
-
-// AI integration
-import { useAI } from '@neothink/ai-integration';
-
-// UI components
-import { Button } from '@neothink/ui';
-```
-
-## 5. Platform-Specific Guidelines
-
-### Hub
-
-Primary focus:
-- Central knowledge repository
-- Navigation to other platforms
-- Administrative capabilities
+### Neothink+ Hub
+- Port: 3000
+- URL: http://localhost:3000
+- Main entry: `apps/hub/app/page.tsx`
 
 ### Ascenders
-
-Primary focus:
-- Financial education
-- Wealth strategies
-- Investment tracking
-
-### Immortals
-
-Primary focus:
-- Health protocols
-- Biometric tracking
-- Longevity optimization
+- Port: 3001
+- URL: http://localhost:3001
+- Main entry: `apps/ascenders/app/page.tsx`
 
 ### Neothinkers
+- Port: 3002
+- URL: http://localhost:3002
+- Main entry: `apps/neothinkers/app/page.tsx`
 
-Primary focus:
-- Community engagement
-- Social connection
-- Knowledge sharing
+### Immortals
+- Port: 3003
+- URL: http://localhost:3003
+- Main entry: `apps/immortals/app/page.tsx`
 
-## 6. Common Tasks
+## Common Tasks
 
-### Adding a Database Migration
-
-1. Create migration file:
-
+### Database Migrations
 ```bash
-npm run db:migration:create -- add-new-table
+# Create a new migration
+pnpm supabase migration new my_migration_name
+
+# Apply migrations
+pnpm supabase db push
 ```
 
-2. Edit the generated file in `/supabase/migrations/`
-3. Apply the migration:
-
+### Adding Shared Dependencies
 ```bash
-npm run db:migration:apply
+# Add to all applications
+pnpm add -w package-name
+
+# Add to specific application
+pnpm add package-name --filter=@neothink/hub
 ```
 
-### Deploying to Production
-
+### Running Type Checks
 ```bash
-# Deploy all platforms
-npm run deploy
+# Check all packages
+pnpm type-check
 
-# Deploy specific platform
-npm run deploy:hub
+# Check specific package
+pnpm type-check --filter=@neothink/hub
 ```
 
-## 7. Getting Help
+## Next Steps
 
-- Check the [detailed documentation](./README.md)
-- Join our [Discord channel](https://discord.gg/neothink)
-- Ask in the #dev-help Slack channel
-- Email the development team at dev@neothink.io
+- Review the [Architecture Overview](./architecture/overview.md)
+- Explore [Development Guidelines](./guides/development.md)
+- Learn about [Platform Integration](./guides/platform-integration.md)
+- Understand [Testing Best Practices](./guides/testing.md)
 
----
+## Troubleshooting
 
-Welcome aboard! We're excited to have you contribute to the Neothink mission of advancing human consciousness through our integrated digital platforms. 
+### Common Issues
+
+1. **Port Conflicts**
+   - Each platform runs on a different port
+   - Check for processes using required ports
+   - Use `lsof -i :PORT` to find conflicts
+
+2. **Database Connection**
+   - Ensure Supabase is running locally
+   - Check connection strings in `.env`
+   - Verify database migrations are up to date
+
+3. **Build Errors**
+   - Clear build cache: `pnpm clean`
+   - Rebuild: `pnpm build`
+   - Check for type errors: `pnpm type-check`
+
+## Support
+
+- Join our [Discord](https://discord.gg/neothink)
+- Check [GitHub Issues](https://github.com/neothink-dao/neothink.io/issues)
+- Review [FAQ](./faq.md) 

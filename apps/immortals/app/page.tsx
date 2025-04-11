@@ -1,13 +1,22 @@
 'use client';
 
 import { Button } from '@neothink/ui';
+import { Hero } from '@neothink/ui/components/marketing'
 
-export default function Home() {
+export default function ImmortalsLandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold mb-8">Welcome to Immortals</h1>
-      <p className="text-xl mb-8">Your journey to health and longevity starts here</p>
-      <Button variant="immortals">Get Started</Button>
+    <main>
+      <Hero
+        platform="immortals"
+        title="Transcend the Ordinary"
+        subtitle="Join an elite community of visionaries dedicated to achieving immortality through groundbreaking advances in consciousness and technology."
+        ctaText="Begin Transcendence"
+        ctaLink="/signup"
+        secondaryCtaText="Learn More"
+        secondaryCtaLink="/about"
+        imageSrc="/images/immortals-preview.jpg"
+      />
+      {/* Additional marketing sections will be added here */}
     </main>
   );
 } 

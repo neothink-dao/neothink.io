@@ -1,11 +1,11 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
-const sites = [
-  'joinascenders',
-  'joinimmortals',
-  'joinneothinkers',
-  'go.neothink.io'
+const apps = [
+  'hub',
+  'ascenders',
+  'immortals',
+  'neothinkers'
 ]
 
 const newDependencies = {
@@ -13,8 +13,8 @@ const newDependencies = {
   "@supabase/supabase-js": "^2.49.4"
 }
 
-sites.forEach(site => {
-  const packageJsonPath = join(process.cwd(), site, 'package.json')
+apps.forEach(app => {
+  const packageJsonPath = join(process.cwd(), 'apps', app, 'package.json')
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
   
   // Update dependencies
@@ -27,5 +27,5 @@ sites.forEach(site => {
   delete packageJson.dependencies['@supabase/auth-helpers-nextjs']
   
   writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
-  console.log(`Updated dependencies for ${site}`)
+  console.log(`Updated dependencies for ${app}`)
 }) 

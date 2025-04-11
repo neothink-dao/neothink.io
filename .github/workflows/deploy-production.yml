@@ -17,8 +17,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_HUB }}
-          working-directory: ./go.neothink.io
+          working-directory: ./apps/hub
           vercel-args: '--prod'
+          alias-domains: |
+            go.neothink.io
 
   deploy-ascenders:
     runs-on: ubuntu-latest
@@ -32,8 +34,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_ASCENDERS }}
-          working-directory: ./joinascenders
+          working-directory: ./apps/ascenders
           vercel-args: '--prod'
+          alias-domains: |
+            www.joinascenders.org
+            joinascenders.org
 
   deploy-neothinkers:
     runs-on: ubuntu-latest
@@ -47,8 +52,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_NEOTHINKERS }}
-          working-directory: ./neothinkers
+          working-directory: ./apps/neothinkers
           vercel-args: '--prod'
+          alias-domains: |
+            www.joinneothinkers.org
+            joinneothinkers.org
 
   deploy-immortals:
     runs-on: ubuntu-latest
@@ -62,5 +70,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_IMMORTALS }}
-          working-directory: ./immortals
-          vercel-args: '--prod' 
+          working-directory: ./apps/immortals
+          vercel-args: '--prod'
+          alias-domains: |
+            www.joinimmortals.org
+            joinimmortals.org 

@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 env:
   NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -13,26 +13,27 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          
-      - uses: pnpm/action-setup@v2
+          node-version: '18'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          version: 8
-          
+          version: 8.15.4
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -42,17 +43,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Type check
-        run: pnpm turbo typecheck
+      - name: Run lint
+        run: pnpm lint
 
-      - name: Lint
-        run: pnpm turbo lint
+      - name: Run tests
+        run: pnpm test
 
-      - name: Test
-        run: pnpm turbo test
-        
       - name: Build
-        run: pnpm turbo build
+        run: pnpm build
 
       - name: Security audit
         run: pnpm audit

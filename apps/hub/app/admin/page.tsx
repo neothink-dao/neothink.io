@@ -7,8 +7,8 @@ import dynamic from 'next/dynamic';
 
 // Import client-side components with dynamic loading
 const DynamicFeedbackDashboard = dynamic(
-  () => import('../../components/FeedbackDashboard'),
-  { ssr: false, loading: () => <div className="p-6 animate-pulse bg-gray-100 rounded-lg">Loading dashboard...</div> }
+  () => import('@neothink/ui/src/FeedbackDashboard').then(mod => ({ default: mod.FeedbackDashboard })),
+  { ssr: false }
 );
 
 // Dynamically import Chart components to reduce initial load time
@@ -89,9 +89,10 @@ export default async function AdminPage() {
       
       {/* Feedback Dashboard */}
       <Suspense fallback={<div className="h-96 bg-gray-100 rounded-lg animate-pulse" />}>
-        <DynamicFeedbackDashboard 
-          initialSummary={feedbackSummary} 
-          userRole={userRole} 
+        <DynamicFeedbackDashboard
+          isAdmin={true}
+          showHeader={true}
+          showUsers={true}
         />
       </Suspense>
     </div>

@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom/vitest';
+import { cleanup } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 
 // Mock Next.js router
 vi.mock('next/router', () => ({
@@ -7,16 +9,8 @@ vi.mock('next/router', () => ({
     replace: vi.fn(),
     prefetch: vi.fn(),
     back: vi.fn(),
-    reload: vi.fn(),
     pathname: '/',
-    route: '/',
     query: {},
-    asPath: '/',
-    events: {
-      on: vi.fn(),
-      off: vi.fn(),
-      emit: vi.fn(),
-    },
   }),
 }));
 
@@ -25,13 +19,25 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
     replace: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-    refresh: vi.fn(),
     prefetch: vi.fn(),
+    back: vi.fn(),
+    pathname: '/',
   }),
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
+}));
+
+// Mock Supabase
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: () => ({
+    auth: {
+      getSession: vi.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: vi.fn(() => ({
+        data: { subscription: { unsubscribe: vi.fn() } },
+      })),
+      signOut: vi.fn(),
+    },
+  }),
 }));
 
 // Set up environment variables needed in tests
@@ -65,4 +71,9 @@ beforeAll(() => {
 afterAll(() => {
   console.error = originalConsoleError;
   console.warn = originalConsoleWarn;
+});
+
+// Cleanup after each test
+afterEach(() => {
+  cleanup();
 }); 
