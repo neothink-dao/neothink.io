@@ -2,6 +2,14 @@
 
 Welcome to the Neothink+ documentation. This comprehensive guide covers everything you need to know about the Neothink+ ecosystem, from getting started to advanced development topics.
 
+## Quick Links
+
+- 🚀 [Quick Start Guide](getting-started/README.md)
+- 🏗️ [Architecture Overview](architecture/overview.md)
+- 📚 [API Reference](api/README.md)
+- 🔒 [Security Guide](security/README.md)
+- 🤝 [Contributing Guide](contributing/README.md)
+
 ## Documentation Structure
 
 ```
@@ -19,26 +27,52 @@ docs/
 
 ## Core Documentation
 
-- [Quick Start Guide](getting-started/quick-start.md)
+### Getting Started
+- [Quick Start Guide](getting-started/README.md)
+- [Development Environment Setup](getting-started/environment.md)
+- [Development Guide](getting-started/development.md)
+
+### Architecture & Design
 - [Architecture Overview](architecture/overview.md)
-- [Development Guide](guides/development.md)
+- [System Design](architecture/design.md)
+- [Data Flow](architecture/data-flow.md)
+- [Integration Points](architecture/integration.md)
+
+### API & Development
 - [API Reference](api/README.md)
-- [Security Guide](guides/security.md)
-- [Platform Bridge](api/platform-bridge.md)
+- [Platform Bridge API](api/platform-bridge.md)
+- [Authentication API](api/authentication.md)
+- [Database API](api/database.md)
+
+### Security
+- [Security Overview](security/README.md)
+- [Authentication Flows](security/authentication.md)
+- [Authorization](security/authorization.md)
+- [Data Protection](security/data-protection.md)
 
 ## Platform Documentation
 
-- [Hub](platforms/hub.md)
-- [Ascenders](platforms/ascenders.md)
-- [Neothinkers](platforms/neothinkers.md)
-- [Immortals](platforms/immortals.md)
+Each platform in the Neothink ecosystem has its own comprehensive documentation:
+
+- [Hub](platforms/hub/README.md) - Central knowledge and integration platform
+- [Ascenders](platforms/ascenders.md) - Financial sovereignty platform
+- [Neothinkers](platforms/neothinkers.md) - Community and connection platform
+- [Immortals](platforms/immortals.md) - Health and longevity platform
 
 ## Development Resources
 
-- [Development Environment](development-environment.md)
 - [Contributing Guidelines](contributing/README.md)
-- [Code Style Guide](contributing/code-style.md)
-- [Testing Guide](guides/testing.md)
+- [Code Style Guide](contributing/style-guide.md)
+- [Testing Guide](contributing/testing.md)
+- [Pull Request Process](contributing/pull-requests.md)
+- [Development Workflow](contributing/workflow.md)
+
+## Deployment & Operations
+
+- [Deployment Guide](deployment/README.md)
+- [Environment Configuration](deployment/configuration.md)
+- [Monitoring & Logging](deployment/monitoring.md)
+- [Performance Optimization](deployment/performance.md)
 
 ## Additional Resources
 

@@ -1,235 +1,284 @@
-# Authentication in Neothink+
+# Authentication
 
-This document provides a comprehensive overview of authentication in the Neothink+ ecosystem.
+This guide details the authentication system implemented across the Neothink+ ecosystem.
 
 ## Overview
 
-The Neothink+ ecosystem uses Supabase Authentication for secure user management across all platforms. This provides:
+The Neothink+ authentication system provides:
 
-- Secure email/password authentication
-- OAuth social providers
+- Secure user authentication
+- Multi-factor authentication (MFA)
+- Session management
+- Password policies
+- OAuth integration
 - Magic link authentication
-- JWT-based session management
-- Role-based access control (RBAC)
 
 ## Authentication Flow
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant Client
-    participant Auth
-    participant API
-    
-    User->>Client: Initiates authentication
-    Client->>Auth: Requests authentication
-    Auth->>User: Presents auth interface
-    User->>Auth: Provides credentials
-    Auth->>API: Validates credentials
-    API->>Auth: Returns JWT
-    Auth->>Client: Sets session
-    Client->>User: Redirects to dashboard
+    participant U as User
+    participant C as Client
+    participant A as Auth Service
+    participant D as Database
+
+    U->>C: Initiate Login
+    C->>A: Authentication Request
+    A->>D: Validate Credentials
+    D-->>A: User Data
+    A->>A: Generate Session
+    A-->>C: Auth Tokens
+    C-->>U: Login Success
 ```
 
-## Implementation Details
+## Implementation
 
-### 1. Setup and Configuration
+### Basic Authentication
 
 ```typescript
-// supabase/config.ts
-export const authConfig = {
-  autoRefreshToken: true,
-  persistSession: true,
-  detectSessionInUrl: true,
-  flowType: 'pkce',
-};
+import { createClient } from '@supabase/supabase-js'
 
-// Initialize client
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  { auth: authConfig }
-);
-```
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
-### 2. User Authentication
-
-```typescript
-// Sign Up
-async function signUp(email: string, password: string) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${location.origin}/auth/callback`,
-      data: {
-        full_name: name,
-        avatar_url: '',
-      },
-    },
-  });
-  return { data, error };
-}
-
-// Sign In
-async function signIn(email: string, password: string) {
+export async function signIn({ email, password }: SignInCredentials) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
-  });
-  return { data, error };
-}
-
-// Sign Out
-async function signOut() {
-  const { error } = await supabase.auth.signOut();
-  return { error };
+  })
+  
+  if (error) throw error
+  return data
 }
 ```
 
-### 3. Session Management
+### Magic Link Authentication
 
 ```typescript
-// Check active session
-async function getSession() {
-  const { data: { session }, error } = await supabase.auth.getSession();
-  return { session, error };
+export async function sendMagicLink(email: string) {
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${window.location.origin}/auth/callback`,
+    },
+  })
+  
+  if (error) throw error
 }
-
-// Subscribe to auth changes
-supabase.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_IN') {
-    // Handle sign in
-  } else if (event === 'SIGNED_OUT') {
-    // Handle sign out
-  }
-});
 ```
 
-### 4. Protected Routes
+### Multi-Factor Authentication
 
 ```typescript
-// middleware.ts
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+export async function setupMFA(userId: string) {
+  const { data, error } = await supabase.auth.mfa.enroll({
+    factorType: 'totp',
+  })
+  
+  if (error) throw error
+  return data
+}
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
-  const { data: { session } } = await supabase.auth.getSession();
+export async function verifyMFA(code: string) {
+  const { data, error } = await supabase.auth.mfa.challenge({
+    factorId: 'totp',
+    code,
+  })
+  
+  if (error) throw error
+  return data
+}
+```
 
-  if (!session && req.nextUrl.pathname.startsWith('/protected')) {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
-  }
+## Session Management
 
-  return res;
+### Session Configuration
+
+```typescript
+export const sessionConfig = {
+  // Session duration (7 days)
+  maxAge: 7 * 24 * 60 * 60,
+  
+  // Update session if it's older than 24 hours
+  updateAge: 24 * 60 * 60,
+  
+  // Persist session across browser restarts
+  persistSession: true,
+  
+  // Detect session changes across tabs/windows
+  detectSessionInUrl: true,
+}
+```
+
+### Session Handling
+
+```typescript
+export async function getSession() {
+  const { data: { session }, error } = await supabase.auth.getSession()
+  
+  if (error) throw error
+  return session
+}
+
+export async function refreshSession() {
+  const { data: { session }, error } = await supabase.auth.refreshSession()
+  
+  if (error) throw error
+  return session
+}
+```
+
+## Password Policies
+
+```typescript
+export const passwordPolicy = {
+  minLength: 12,
+  requireUppercase: true,
+  requireLowercase: true,
+  requireNumbers: true,
+  requireSpecialChars: true,
+  maxAge: 90, // days
+  preventReuse: true,
+  lockoutThreshold: 5,
+  lockoutDuration: 15, // minutes
+}
+
+export function validatePassword(password: string): boolean {
+  return (
+    password.length >= passwordPolicy.minLength &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password)
+  )
+}
+```
+
+## OAuth Integration
+
+### Supported Providers
+
+- Google
+- GitHub
+- Discord
+- Twitter
+- LinkedIn
+
+### OAuth Configuration
+
+```typescript
+export const oauthConfig = {
+  providers: {
+    google: {
+      scope: ['email', 'profile'],
+      prompt: 'select_account',
+    },
+    github: {
+      scope: ['user:email'],
+    },
+    discord: {
+      scope: ['identify', 'email'],
+    },
+  },
+  redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+}
+```
+
+### OAuth Implementation
+
+```typescript
+export async function signInWithProvider(provider: Provider) {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: oauthConfig.redirectUrl,
+      scopes: oauthConfig.providers[provider].scope,
+    },
+  })
+  
+  if (error) throw error
+  return data
 }
 ```
 
 ## Security Considerations
 
-### 1. Password Requirements
+1. **Rate Limiting**
+   - Login attempts are limited to 5 per minute per IP
+   - Password reset requests are limited to 3 per hour per email
 
-- Minimum 8 characters
-- At least one uppercase letter
-- At least one lowercase letter
-- At least one number
-- At least one special character
+2. **Session Security**
+   - Sessions are invalidated on password change
+   - Concurrent sessions are limited to 5 per user
+   - Sessions are bound to IP and user agent
 
-### 2. Rate Limiting
-
-```typescript
-const rateLimit = {
-  signIn: {
-    attempts: 5,
-    window: '15m',
-  },
-  passwordReset: {
-    attempts: 3,
-    window: '60m',
-  },
-};
-```
-
-### 3. Session Security
-
-- JWT expiration: 1 hour
-- Refresh token expiration: 7 days
-- Secure, HTTP-only cookies
-- CSRF protection enabled
+3. **Password Security**
+   - Passwords are hashed using Argon2
+   - Failed attempts are tracked and trigger lockouts
+   - Password history is maintained to prevent reuse
 
 ## Error Handling
 
 ```typescript
-async function handleAuthError(error: AuthError) {
-  switch (error.status) {
-    case 400:
-      return 'Invalid credentials';
-    case 401:
-      return 'Unauthorized access';
-    case 404:
-      return 'User not found';
-    case 429:
-      return 'Too many attempts';
+export class AuthError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public status: number
+  ) {
+    super(message)
+    this.name = 'AuthError'
+  }
+}
+
+export function handleAuthError(error: any) {
+  switch (error.code) {
+    case 'auth/invalid-email':
+      throw new AuthError('Invalid email address', error.code, 400)
+    case 'auth/user-disabled':
+      throw new AuthError('Account has been disabled', error.code, 403)
+    case 'auth/user-not-found':
+      throw new AuthError('User not found', error.code, 404)
+    case 'auth/wrong-password':
+      throw new AuthError('Invalid password', error.code, 401)
     default:
-      return 'An unexpected error occurred';
+      throw new AuthError('Authentication failed', 'auth/unknown', 500)
   }
 }
 ```
-
-## Platform-Specific Considerations
-
-### Hub Platform
-
-- Default authentication provider
-- Manages global user profiles
-- Handles cross-platform authentication
-
-### Other Platforms
-
-- Inherit authentication from Hub
-- Platform-specific access control
-- Custom authorization rules
 
 ## Testing
 
 ```typescript
 describe('Authentication', () => {
-  it('should sign in user with valid credentials', async () => {
-    const { data, error } = await signIn('test@example.com', 'password');
-    expect(error).toBeNull();
-    expect(data.session).toBeDefined();
-  });
-
-  it('should handle invalid credentials', async () => {
-    const { data, error } = await signIn('test@example.com', 'wrong');
-    expect(error).toBeDefined();
-    expect(data.session).toBeNull();
-  });
-});
+  it('should sign in with valid credentials', async () => {
+    const credentials = {
+      email: 'test@example.com',
+      password: 'ValidP@ssw0rd',
+    }
+    
+    const result = await signIn(credentials)
+    expect(result.user).toBeDefined()
+    expect(result.session).toBeDefined()
+  })
+  
+  it('should fail with invalid credentials', async () => {
+    const credentials = {
+      email: 'test@example.com',
+      password: 'wrong',
+    }
+    
+    await expect(signIn(credentials)).rejects.toThrow(AuthError)
+  })
+})
 ```
-
-## Troubleshooting
-
-Common issues and solutions:
-
-1. **Session not persisting**
-   - Check cookie settings
-   - Verify SSL configuration
-   - Clear browser cache
-
-2. **Authentication failures**
-   - Validate email format
-   - Check password requirements
-   - Verify rate limits
-
-3. **Cross-platform issues**
-   - Check token synchronization
-   - Verify platform access rules
-   - Review session sharing
 
 ## Additional Resources
 
-- [Supabase Auth Documentation](https://supabase.com/docs/guides/auth)
-- [Security Best Practices](../guides/security.md)
-- [API Authentication](../api/authentication.md)
-- [User Management](../guides/user-management.md) 
+- [Security Overview](./README.md)
+- [Authorization Guide](./authorization.md)
+- [Session Management](./sessions.md)
+- [OAuth Configuration](./oauth.md)
+- [MFA Setup Guide](./mfa.md) 
