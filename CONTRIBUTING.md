@@ -1,103 +1,70 @@
-# Contributing to Neothink Platforms
+# Contributing to Neothink+
 
-## Authorized Access Only
+Thank you for your interest in contributing to the Neothink+ ecosystem! This document provides a brief overview of how to contribute. For detailed information, please refer to our [comprehensive contribution guide](docs/contributing/README.md).
 
-This documentation is for authorized Neothink+ team members and contractors only. To contribute to any of our platforms, you must have:
-- Valid Neothink+ team credentials
-- Signed NDA on file
-- Explicit authorization from leadership
-- Proper security clearance
+## Quick Start
 
-Our platforms consist of four independent applications:
+1. **Prerequisites**
+   - Node.js 18.x or later
+   - pnpm 8.x or later
+   - Git
+   - Valid Neothink+ team credentials
+   - Signed NDA on file
 
-- **Hub** (go.neothink.io) - Optional integration platform
-- **Ascenders** (www.joinascenders.org) - Prosperity through Ascension and FLOW
-- **Immortals** (www.joinimmortals.org) - Longevity and health optimization
-- **Neothinkers** (www.joinneothinkers.org) - Community and collaborative growth
+2. **Setup**
+   ```bash
+   git clone https://github.com/neothink-dao/neothink.io.git
+   cd neothink.io
+   pnpm install
+   ```
 
-## Project Structure
+3. **Development**
+   ```bash
+   # Start all platforms
+   pnpm dev
 
-```
-├── apps/                   # Platform applications
-│   ├── hub/               # Optional integration platform
-│   ├── ascenders/         # Prosperity platform
-│   ├── immortals/         # Longevity platform
-│   └── neothinkers/       # Community platform
-│
-├── packages/              # Shared capabilities
-│   ├── database-types/   # Supabase schema types
-│   ├── platform-bridge/  # Cross-platform state
-│   ├── ai-integration/   # AI capabilities
-│   └── ui/               # Design system
-│
-├── supabase/             # Database migrations and Edge Functions
-```
-
-## Areas for Contribution
-
-### Platform-Specific Enhancements ONLY
-We are looking for contributions in these specific areas:
-
-1. **Hub Platform** (go.neothink.io)
-   - Dashboard improvements
-   - AI-powered insights
-   - Cross-platform integration features
-   - Superachiever journey optimization
-
-2. **Ascenders Platform** (www.joinascenders.org)
-   - Financial tracking enhancements
-   - Prosperity metrics
-   - FLOW system improvements
-   - Business system optimization
-
-3. **Immortals Platform** (www.joinimmortals.org)
-   - Health tracking features
-   - Longevity analytics
-   - Project Life integration
-   - Wellness optimization tools
-
-4. **Neothinkers Platform** (www.joinneothinkers.org)
-   - Community feature enhancements
-   - Collaborative tools
-   - Learning system improvements
-   - Knowledge integration
+   # Start specific platform
+   pnpm dev:hub
+   pnpm dev:ascenders
+   pnpm dev:neothinkers
+   pnpm dev:immortals
+   ```
 
 ## Development Guidelines
 
-1. **Platform Focus**
-   - Every contribution MUST enhance one or more of our platforms
-   - Changes should align with platform-specific goals
-   - Features must integrate with existing platform capabilities
-   - Code should follow platform-specific patterns
+- Follow our [coding standards](docs/contributing/code-style.md)
+- Write tests for new features
+- Update documentation as needed
+- Follow the [security guidelines](docs/guides/security.md)
 
-2. **Security First**
-   - Follow security protocols
-   - Protect access credentials
-   - Report vulnerabilities immediately
-   - Maintain code confidentiality
+## Submitting Changes
 
-3. **Code Standards**
-   - Follow TypeScript best practices
-   - Use ESLint/Prettier configuration
-   - Write comprehensive tests
-   - Document API changes
+1. Create a feature branch
+2. Make your changes
+3. Run tests and linting
+4. Submit a pull request
+5. Update based on review feedback
 
-## Need Help?
+## Documentation
 
-Authorized team members can:
-- Contact your team lead
-- Use internal communication channels
-- Access secure documentation
-- Submit secure issue reports
+For more detailed information, please refer to:
 
-## Additional Resources
+- [Contribution Guide](docs/contributing/README.md)
+- [Development Guide](docs/guides/development.md)
+- [Testing Guide](docs/guides/testing.md)
+- [Security Guide](docs/guides/security.md)
+- [Architecture Overview](docs/architecture/overview.md)
 
-Internal documentation (requires authorization):
-- [Platform Documentation](docs/platforms/)
-- [API Documentation](docs/api.md)
-- [Development Setup](docs/setup.md)
-- [Architecture Overview](docs/architecture/)
+## Getting Help
 
-## Security Notice
+- [Join our Discord](https://discord.gg/neothink)
+- [Check our FAQ](docs/reference/faq.md)
+- [Contact Support](https://neothink.io/support)
 
-This is proprietary software. All code, documentation, and resources are confidential and protected by NDAs and intellectual property law. Unauthorized access, distribution, or sharing is strictly prohibited. 
+## Security
+
+Please report security vulnerabilities to security@neothink.io.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
