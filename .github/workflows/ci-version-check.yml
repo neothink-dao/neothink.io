@@ -1,0 +1,36 @@
+name: Enforce Node.js and pnpm Versions
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'pnpm'
+
+      - name: Set up pnpm 8.15.7
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.7
+
+      - name: Check Node.js version
+        run: node -v | grep 'v22.'
+
+      - name: Check pnpm version
+        run: pnpm -v | grep '8.15.7'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build all apps
+        run: pnpm build 

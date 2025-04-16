@@ -1,0 +1,22 @@
+name: Post-Deploy Health Checks
+
+on:
+  workflow_dispatch:
+  deployment_status:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Hub App Health
+        run: |
+          curl -f https://hub.neothink.io/health || exit 1
+      - name: Check Ascenders App Health
+        run: |
+          curl -f https://ascenders.neothink.io/health || exit 1
+      - name: Check Immortals App Health
+        run: |
+          curl -f https://immortals.neothink.io/health || exit 1
+      - name: Check Neothinkers App Health
+        run: |
+          curl -f https://neothinkers.neothink.io/health || exit 1 

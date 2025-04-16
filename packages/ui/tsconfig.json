@@ -1,0 +1,33 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "jsx": "react-jsx",
+    "composite": true
+  },
+  "include": [
+    "src/index.ts",
+    "src/ui/avatar.tsx",
+    "src/ui/badge.tsx",
+    "src/ui/button.tsx",
+    "src/ui/card.tsx",
+    "src/ui/dialog.tsx",
+    "src/ui/dropdown-menu.tsx",
+    "src/ui/input.tsx",
+    "src/ui/label.tsx",
+    "src/ui/progress.tsx",
+    "src/ui/radio-group.tsx",
+    "src/ui/scroll-area.tsx",
+    "src/ui/skeleton.tsx",
+    "src/ui/tabs.tsx",
+    "src/ui/textarea.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "paths": {
+      "@neothink/core/*": ["./*"],
+      "@neothink/types": ["../types/src"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "database/**/*.ts",
+    "auth/**/*.ts",
+    "security/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+} 

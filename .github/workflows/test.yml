@@ -1,0 +1,98 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint all platforms
+        run: |
+          npm run lint:hub
+          npm run lint:ascenders  
+          npm run lint:neothinkers
+          npm run lint:immortals
+          npm run lint:packages
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test shared packages
+        run: npm run test:packages
+
+      - name: Test Hub platform
+        run: npm run test:hub
+
+      - name: Test Ascenders platform
+        run: npm run test:ascenders
+
+      - name: Test Neothinkers platform
+        run: npm run test:neothinkers
+
+      - name: Test Immortals platform
+        run: npm run test:immortals
+
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Supabase mock environment
+        run: |
+          echo "NEXT_PUBLIC_SUPABASE_URL=https://mock.supabase.co" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key" >> $GITHUB_ENV
+
+      - name: Build all platforms
+        run: |
+          npm run build:hub
+          npm run build:ascenders
+          npm run build:neothinkers
+          npm run build:immortals
+          npm run build:packages 

@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/calculatePoints.ts",
+    "src/synergyBoost.ts",
+    "src/teamBoost.ts",
+    "src/votingPower.ts",
+    "src/index.ts"
+  ],
+  "references": [
+    { "path": "../types" }
+  ]
+}

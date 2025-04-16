@@ -1,0 +1,36 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "globalDependencies": [".npmrc", "pnpm-lock.yaml"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "build/**"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "lint": {
+      "outputs": []
+    },
+    "type-check": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": ["coverage/**"]
+    },
+    "db:generate": {
+      "cache": false,
+      "outputs": ["packages/database/src/types/**"]
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:studio": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false,
+      "outputs": ["dist/**", ".next/**", "build/**", ".turbo/**"]
+    }
+  }
+}

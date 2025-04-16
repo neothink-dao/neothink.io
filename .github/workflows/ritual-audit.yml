@@ -1,0 +1,51 @@
+name: Ritual Audit & Type Sync
+
+on:
+  schedule:
+    # Run quarterly on the first day of January, April, July, October at 9am UTC
+    - cron: '0 9 1 1,4,7,10 *'
+  workflow_dispatch:
+
+jobs:
+  ritual-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate DB Types
+        run: pnpm generate:types
+
+      - name: Audit Reminder
+        run: |
+          echo 'Quarterly Ritual Audit: Review docs, dashboards, RLS, onboarding, gamification, and feedback systems for clarity, security, and delight.'
+          echo 'Checklist: https://github.com/NeothinkDAO/your-repo/blob/main/docs/admin/CONTINUOUS_IMPROVEMENT.md'
+
+      - name: Create GitHub Issue for Audit (if not exists)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `Quarterly Ritual Audit Reminder - ${new Date().toISOString().slice(0, 10)}`;
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'audit,ritual',
+            });
+            if (!issues.data.some(issue => issue.title === title)) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body: 'It is time for the quarterly ritual audit! Please review and complete the checklist in [Ritual Audits & Continuous Improvement](docs/admin/CONTINUOUS_IMPROVEMENT.md).',
+                labels: ['audit', 'ritual']
+              });
+            }

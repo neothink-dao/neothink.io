@@ -1,0 +1,5 @@
+{
+  "numUsers": 40,
+  "sites": ["hub", "ascenders", "neothinkers", "immortals"],
+  "scenario": "onboarding"
+}

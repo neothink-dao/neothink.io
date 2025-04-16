@@ -1,0 +1,14 @@
+# Ignore everything except dist for inspection
+#*
+# dist/
+node_modules/
+.env*
+*.local
+*.log
+.cache
+.next
+out
+coverage
+*.tsbuildinfo
+*.swp
+# Uncomment dist/ after inspection

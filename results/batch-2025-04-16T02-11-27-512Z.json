@@ -1,0 +1,3539 @@
+[
+  {
+    "site": [
+      "hub",
+      "ascenders",
+      "neothinkers",
+      "immortals"
+    ],
+    "scenario": "onboarding",
+    "result": {
+      "events": [
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:42.642Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "convert",
+          "tokenType": "LUCK",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:10:42.795Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:42.924Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:43.057Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:43.185Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:43.333Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:43.484Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:43.596Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:43.755Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:43.899Z"
+        },
+        {
+          "userId": "user_hub_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:44.027Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:44.149Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:44.293Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:44.438Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:44.566Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:44.716Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:44.827Z"
+        },
+        {
+          "userId": "user_hub_1",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:44.961Z"
+        },
+        {
+          "userId": "user_hub_2",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:45.077Z"
+        },
+        {
+          "userId": "user_hub_2",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:45.211Z"
+        },
+        {
+          "userId": "user_hub_2",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:45.333Z"
+        },
+        {
+          "userId": "user_hub_2",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:45.462Z"
+        },
+        {
+          "userId": "user_hub_2",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:45.570Z"
+        },
+        {
+          "userId": "user_hub_2",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:45.686Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:45.797Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:45.925Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "convert",
+          "tokenType": "LIVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:10:46.041Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:46.171Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:46.305Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:46.417Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:46.539Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:46.689Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:46.804Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:46.933Z"
+        },
+        {
+          "userId": "user_hub_3",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:47.099Z"
+        },
+        {
+          "userId": "user_hub_4",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:47.211Z"
+        },
+        {
+          "userId": "user_hub_4",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:47.339Z"
+        },
+        {
+          "userId": "user_hub_4",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:47.473Z"
+        },
+        {
+          "userId": "user_hub_4",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:47.612Z"
+        },
+        {
+          "userId": "user_hub_4",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:47.754Z"
+        },
+        {
+          "userId": "user_hub_4",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:47.874Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:47.995Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:48.133Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:48.273Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:48.405Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:48.528Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "convert",
+          "tokenType": "LIVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:10:48.657Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:48.779Z"
+        },
+        {
+          "userId": "user_hub_5",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:48.917Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:49.051Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:49.169Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:49.276Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:49.397Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:49.522Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:49.649Z"
+        },
+        {
+          "userId": "user_hub_6",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:49.777Z"
+        },
+        {
+          "userId": "user_hub_7",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:49.905Z"
+        },
+        {
+          "userId": "user_hub_7",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:50.022Z"
+        },
+        {
+          "userId": "user_hub_7",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:50.165Z"
+        },
+        {
+          "userId": "user_hub_7",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:50.311Z"
+        },
+        {
+          "userId": "user_hub_7",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:50.465Z"
+        },
+        {
+          "userId": "user_hub_7",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:50.587Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:50.721Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:50.828Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:50.976Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:51.087Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:51.210Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:51.343Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:51.465Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:51.599Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:51.744Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:51.857Z"
+        },
+        {
+          "userId": "user_hub_8",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:51.973Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "hub",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:52.089Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:52.226Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:52.373Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:52.516Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "hub",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:52.630Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:52.778Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:52.911Z"
+        },
+        {
+          "userId": "user_hub_9",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "hub",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:53.061Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:53.222Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:53.336Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:53.455Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:53.564Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:53.705Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:53.814Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:53.973Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:54.094Z"
+        },
+        {
+          "userId": "user_ascenders_0",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:54.228Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:54.383Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:54.534Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:54.692Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:54.900Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:55.050Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:55.163Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:55.365Z"
+        },
+        {
+          "userId": "user_ascenders_1",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:10:55.533Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:55.707Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:55.830Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:55.973Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:56.089Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:56.233Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:56.377Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:56.502Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:56.978Z"
+        },
+        {
+          "userId": "user_ascenders_2",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:57.096Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:57.219Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:57.356Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:57.507Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:57.726Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:57.859Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:57.965Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:10:58.095Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:58.195Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:58.340Z"
+        },
+        {
+          "userId": "user_ascenders_3",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:58.477Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:58.597Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:58.708Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:58.819Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:58.927Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:59.038Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:59.139Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:59.257Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:59.357Z"
+        },
+        {
+          "userId": "user_ascenders_4",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:10:59.485Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:10:59.608Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:10:59.747Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:10:59.859Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:10:59.998Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:00.136Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:00.258Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:00.397Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:00.536Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:00.664Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:00.807Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:00.915Z"
+        },
+        {
+          "userId": "user_ascenders_5",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:01.027Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:01.139Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:01.280Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:01.427Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:01.545Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:01.667Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:01.784Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:01.930Z"
+        },
+        {
+          "userId": "user_ascenders_6",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:02.057Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:02.185Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:02.297Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:02.447Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:02.546Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:02.648Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:02.787Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:02.903Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:03.017Z"
+        },
+        {
+          "userId": "user_ascenders_7",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:03.120Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:03.257Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:03.358Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:03.475Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:03.587Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:03.706Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:03.807Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:03.930Z"
+        },
+        {
+          "userId": "user_ascenders_8",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LUCK",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:04.034Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:04.159Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:04.275Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "ascenders",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:04.397Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:04.514Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:04.675Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:04.789Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:04.899Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:05.027Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:05.166Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:05.298Z"
+        },
+        {
+          "userId": "user_ascenders_9",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "ascenders",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:05.427Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:05.538Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:05.646Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:05.767Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:05.885Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:06.012Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:06.126Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:06.238Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:06.359Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:06.488Z"
+        },
+        {
+          "userId": "user_neothinkers_0",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:06.605Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:06.717Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:06.824Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:06.984Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:07.097Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:07.220Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:07.336Z"
+        },
+        {
+          "userId": "user_neothinkers_1",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:07.475Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:07.619Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:07.759Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:07.876Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:07.998Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:08.098Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "convert",
+          "tokenType": "LOVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:08.216Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:08.355Z"
+        },
+        {
+          "userId": "user_neothinkers_2",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "convert",
+          "tokenType": "LOVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:08.498Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:08.637Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:08.755Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:08.866Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:08.978Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:09.097Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:09.235Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:09.369Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:09.486Z"
+        },
+        {
+          "userId": "user_neothinkers_3",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:09.619Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:09.747Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:09.859Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:09.977Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:10.078Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:10.216Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:10.339Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:10.457Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:10.578Z"
+        },
+        {
+          "userId": "user_neothinkers_4",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "convert",
+          "tokenType": "LOVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:10.698Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:10.819Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:10.937Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:11.048Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:11.177Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:11.288Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:11.406Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:11.518Z"
+        },
+        {
+          "userId": "user_neothinkers_5",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:11.736Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:11.890Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:12.015Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:12.142Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:12.257Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:12.375Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:12.482Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:12.595Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:12.722Z"
+        },
+        {
+          "userId": "user_neothinkers_6",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:12.850Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:12.975Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:13.086Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:13.215Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:13.351Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:13.487Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:13.634Z"
+        },
+        {
+          "userId": "user_neothinkers_7",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:13.741Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:13.854Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:14.014Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:14.174Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "convert",
+          "tokenType": "LOVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:14.296Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:14.408Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:14.504Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:14.616Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:14.735Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LOVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:14.852Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:14.985Z"
+        },
+        {
+          "userId": "user_neothinkers_8",
+          "persona": "neothinker",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LOVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:15.096Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "discovery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:15.234Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "discovery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:15.352Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:15.465Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:15.593Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "onboarding",
+          "site": "neothinkers",
+          "eventType": "convert",
+          "tokenType": "LIVE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:15.725Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "progression_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:15.873Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:15.986Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "progression",
+          "site": "neothinkers",
+          "eventType": "spend",
+          "tokenType": "LIVE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:16.095Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "mastery_reward",
+          "tokenType": "LIVE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:16.226Z"
+        },
+        {
+          "userId": "user_neothinkers_9",
+          "persona": "ascender",
+          "phase": "mastery",
+          "site": "neothinkers",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:16.345Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:16.488Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:16.597Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:16.708Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:16.825Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:16.953Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:17.064Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:17.188Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:17.317Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:17.446Z"
+        },
+        {
+          "userId": "user_immortals_0",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:17.588Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:17.703Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:17.837Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:17.957Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:18.071Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:18.183Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:18.334Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:18.477Z"
+        },
+        {
+          "userId": "user_immortals_1",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:18.584Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:18.702Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:18.824Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:19.215Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:19.336Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:19.453Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:19.560Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:19.685Z"
+        },
+        {
+          "userId": "user_immortals_2",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:19.805Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:19.923Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:20.035Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:20.149Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:20.276Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:20.388Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:20.515Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:20.659Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:20.776Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:20.936Z"
+        },
+        {
+          "userId": "user_immortals_3",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:21.054Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:21.166Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:21.294Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:21.449Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:21.558Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "convert",
+          "tokenType": "LIFE",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:21.683Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:21.796Z"
+        },
+        {
+          "userId": "user_immortals_4",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:21.901Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:22.003Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:22.135Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:22.254Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:22.414Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:22.536Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "convert",
+          "tokenType": "LUCK",
+          "amount": 5,
+          "timestamp": "2025-04-16T02:11:22.674Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:22.782Z"
+        },
+        {
+          "userId": "user_immortals_5",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:22.888Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:22.996Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:23.118Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:23.225Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:23.327Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:23.433Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:23.540Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:23.678Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:23.785Z"
+        },
+        {
+          "userId": "user_immortals_6",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:23.911Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:24.024Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:24.151Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:24.275Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:24.402Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:24.516Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:24.632Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:24.734Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:24.852Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:24.995Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:25.134Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LUCK",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:25.271Z"
+        },
+        {
+          "userId": "user_immortals_7",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:25.374Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:25.500Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:25.662Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:25.783Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:25.912Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:26.026Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:26.135Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:26.260Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:26.366Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:26.472Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LIFE",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:26.606Z"
+        },
+        {
+          "userId": "user_immortals_8",
+          "persona": "immortal",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "spend",
+          "tokenType": "LIFE",
+          "amount": 10,
+          "timestamp": "2025-04-16T02:11:26.735Z"
+        },
+        {
+          "userId": "user_immortals_9",
+          "persona": "hub",
+          "phase": "discovery",
+          "site": "immortals",
+          "eventType": "discovery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:26.884Z"
+        },
+        {
+          "userId": "user_immortals_9",
+          "persona": "hub",
+          "phase": "onboarding",
+          "site": "immortals",
+          "eventType": "onboarding_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:26.988Z"
+        },
+        {
+          "userId": "user_immortals_9",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "progression_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:27.101Z"
+        },
+        {
+          "userId": "user_immortals_9",
+          "persona": "hub",
+          "phase": "progression",
+          "site": "immortals",
+          "eventType": "collaboration",
+          "tokenType": "LOVE",
+          "amount": 25,
+          "timestamp": "2025-04-16T02:11:27.219Z"
+        },
+        {
+          "userId": "user_immortals_9",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "mastery_reward",
+          "tokenType": "LUCK",
+          "amount": 100,
+          "timestamp": "2025-04-16T02:11:27.345Z"
+        },
+        {
+          "userId": "user_immortals_9",
+          "persona": "hub",
+          "phase": "mastery",
+          "site": "immortals",
+          "eventType": "streak_bonus",
+          "tokenType": "LIFE",
+          "amount": 50,
+          "timestamp": "2025-04-16T02:11:27.511Z"
+        }
+      ],
+      "metrics": {
+        "retention": 0.95,
+        "engagement": 5,
+        "avgTimeSpent": 30,
+        "satisfaction": 9,
+        "rewardBalance": {
+          "LIVE": 1000,
+          "LOVE": 800,
+          "LIFE": 900,
+          "LUCK": 1100
+        },
+        "repetitiveTaskScore": 0.2,
+        "collaborationScore": 0.7
+      }
+    }
+  }
+]

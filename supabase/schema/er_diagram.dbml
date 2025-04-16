@@ -1,0 +1,208 @@
+// DBML for Neothink Ecosystem (Supabase, 4 apps/sites)
+// This project is owned/managed by the Neothink DAO. All schema, code, and documentation reflect DAO governance and open collaboration.
+// Generated from schema.sql and migrations for use with dbdiagram.io
+
+// --- USERS & ROLES ---
+Table auth_users as users {
+  id uuid [pk, not null]
+  email text
+  ascender_xp integer
+  ascender_level integer
+  neothinker_xp integer
+  neothinker_level integer
+  immortal_xp integer
+  immortal_level integer
+  superachiever_xp integer
+  superachiever_level integer
+  referral_code text
+  referred_by text
+  // ...other auth fields
+}
+
+Table user_roles {
+  user_id uuid [pk, ref: > users.id]
+  is_subscriber boolean
+  is_participant boolean
+  is_contributor boolean
+  // ...other role flags
+}
+
+// --- GAMIFICATION & EVENTS ---
+Table gamification_events {
+  id bigserial [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  persona text
+  site text
+  event_type text
+  token_type text
+  amount numeric
+  metadata jsonb
+  simulation_run_id text
+  created_at timestamptz
+}
+
+Table token_sinks {
+  id bigserial [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  site text
+  sink_type text
+  token_type text
+  description text
+  simulation_run_id text
+  created_at timestamptz
+}
+
+Table token_conversions {
+  id bigserial [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  from_token text
+  to_token text
+  amount numeric
+  rate numeric
+  site text
+  simulation_run_id text
+  created_at timestamptz
+}
+
+Table xp_events {
+  id uuid [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  event_type text
+  xp_amount numeric
+  metadata jsonb
+  simulation_run_id text
+  created_at timestamptz
+}
+
+Table badge_events {
+  id uuid [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  badge_id uuid
+  event_type text
+  metadata jsonb
+  simulation_run_id text
+  created_at timestamptz
+}
+
+Table fibonacci_token_rewards {
+  id uuid [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  action_id uuid
+  team_id uuid [ref: > teams.id]
+  tokens_awarded numeric
+  reward_type text
+  simulation_run_id text
+  awarded_at timestamptz
+}
+
+Table census_snapshots {
+  id uuid [pk, not null]
+  user_id uuid [not null, ref: > users.id]
+  scope text
+  population integer
+  activity_count integer
+  assets integer
+  metadata jsonb
+  simulation_run_id text
+  created_at timestamptz
+}
+
+// --- TEAMS & COLLABORATION ---
+Table teams {
+  id uuid [pk, not null]
+  name text
+  description text
+  created_by uuid [ref: > users.id]
+  governance_model text
+  mission text
+  admission_criteria text
+  virtual_capital text
+  physical_footprint jsonb
+  census_data jsonb
+  created_at timestamptz
+}
+
+Table team_memberships {
+  id uuid [pk, not null]
+  team_id uuid [ref: > teams.id]
+  user_id uuid [ref: > users.id]
+  role text
+  joined_at timestamptz
+}
+
+Table group_actions {
+  id uuid [pk, not null]
+  team_id uuid [ref: > teams.id]
+  action_type text
+  performed_by uuid [ref: > users.id]
+  metadata jsonb
+  performed_at timestamptz
+}
+
+Table collaboration_bonuses {
+  id uuid [pk, not null]
+  group_action_id uuid [ref: > group_actions.id]
+  user_id uuid [ref: > users.id]
+  bonus_amount numeric
+  awarded_at timestamptz
+}
+
+// --- BADGES & REFERRALS ---
+Table badges {
+  id uuid [pk, not null]
+  name text
+  description text
+  role text
+  criteria jsonb
+  nft_url text
+  created_at timestamptz
+}
+
+Table user_badges {
+  id uuid [pk, not null]
+  user_id uuid [ref: > users.id]
+  badge_id uuid [ref: > badges.id]
+  earned_at timestamptz
+}
+
+Table referrals {
+  id uuid [pk, not null]
+  referrer_id uuid [ref: > users.id]
+  referred_id uuid [ref: > users.id]
+  created_at timestamptz
+}
+
+// --- SITE SETTINGS ---
+Table site_settings {
+  site text [pk]
+  base_reward numeric
+  collab_bonus numeric
+  streak_bonus numeric
+  diminishing_threshold numeric
+  conversion_rates jsonb
+  created_at timestamptz
+}
+
+// --- RELATIONSHIPS ---
+Ref: gamification_events.user_id > users.id
+Ref: token_sinks.user_id > users.id
+Ref: token_conversions.user_id > users.id
+Ref: xp_events.user_id > users.id
+Ref: badge_events.user_id > users.id
+Ref: fibonacci_token_rewards.user_id > users.id
+Ref: fibonacci_token_rewards.team_id > teams.id
+Ref: census_snapshots.user_id > users.id
+Ref: team_memberships.team_id > teams.id
+Ref: team_memberships.user_id > users.id
+Ref: group_actions.team_id > teams.id
+Ref: group_actions.performed_by > users.id
+Ref: collaboration_bonuses.group_action_id > group_actions.id
+Ref: collaboration_bonuses.user_id > users.id
+Ref: user_badges.user_id > users.id
+Ref: user_badges.badge_id > badges.id
+Ref: referrals.referrer_id > users.id
+Ref: referrals.referred_id > users.id
+
+// --- DAO GOVERNANCE ---
+// All schema, code, and documentation are managed by the Neothink DAO for maximum transparency, security, and user/admin delight.
+// For governance details, see the main README and DAO policy docs.

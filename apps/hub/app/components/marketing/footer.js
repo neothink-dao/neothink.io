@@ -1,0 +1,5 @@
+import React from 'react';
+export default function Footer() {
+    return <footer>Marketing Footer Placeholder</footer>;
+}
+//# sourceMappingURL=footer.js.map

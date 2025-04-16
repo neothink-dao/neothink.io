@@ -1,0 +1,73 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Lighthouse CI
+        run: pnpm add -g @lhci/cli
+
+      - name: Start Ascenders App
+        run: pnpm --filter @neothink/ascenders build && pnpm --filter @neothink/ascenders start &
+        env:
+          NODE_ENV: production
+        continue-on-error: true
+
+      - name: Wait for Ascenders App
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Lighthouse CI (Ascenders)
+        run: lhci autorun --collect.url=http://localhost:3000 --upload.target=temporary-public-storage
+
+      - name: Start Neothinkers App
+        run: pnpm --filter @neothink/neothinkers build && pnpm --filter @neothink/neothinkers start &
+        env:
+          NODE_ENV: production
+        continue-on-error: true
+
+      - name: Wait for Neothinkers App
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Lighthouse CI (Neothinkers)
+        run: lhci autorun --collect.url=http://localhost:3000 --upload.target=temporary-public-storage
+
+      - name: Start Immortals App
+        run: pnpm --filter @neothink/immortals build && pnpm --filter @neothink/immortals start &
+        env:
+          NODE_ENV: production
+        continue-on-error: true
+
+      - name: Wait for Immortals App
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Lighthouse CI (Immortals)
+        run: lhci autorun --collect.url=http://localhost:3000 --upload.target=temporary-public-storage
+
+      - name: Start Hub App
+        run: pnpm --filter @neothink/hub build && pnpm --filter @neothink/hub start &
+        env:
+          NODE_ENV: production
+        continue-on-error: true
+
+      - name: Wait for Hub App
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Lighthouse CI (Hub)
+        run: lhci autorun --collect.url=http://localhost:3000 --upload.target=temporary-public-storage

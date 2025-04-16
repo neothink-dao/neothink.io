@@ -1,0 +1,19 @@
+{
+  "name": "simulation",
+  "version": "1.0.0",
+  "description": "This simulation suite models user, admin, and ecosystem behaviors for the Neothink DAO platform (Ascenders, Neothinkers, Immortals, Neothink+ Hub) using your existing Next.js, Vercel, and Supabase stack. It validates and iterates on gamification/tokenomics strategies to maximize engagement, satisfaction, and sustainable growth.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
+    "@types/node": "^22.14.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "uuid": "^11.1.0"
+  }
+}

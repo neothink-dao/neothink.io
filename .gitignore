@@ -1,0 +1,86 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js & Build Artifacts
+.next/
+out/
+# **/dist/
+**/build/
+**/.next/
+**/.turbo/
+
+# Misc
+.DS_Store
+*.pem
+*.key
+*.cert
+*.secret
+*.password
+
+# Debug & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+logs/
+*.log
+
+# dotenv environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Turbo & Vercel
+.turbo/
+.vercel/
+
+# Typescript
+*.tsbuildinfo
+
+# Supabase
+.branches/
+.temp/
+
+# IDE & Editor
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock 2.yaml
+**/pnpm-lock.yaml
+!./pnpm-lock.yaml
+
+# Cache
+.cache/
+.eslintcache
+.stylelintcache
+
+# Temporary & Backup files
+*.tmp
+*.temp
+.history
+*.bak
+*.backup
+*~
+
+# Prevent duplicate files (macOS, etc.)
+*\ [0-9]*
+*\ [0-9]*.*
+*\ [0-9]*/* 

@@ -1,0 +1,33 @@
+name: RLS Policy Docs
+
+on:
+  push:
+    paths:
+      - 'supabase/migrations/**'
+      - 'scripts/generate_rls_policies_md.py'
+  workflow_dispatch:
+
+jobs:
+  generate-rls-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install psycopg2-binary
+      - name: Generate RLS Policy Docs
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/generate_rls_policies_md.py
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "neothink-bot"
+          git config --global user.email "bot@neothink.io"
+          git add docs/security/rls-policies.md
+          git diff --cached --quiet || git commit -m "chore(docs): update RLS policy documentation [auto]"
+          git push https://neothink-bot:${{ secrets.NEOTHINK_DEPLOY_TOKEN }}@github.com/neothink-dao/neothink.io.git HEAD:main
+        env:
+          NEOTHINK_DEPLOY_TOKEN: ${{ secrets.NEOTHINK_DEPLOY_TOKEN }} 

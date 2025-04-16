@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/index.ts",
+    "src/ui/avatar.tsx",
+    "src/ui/badge.tsx",
+    "src/ui/button.tsx",
+    "src/ui/card.tsx",
+    "src/ui/dialog.tsx",
+    "src/ui/dropdown-menu.tsx",
+    "src/ui/input.tsx",
+    "src/ui/label.tsx",
+    "src/ui/progress.tsx",
+    "src/ui/radio-group.tsx",
+    "src/ui/scroll-area.tsx",
+    "src/ui/skeleton.tsx",
+    "src/ui/tabs.tsx",
+    "src/ui/textarea.tsx",
+    "src/utils.ts",
+    "src/lib/utils.ts"
+  ]
+}

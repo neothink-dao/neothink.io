@@ -1,0 +1,87 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_PLATFORM_NAME": "Ascenders",
+    "NEXT_PUBLIC_PLATFORM_SLUG": "ascenders",
+    "NEXT_PUBLIC_ENABLE_HUB": "false",
+    "NEXT_PUBLIC_ENABLE_ASCENDERS": "true",
+    "NEXT_PUBLIC_ENABLE_NEOTHINKERS": "false",
+    "NEXT_PUBLIC_ENABLE_IMMORTALS": "false",
+    "NEXT_PUBLIC_NODE_VERSION": "18.x",
+    "NPM_CONFIG_ENGINE_STRICT": "false",
+    "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+  },
+  "git": {
+    "deploymentEnabled": true
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains; preload"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        },
+        {
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/health-check",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/performance-metrics",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/cron/error-monitoring",
+      "schedule": "*/30 * * * *"
+    }
+  ],
+  "version": 2
+} 

@@ -1,0 +1,72 @@
+{
+  "name": "neothink-sites",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@8.15.7",
+  "engines": {
+    "node": "22.x",
+    "pnpm": "8.x"
+  },
+  "scripts": {
+    "build": "pnpm build:types && turbo run build",
+    "build:workspace": "pnpm build --filter=@neothink/tsconfig... && pnpm build --filter=@neothink/eslint-config... && pnpm build --filter=@neothink/prettier-config... && pnpm build --filter=@neothink/ai-integration...",
+    "build:types": "tsc -b packages/types packages/utils packages/config",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "setup": "corepack enable && corepack prepare pnpm@8.15.7 --activate",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "pnpm --filter @neothink/database db:generate",
+    "db:push": "pnpm --filter @neothink/database db:push",
+    "db:studio": "pnpm --filter @neothink/database db:studio",
+    "rls:docs": "python3 scripts/generate_rls_policies_md.py",
+    "launch-check": "node scripts/launch-check.js",
+    "generate:types": "ts-node scripts/generate-types.ts",
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@neothink/eslint-config": "workspace:*",
+    "@neothink/prettier-config": "workspace:*",
+    "@neothink/tsconfig": "workspace:*",
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^20.17.30",
+    "axe-playwright": "^2.1.0",
+    "eslint": "^9.24.0",
+    "playwright": "^1.51.1",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "turbo": "^1.13.4",
+    "typescript": "^5.8.3"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "typescript": "^5.3.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^18.2.55",
+      "@types/react-dom": "^18.2.19",
+      "typescript": "^5.3.3"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ]
+    }
+  },
+  "dependencies": {
+    "@radix-ui/react-scroll-area": "^1.2.4",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.30.1",
+    "@typescript-eslint/parser": "^8.30.1",
+    "dotenv": "^16.5.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0"
+  }
+}

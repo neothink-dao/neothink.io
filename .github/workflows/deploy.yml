@@ -1,0 +1,146 @@
+name: Deploy Monorepo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Cancel in-progress deployments when pushing new commits
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      hub: ${{ steps.filter.outputs.hub }}
+      ascenders: ${{ steps.filter.outputs.ascenders }}
+      neothinkers: ${{ steps.filter.outputs.neothinkers }}
+      immortals: ${{ steps.filter.outputs.immortals }}
+      packages: ${{ steps.filter.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check for file changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            hub:
+              - 'apps/hub/**'
+            ascenders:
+              - 'apps/ascenders/**'
+            neothinkers:
+              - 'apps/neothinkers/**'
+            immortals:
+              - 'apps/immortals/**'
+            packages:
+              - 'packages/**'
+
+  deploy-hub:
+    needs: changes
+    if: ${{ needs.changes.outputs.hub == 'true' || needs.changes.outputs.packages == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_HUB_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  deploy-ascenders:
+    needs: changes
+    if: ${{ needs.changes.outputs.ascenders == 'true' || needs.changes.outputs.packages == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_ASCENDERS_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  deploy-neothinkers:
+    needs: changes
+    if: ${{ needs.changes.outputs.neothinkers == 'true' || needs.changes.outputs.packages == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_NEOTHINKERS_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  deploy-immortals:
+    needs: changes
+    if: ${{ needs.changes.outputs.immortals == 'true' || needs.changes.outputs.packages == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_IMMORTALS_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} 

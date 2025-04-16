@@ -1,0 +1,1 @@
+{"version":3,"file":"AuthenticatedLayout.d.ts","sourceRoot":"","sources":["AuthenticatedLayout.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,OAAO,CAAA;AAGjC,UAAU,wBAAwB;IAChC,QAAQ,EAAE,SAAS,CAAA;IACnB,QAAQ,EAAE,KAAK,GAAG,WAAW,GAAG,aAAa,GAAG,WAAW,CAAA;CAC5D;AAED,wBAAgB,mBAAmB,CAAC,EAAE,QAAQ,EAAE,QAAQ,EAAE,EAAE,wBAAwB,+BA+BnF"}

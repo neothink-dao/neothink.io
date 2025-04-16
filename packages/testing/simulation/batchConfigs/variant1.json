@@ -1,0 +1,41 @@
+{
+  "numUsers": 40,
+  "sites": ["hub", "ascenders", "neothinkers", "immortals"],
+  "scenario": "onboarding",
+  "rewardParams": {
+    "hub": {
+      "base_reward": 120,
+      "collab_bonus": 30,
+      "streak_bonus": 60,
+      "diminishing_threshold": 900,
+      "conversion_rates": {"LUCK_LIVE": 1.2, "LOVE_LUCK": 0.8}
+    },
+    "ascenders": {
+      "base_reward": 100,
+      "collab_bonus": 40,
+      "streak_bonus": 70,
+      "diminishing_threshold": 1000,
+      "conversion_rates": {"LIFE_LUCK": 1.1, "LUCK_LIFE": 0.9}
+    },
+    "neothinkers": {
+      "base_reward": 110,
+      "collab_bonus": 35,
+      "streak_bonus": 55,
+      "diminishing_threshold": 950,
+      "conversion_rates": {"LOVE_LIVE": 1.0, "LIVE_LOVE": 1.0}
+    },
+    "immortals": {
+      "base_reward": 130,
+      "collab_bonus": 50,
+      "streak_bonus": 80,
+      "diminishing_threshold": 1100,
+      "conversion_rates": {"LIFE_LUCK": 1.3, "LUCK_LIFE": 0.7}
+    }
+  },
+  "personaDistribution": {
+    "hub": ["ascender", "neothinker", "immortal", "hub"],
+    "ascenders": ["ascender", "immortal"],
+    "neothinkers": ["neothinker", "ascender"],
+    "immortals": ["immortal", "hub"]
+  }
+}

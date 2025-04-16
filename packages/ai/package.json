@@ -1,0 +1,39 @@
+{
+  "name": "@neothink/ai",
+  "version": "0.0.1",
+  "license": "Proprietary - Neothink DAO",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.tsx --format esm,cjs --dts",
+    "clean": "rm -rf dist",
+    "dev": "tsup src/index.tsx --format esm,cjs --dts --watch"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "dependencies": {
+    "@types/node": "^20.12.7",
+    "openai": "^4.94.0",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@neothink/platform-bridge": "workspace:^",
+    "tsup": "^8.0.2"
+  }
+}

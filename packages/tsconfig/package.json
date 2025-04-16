@@ -1,0 +1,21 @@
+{
+  "name": "@neothink/tsconfig",
+  "version": "0.1.0",
+  "license": "MIT",
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "react-library.json",
+    "node-library.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "echo 'No build step required for tsconfig'",
+    "clean": "echo 'No clean step required for tsconfig'"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.4.5"
+  }
+} 

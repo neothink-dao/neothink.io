@@ -1,0 +1,1326 @@
+{
+  "config": {
+    "numUsers": 40,
+    "sites": [
+      "hub",
+      "ascenders",
+      "neothinkers",
+      "immortals"
+    ],
+    "scenario": "onboarding",
+    "rewardParams": {
+      "hub": {
+        "baseReward": 100,
+        "collabBonus": 25
+      },
+      "ascenders": {
+        "baseReward": 120,
+        "collabBonus": 30
+      },
+      "neothinkers": {
+        "baseReward": 110,
+        "collabBonus": 20
+      },
+      "immortals": {
+        "baseReward": 90,
+        "collabBonus": 35
+      }
+    }
+  },
+  "metrics": {
+    "retention": 0.95,
+    "engagement": 5,
+    "avgTimeSpent": 30,
+    "satisfaction": 9,
+    "rewardBalance": {
+      "LIVE": 1000,
+      "LOVE": 800,
+      "LIFE": 900,
+      "LUCK": 1100
+    },
+    "repetitiveTaskScore": 0.2,
+    "collaborationScore": 0.7
+  },
+  "events": [
+    {
+      "userId": "simuser1",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:48.729Z"
+    },
+    {
+      "userId": "simuser1",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:49.180Z"
+    },
+    {
+      "userId": "simuser1",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:46:49.549Z"
+    },
+    {
+      "userId": "simuser1",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:46:50.061Z"
+    },
+    {
+      "userId": "simuser2",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:50.402Z"
+    },
+    {
+      "userId": "simuser2",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:50.930Z"
+    },
+    {
+      "userId": "simuser2",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:46:51.377Z"
+    },
+    {
+      "userId": "simuser2",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:46:51.928Z"
+    },
+    {
+      "userId": "simuser3",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:52.236Z"
+    },
+    {
+      "userId": "simuser3",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:52.860Z"
+    },
+    {
+      "userId": "simuser3",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:46:53.202Z"
+    },
+    {
+      "userId": "simuser3",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:46:53.606Z"
+    },
+    {
+      "userId": "simuser4",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:53.820Z"
+    },
+    {
+      "userId": "simuser4",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:54.267Z"
+    },
+    {
+      "userId": "simuser4",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:46:54.753Z"
+    },
+    {
+      "userId": "simuser4",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:46:55.437Z"
+    },
+    {
+      "userId": "simuser5",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:55.660Z"
+    },
+    {
+      "userId": "simuser5",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:56.028Z"
+    },
+    {
+      "userId": "simuser5",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:46:56.478Z"
+    },
+    {
+      "userId": "simuser5",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:46:57.092Z"
+    },
+    {
+      "userId": "simuser6",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:57.413Z"
+    },
+    {
+      "userId": "simuser6",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:57.914Z"
+    },
+    {
+      "userId": "simuser6",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:46:58.286Z"
+    },
+    {
+      "userId": "simuser6",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:46:58.826Z"
+    },
+    {
+      "userId": "simuser7",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:46:59.163Z"
+    },
+    {
+      "userId": "simuser7",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:46:59.497Z"
+    },
+    {
+      "userId": "simuser7",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:00.084Z"
+    },
+    {
+      "userId": "simuser7",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:00.655Z"
+    },
+    {
+      "userId": "simuser8",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:01.039Z"
+    },
+    {
+      "userId": "simuser8",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:01.402Z"
+    },
+    {
+      "userId": "simuser8",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:01.711Z"
+    },
+    {
+      "userId": "simuser8",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:02.458Z"
+    },
+    {
+      "userId": "simuser9",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:02.655Z"
+    },
+    {
+      "userId": "simuser9",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:03.194Z"
+    },
+    {
+      "userId": "simuser9",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:03.525Z"
+    },
+    {
+      "userId": "simuser9",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:04.026Z"
+    },
+    {
+      "userId": "simuser10",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:04.282Z"
+    },
+    {
+      "userId": "simuser10",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:04.773Z"
+    },
+    {
+      "userId": "simuser10",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:05.136Z"
+    },
+    {
+      "userId": "simuser10",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:05.599Z"
+    },
+    {
+      "userId": "simuser11",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:05.823Z"
+    },
+    {
+      "userId": "simuser11",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:06.192Z"
+    },
+    {
+      "userId": "simuser11",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:06.553Z"
+    },
+    {
+      "userId": "simuser11",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:07.060Z"
+    },
+    {
+      "userId": "simuser12",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:07.439Z"
+    },
+    {
+      "userId": "simuser12",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:07.855Z"
+    },
+    {
+      "userId": "simuser12",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:08.175Z"
+    },
+    {
+      "userId": "simuser12",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:08.580Z"
+    },
+    {
+      "userId": "simuser13",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:08.810Z"
+    },
+    {
+      "userId": "simuser13",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:09.274Z"
+    },
+    {
+      "userId": "simuser13",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:09.609Z"
+    },
+    {
+      "userId": "simuser13",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:10.042Z"
+    },
+    {
+      "userId": "simuser14",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:10.532Z"
+    },
+    {
+      "userId": "simuser14",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:10.820Z"
+    },
+    {
+      "userId": "simuser14",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:11.140Z"
+    },
+    {
+      "userId": "simuser14",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:11.599Z"
+    },
+    {
+      "userId": "simuser15",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:11.978Z"
+    },
+    {
+      "userId": "simuser15",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:12.297Z"
+    },
+    {
+      "userId": "simuser15",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:12.750Z"
+    },
+    {
+      "userId": "simuser15",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:13.312Z"
+    },
+    {
+      "userId": "simuser16",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:13.539Z"
+    },
+    {
+      "userId": "simuser16",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:14.143Z"
+    },
+    {
+      "userId": "simuser16",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:14.717Z"
+    },
+    {
+      "userId": "simuser16",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:15.190Z"
+    },
+    {
+      "userId": "simuser17",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:15.403Z"
+    },
+    {
+      "userId": "simuser17",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:16.011Z"
+    },
+    {
+      "userId": "simuser17",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:16.430Z"
+    },
+    {
+      "userId": "simuser17",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:16.869Z"
+    },
+    {
+      "userId": "simuser18",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:17.332Z"
+    },
+    {
+      "userId": "simuser18",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:17.797Z"
+    },
+    {
+      "userId": "simuser18",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:18.203Z"
+    },
+    {
+      "userId": "simuser18",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:19.104Z"
+    },
+    {
+      "userId": "simuser19",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:19.336Z"
+    },
+    {
+      "userId": "simuser19",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:19.717Z"
+    },
+    {
+      "userId": "simuser19",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:20.083Z"
+    },
+    {
+      "userId": "simuser19",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:20.523Z"
+    },
+    {
+      "userId": "simuser20",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:20.757Z"
+    },
+    {
+      "userId": "simuser20",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:21.131Z"
+    },
+    {
+      "userId": "simuser20",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:21.503Z"
+    },
+    {
+      "userId": "simuser20",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:21.990Z"
+    },
+    {
+      "userId": "simuser21",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:22.379Z"
+    },
+    {
+      "userId": "simuser21",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:22.709Z"
+    },
+    {
+      "userId": "simuser21",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:23.163Z"
+    },
+    {
+      "userId": "simuser21",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:23.637Z"
+    },
+    {
+      "userId": "simuser22",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:23.990Z"
+    },
+    {
+      "userId": "simuser22",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:24.396Z"
+    },
+    {
+      "userId": "simuser22",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:24.776Z"
+    },
+    {
+      "userId": "simuser22",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:25.235Z"
+    },
+    {
+      "userId": "simuser23",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:25.457Z"
+    },
+    {
+      "userId": "simuser23",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:25.809Z"
+    },
+    {
+      "userId": "simuser23",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:26.184Z"
+    },
+    {
+      "userId": "simuser23",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:26.695Z"
+    },
+    {
+      "userId": "simuser24",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:27.188Z"
+    },
+    {
+      "userId": "simuser24",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:27.653Z"
+    },
+    {
+      "userId": "simuser24",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:28.101Z"
+    },
+    {
+      "userId": "simuser24",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:29.250Z"
+    },
+    {
+      "userId": "simuser25",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:29.552Z"
+    },
+    {
+      "userId": "simuser25",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:30.526Z"
+    },
+    {
+      "userId": "simuser25",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:31.177Z"
+    },
+    {
+      "userId": "simuser25",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:32.005Z"
+    },
+    {
+      "userId": "simuser26",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:32.357Z"
+    },
+    {
+      "userId": "simuser26",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:32.825Z"
+    },
+    {
+      "userId": "simuser26",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:33.457Z"
+    },
+    {
+      "userId": "simuser26",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:34.088Z"
+    },
+    {
+      "userId": "simuser27",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:34.420Z"
+    },
+    {
+      "userId": "simuser27",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:34.994Z"
+    },
+    {
+      "userId": "simuser27",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:35.660Z"
+    },
+    {
+      "userId": "simuser27",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:36.493Z"
+    },
+    {
+      "userId": "simuser28",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:36.819Z"
+    },
+    {
+      "userId": "simuser28",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:37.332Z"
+    },
+    {
+      "userId": "simuser28",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:37.807Z"
+    },
+    {
+      "userId": "simuser28",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:38.567Z"
+    },
+    {
+      "userId": "simuser29",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:38.886Z"
+    },
+    {
+      "userId": "simuser29",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:39.675Z"
+    },
+    {
+      "userId": "simuser29",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:40.163Z"
+    },
+    {
+      "userId": "simuser29",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:40.982Z"
+    },
+    {
+      "userId": "simuser30",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:41.295Z"
+    },
+    {
+      "userId": "simuser30",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:41.941Z"
+    },
+    {
+      "userId": "simuser30",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:42.678Z"
+    },
+    {
+      "userId": "simuser30",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:43.194Z"
+    },
+    {
+      "userId": "simuser31",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:43.451Z"
+    },
+    {
+      "userId": "simuser31",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:43.794Z"
+    },
+    {
+      "userId": "simuser31",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:44.186Z"
+    },
+    {
+      "userId": "simuser31",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:44.678Z"
+    },
+    {
+      "userId": "simuser32",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:45.050Z"
+    },
+    {
+      "userId": "simuser32",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:45.462Z"
+    },
+    {
+      "userId": "simuser32",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:46.146Z"
+    },
+    {
+      "userId": "simuser32",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:46.610Z"
+    },
+    {
+      "userId": "simuser33",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:46.860Z"
+    },
+    {
+      "userId": "simuser33",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:47.239Z"
+    },
+    {
+      "userId": "simuser33",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:47.848Z"
+    },
+    {
+      "userId": "simuser33",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:48.376Z"
+    },
+    {
+      "userId": "simuser34",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:48.768Z"
+    },
+    {
+      "userId": "simuser34",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:49.522Z"
+    },
+    {
+      "userId": "simuser34",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:49.967Z"
+    },
+    {
+      "userId": "simuser34",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:50.656Z"
+    },
+    {
+      "userId": "simuser35",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:50.922Z"
+    },
+    {
+      "userId": "simuser35",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:51.386Z"
+    },
+    {
+      "userId": "simuser35",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:51.792Z"
+    },
+    {
+      "userId": "simuser35",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:52.596Z"
+    },
+    {
+      "userId": "simuser36",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:52.823Z"
+    },
+    {
+      "userId": "simuser36",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:53.185Z"
+    },
+    {
+      "userId": "simuser36",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:53.544Z"
+    },
+    {
+      "userId": "simuser36",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:54.329Z"
+    },
+    {
+      "userId": "simuser37",
+      "persona": "ascender",
+      "phase": "discovery",
+      "site": "hub",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:54.715Z"
+    },
+    {
+      "userId": "simuser37",
+      "persona": "ascender",
+      "phase": "onboarding",
+      "site": "hub",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:55.069Z"
+    },
+    {
+      "userId": "simuser37",
+      "persona": "ascender",
+      "phase": "progression",
+      "site": "hub",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:55.406Z"
+    },
+    {
+      "userId": "simuser37",
+      "persona": "ascender",
+      "phase": "mastery",
+      "site": "hub",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:56.107Z"
+    },
+    {
+      "userId": "simuser38",
+      "persona": "neothinker",
+      "phase": "discovery",
+      "site": "ascenders",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:56.518Z"
+    },
+    {
+      "userId": "simuser38",
+      "persona": "neothinker",
+      "phase": "onboarding",
+      "site": "ascenders",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:57.074Z"
+    },
+    {
+      "userId": "simuser38",
+      "persona": "neothinker",
+      "phase": "progression",
+      "site": "ascenders",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:57.642Z"
+    },
+    {
+      "userId": "simuser38",
+      "persona": "neothinker",
+      "phase": "mastery",
+      "site": "ascenders",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:47:58.179Z"
+    },
+    {
+      "userId": "simuser39",
+      "persona": "immortal",
+      "phase": "discovery",
+      "site": "neothinkers",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:47:58.459Z"
+    },
+    {
+      "userId": "simuser39",
+      "persona": "immortal",
+      "phase": "onboarding",
+      "site": "neothinkers",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:47:59.004Z"
+    },
+    {
+      "userId": "simuser39",
+      "persona": "immortal",
+      "phase": "progression",
+      "site": "neothinkers",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:47:59.515Z"
+    },
+    {
+      "userId": "simuser39",
+      "persona": "immortal",
+      "phase": "mastery",
+      "site": "neothinkers",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:48:00.141Z"
+    },
+    {
+      "userId": "simuser40",
+      "persona": "hub",
+      "phase": "discovery",
+      "site": "immortals",
+      "eventType": "discovery_event",
+      "timestamp": "2025-04-16T01:48:00.421Z"
+    },
+    {
+      "userId": "simuser40",
+      "persona": "hub",
+      "phase": "onboarding",
+      "site": "immortals",
+      "eventType": "onboarding_event",
+      "timestamp": "2025-04-16T01:48:01.052Z"
+    },
+    {
+      "userId": "simuser40",
+      "persona": "hub",
+      "phase": "progression",
+      "site": "immortals",
+      "eventType": "progression_event",
+      "timestamp": "2025-04-16T01:48:01.507Z"
+    },
+    {
+      "userId": "simuser40",
+      "persona": "hub",
+      "phase": "mastery",
+      "site": "immortals",
+      "eventType": "mastery_event",
+      "timestamp": "2025-04-16T01:48:02.076Z"
+    }
+  ]
+}

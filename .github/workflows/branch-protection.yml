@@ -1,0 +1,102 @@
+name: Branch Protection
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  verify:
+    name: Verify Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.15.4
+      
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Type check
+        run: pnpm run type-check
+      
+      - name: Lint
+        run: pnpm run lint
+      
+      - name: Test
+        run: pnpm run test
+        
+      - name: Check for secrets
+        uses: zricethezav/gitleaks-action@v2.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  license-check:
+    name: License Compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check License Headers
+        run: |
+          #!/bin/bash
+          CURRENT_YEAR=$(date +%Y)
+          files=$(find . -type f -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx")
+          for file in $files; do
+            if ! grep -q "Copyright © $CURRENT_YEAR Neothink DAO" "$file"; then
+              echo "Missing or outdated copyright header in $file"
+              exit 1
+            fi
+          done
+
+  protected-files:
+    name: Protected Files Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check Protected Files
+        run: |
+          #!/bin/bash
+          protected_files=(
+            ".github/workflows/branch-protection.yml"
+            "supabase/config.toml"
+            "turbo.json"
+            "pnpm-workspace.yaml"
+          )
+          
+          for file in "${protected_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "Protected file $file is missing"
+              exit 1
+            fi
+          done 

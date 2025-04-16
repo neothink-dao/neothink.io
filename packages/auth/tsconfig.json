@@ -1,0 +1,37 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "types": ["vitest/globals", "node"],
+    "composite": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/components/AuthForm.tsx",
+    "src/components/SignInForm.tsx",
+    "src/components/SignUpForm.tsx",
+    "src/components/ForgotPasswordForm.tsx",
+    "src/components/UpdatePasswordForm.tsx",
+    "src/components/ErrorPage.tsx",
+    "src/components/LoginForm.tsx",
+    "src/components/SecurityDashboard.tsx",
+    "src/hooks/useSecurityProvider.tsx",
+    "src/hooks/use-user.ts",
+    "src/hooks/useAuth.ts",
+    "src/hooks/useProtectedRoute.ts"
+  ],
+  "exclude": ["node_modules"]
+}

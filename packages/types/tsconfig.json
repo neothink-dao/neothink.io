@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "declaration": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/database.ts",
+    "src/onboarding.ts",
+    "src/platform.ts",
+    "src/supabase.ts",
+    "src/index.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

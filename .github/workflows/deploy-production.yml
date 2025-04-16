@@ -1,0 +1,77 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy Hub to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_HUB }}
+          working-directory: ./apps/hub
+          vercel-args: '--prod'
+          alias-domains: |
+            go.neothink.io
+
+  deploy-ascenders:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy Ascenders to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_ASCENDERS }}
+          working-directory: ./apps/ascenders
+          vercel-args: '--prod'
+          alias-domains: |
+            www.joinascenders.org
+            joinascenders.org
+
+  deploy-neothinkers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy Neothinkers to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_NEOTHINKERS }}
+          working-directory: ./apps/neothinkers
+          vercel-args: '--prod'
+          alias-domains: |
+            www.joinneothinkers.org
+            joinneothinkers.org
+
+  deploy-immortals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy Immortals to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_IMMORTALS }}
+          working-directory: ./apps/immortals
+          vercel-args: '--prod'
+          alias-domains: |
+            www.joinimmortals.org
+            joinimmortals.org 

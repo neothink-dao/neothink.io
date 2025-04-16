@@ -1,0 +1,69 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "pnpm install",
+  "outputDirectory": ".next",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "develop": true
+    }
+  },
+  "ignoreCommand": "git diff HEAD^ HEAD --quiet ./ ../../packages/",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/health-check",
+      "schedule": "*/15 * * * *"
+    }
+  ],
+  "version": 2,
+  "public": false,
+  "buildCommand": "pnpm build",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@neothink_supabase_url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@neothink_supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@neothink_supabase_service_role_key",
+    "NEXT_PUBLIC_APP_NAME": "Neothink+",
+    "NEXT_PUBLIC_APP_VERSION": "1.0.0",
+    "NODE_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SUPABASE_URL": "@neothink_supabase_url",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@neothink_supabase_anon_key",
+      "SUPABASE_SERVICE_ROLE_KEY": "@neothink_supabase_service_role_key"
+    }
+  }
+} 

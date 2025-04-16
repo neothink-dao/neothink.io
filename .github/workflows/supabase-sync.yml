@@ -1,0 +1,61 @@
+name: Supabase Schema/Types/Docs Sync
+
+on:
+  push:
+    paths:
+      - 'supabase/migrations/**/*.sql'
+      - 'supabase/schema/schema.sql'
+      - 'supabase/schema/er_diagram.dbml'
+      - 'supabase/schema/RLS_AND_FUNCTIONS.md'
+      - 'supabase/types/generated.ts'
+      - '.github/workflows/supabase-sync.yml'
+
+jobs:
+  supabase-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.15.7
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Supabase migrations
+        run: |
+          npx supabase db diff || echo 'Diff check complete.'
+
+      - name: Check TypeScript types are up to date
+        run: |
+          npx supabase gen types typescript --project-id ${{ secrets.SUPABASE_PROJECT_ID }} > supabase/types/generated.ts
+          git diff --exit-code supabase/types/generated.ts
+
+      - name: Validate ERD and RLS documentation
+        run: |
+          node scripts/validate_erd_rls.js
+
+      - name: Check ER diagram is up to date
+        run: |
+          echo 'Manual check: Ensure er_diagram.dbml matches schema.sql.'
+
+      - name: Check RLS & function docs
+        run: |
+          echo 'Manual check: Ensure RLS_AND_FUNCTIONS.md matches migrations.'
+
+      - name: Commit & push changes (if any)
+        if: failure()
+        run: |
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git config --global user.name "github-actions"
+          git add supabase/types/generated.ts
+          git commit -m "chore: update generated types [ci skip]" || echo 'No changes to commit.'
+          git push

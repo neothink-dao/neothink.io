@@ -1,0 +1,19 @@
+{
+  "name": "@neothink/prettier-config",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "echo 'No build step required for prettier-config'",
+    "clean": "echo 'No clean step required for prettier-config'"
+  },
+  "peerDependencies": {
+    "prettier": ">=3.0.0"
+  }
+} 

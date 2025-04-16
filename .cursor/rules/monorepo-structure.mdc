@@ -1,0 +1,81 @@
+# Monorepo Structure Rule
+
+## Overview
+This rule defines the structure and organization of the Neothink Sites monorepo, ensuring consistent development practices across all platforms.
+
+## Directory Structure
+```
+/
+├── go.neothink.io/           # Hub platform (neothink-dao/neothink.io)
+├── joinascenders.org/        # Ascenders platform (neothink-dao/ascenders)
+├── joinneothinkers.org/      # Neothinkers platform (neothink-dao/neothinkers)
+├── joinimmortals.org/        # Immortals platform (neothink-dao/immortals)
+├── packages/                 # Shared packages
+│   └── auth/                # Shared authentication package
+├── supabase/                # Supabase configuration
+│   ├── functions/          # Edge functions
+│   └── migrations/         # Database migrations
+└── docs/                    # Documentation
+```
+
+## Development Rules
+
+1. **Repository Mapping**
+   - Each platform must maintain its own GitHub repository
+   - Local directory names must match the platform's domain
+   - All shared code must be in the packages/ directory
+
+2. **Code Organization**
+   - Platform-specific code goes in respective platform directories
+   - Shared code goes in packages/
+   - Database migrations go in supabase/migrations/
+   - Edge functions go in supabase/functions/
+
+3. **Branch Naming**
+   - Feature branches: `feature/<platform>-<description>`
+   - Bug fixes: `fix/<platform>-<description>`
+   - Hotfixes: `hotfix/<platform>-<description>`
+   - Release branches: `release/<platform>-<version>`
+
+4. **Commit Messages**
+   - Format: `<platform>: <description>`
+   - Example: `hub: add new authentication flow`
+
+5. **Cross-Platform Changes**
+   - Changes to shared packages require testing on all platforms
+   - Database migrations must be backward compatible
+   - Edge functions must handle all platform cases
+
+## Deployment Rules
+
+1. **Platform-Specific Deployments**
+   - Each platform deploys to its own Vercel project
+   - Deployments are triggered through GitHub Actions
+   - Environment variables must be set in respective Vercel projects
+
+2. **Shared Package Deployments**
+   - Shared packages must be published to npm
+   - Version updates must follow semantic versioning
+   - All platforms must be updated to use the latest shared package version
+
+3. **Database Migrations**
+   - Migrations must be run in order
+   - Each migration must be tested in development
+   - Rollback plans must be documented
+
+## Testing Requirements
+
+1. **Unit Tests**
+   - Required for all shared packages
+   - Platform-specific tests in respective directories
+   - Test coverage minimum: 80%
+
+2. **Integration Tests**
+   - Required for cross-platform features
+   - Must test all platform combinations
+   - Must include authentication flows
+
+3. **Deployment Tests**
+   - Must verify environment variables
+   - Must check database migrations
+   - Must validate edge functions 

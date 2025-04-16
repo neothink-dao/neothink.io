@@ -1,0 +1,55 @@
+{
+  "name": "@neothink/database",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./SecurityLog": {
+      "import": "./src/types.ts",
+      "require": "./src/types.ts"
+    },
+    "./SecurityEventSeverity": {
+      "import": "./src/types.ts",
+      "require": "./src/types.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "db:generate": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public > src/types.ts",
+    "db:push": "supabase db push",
+    "db:studio": "supabase studio"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@neothink/ui": "workspace:^",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^20.12.7",
+    "@types/testing-library__react": "^10.2.0",
+    "supabase": "^2.20.12",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ]
+    }
+  }
+}

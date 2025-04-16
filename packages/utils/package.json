@@ -1,0 +1,36 @@
+{
+  "name": "@neothink/utils",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --external react",
+    "dev": "tsup src/index.ts --format esm,cjs --watch --dts --external react",
+    "lint": "eslint \"src/**/*.ts*\"",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/react": "^19.0.11",
+    "@types/react-dom": "^19.0.7",
+    "eslint": "^9.0.0",
+    "eslint-config-custom": "*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@upstash/ratelimit": "^1.1.0",
+    "@upstash/redis": "^1.28.4",
+    "nanoid": "^5.0.6",
+    "next": "^15.2.3"
+  }
+} 
