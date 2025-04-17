@@ -1,0 +1,67 @@
+import { z } from 'zod';
+declare const envSchema: z.ZodObject<{
+    NODE_ENV: z.ZodDefault<z.ZodEnum<["development", "test", "production"]>>;
+    NEXT_PUBLIC_SUPABASE_URL: z.ZodString;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.ZodString;
+    SUPABASE_SERVICE_ROLE_KEY: z.ZodString;
+    NEXT_PUBLIC_HUB_URL: z.ZodString;
+    NEXT_PUBLIC_ASCENDERS_URL: z.ZodString;
+    NEXT_PUBLIC_NEOTHINKERS_URL: z.ZodString;
+    NEXT_PUBLIC_IMMORTALS_URL: z.ZodString;
+    NEXT_PUBLIC_AUTH_REDIRECT_URL: z.ZodString;
+    SMTP_HOST: z.ZodOptional<z.ZodString>;
+    SMTP_PORT: z.ZodOptional<z.ZodString>;
+    SMTP_USER: z.ZodOptional<z.ZodString>;
+    SMTP_PASSWORD: z.ZodOptional<z.ZodString>;
+    SMTP_FROM: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    NODE_ENV: "development" | "test" | "production";
+    NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
+    SUPABASE_SERVICE_ROLE_KEY: string;
+    NEXT_PUBLIC_HUB_URL: string;
+    NEXT_PUBLIC_ASCENDERS_URL: string;
+    NEXT_PUBLIC_NEOTHINKERS_URL: string;
+    NEXT_PUBLIC_IMMORTALS_URL: string;
+    NEXT_PUBLIC_AUTH_REDIRECT_URL: string;
+    SMTP_HOST?: string | undefined;
+    SMTP_PORT?: string | undefined;
+    SMTP_USER?: string | undefined;
+    SMTP_PASSWORD?: string | undefined;
+    SMTP_FROM?: string | undefined;
+}, {
+    NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
+    SUPABASE_SERVICE_ROLE_KEY: string;
+    NEXT_PUBLIC_HUB_URL: string;
+    NEXT_PUBLIC_ASCENDERS_URL: string;
+    NEXT_PUBLIC_NEOTHINKERS_URL: string;
+    NEXT_PUBLIC_IMMORTALS_URL: string;
+    NEXT_PUBLIC_AUTH_REDIRECT_URL: string;
+    NODE_ENV?: "development" | "test" | "production" | undefined;
+    SMTP_HOST?: string | undefined;
+    SMTP_PORT?: string | undefined;
+    SMTP_USER?: string | undefined;
+    SMTP_PASSWORD?: string | undefined;
+    SMTP_FROM?: string | undefined;
+}>;
+export type Env = z.infer<typeof envSchema>;
+export declare function validateEnv(): Env;
+export declare const env: {
+    NODE_ENV: "development" | "test" | "production";
+    NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
+    SUPABASE_SERVICE_ROLE_KEY: string;
+    NEXT_PUBLIC_HUB_URL: string;
+    NEXT_PUBLIC_ASCENDERS_URL: string;
+    NEXT_PUBLIC_NEOTHINKERS_URL: string;
+    NEXT_PUBLIC_IMMORTALS_URL: string;
+    NEXT_PUBLIC_AUTH_REDIRECT_URL: string;
+    SMTP_HOST?: string | undefined;
+    SMTP_PORT?: string | undefined;
+    SMTP_USER?: string | undefined;
+    SMTP_PASSWORD?: string | undefined;
+    SMTP_FROM?: string | undefined;
+};
+export {};
+//# sourceMappingURL=env.d.ts.map

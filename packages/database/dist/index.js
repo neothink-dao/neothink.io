@@ -14,11 +14,8 @@ const env = envSchema.parse({
 export const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 // Export createClient for downstream usage
 export { createClient } from '@supabase/supabase-js';
-export { PLATFORM_SLUGS_VALUES as PlatformSlugValues } from './types/models';
-export { PLATFORM_SLUGS } from './types/models';
+export { SecurityEventTypes, PLATFORM_SLUGS_VALUES as PlatformSlugValues, PLATFORM_SLUGS, ALL_PLATFORM_SLUGS, } from './types/models';
+// Dummy value to force type emission for all exported types
+export const __forceTypeExports = null;
 export { createPlatformClient, createAdminClient, getSupabaseClient, getServiceClient, supabaseAdmin } from './client/index';
-export { ALL_PLATFORM_SLUGS } from './types/models';
 export { createPlatformClient as default } from './client/index';
-// Explicitly re-export types for downstream consumers
-export * from './types';
-export { SecurityEventTypes } from './types';

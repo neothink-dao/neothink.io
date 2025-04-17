@@ -92,3 +92,5 @@ export const Auth: React.FC<AuthFormProps & { view?: 'sign_in' | 'sign_up' | 'fo
     magicLink={props.magicLink}
   />
 );
+
+// Ensure file ends with a newline for proper parsing

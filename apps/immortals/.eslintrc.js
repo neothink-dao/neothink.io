@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ['@neothink/eslint-config'],
+  extends: ['next/core-web-vitals', '@neothink/eslint-config'],
 };

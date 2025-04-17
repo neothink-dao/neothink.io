@@ -1,4 +1,5 @@
 import { vi } from 'vitest';
+import '@testing-library/jest-dom/vitest';
 
 // Mock global fetch
 global.fetch = vi.fn();
@@ -18,4 +19,4 @@ global.crypto = {
 process.env = {
   ...process.env,
   NODE_ENV: 'test'
-}; 
+};

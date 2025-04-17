@@ -1,4 +1,5 @@
 export * from './models';
+export type { SecurityLog, SecurityEvent, SecurityEventSeverity, SecurityEventType } from './models';
 
 export type Json =
   | string

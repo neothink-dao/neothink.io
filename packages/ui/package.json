@@ -10,6 +10,36 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./components/PlatformSwitchLoader": {
+      "types": "./dist/components/PlatformSwitchLoader.d.ts",
+      "import": "./dist/components/PlatformSwitchLoader.mjs",
+      "require": "./dist/components/PlatformSwitchLoader.js"
+    },
+    "./components/PointsCircle": {
+      "types": "./dist/components/PointsCircle.d.ts",
+      "import": "./dist/components/PointsCircle.mjs",
+      "require": "./dist/components/PointsCircle.js"
+    },
+    "./components/QuestCard": {
+      "types": "./dist/components/QuestCard.d.ts",
+      "import": "./dist/components/QuestCard.mjs",
+      "require": "./dist/components/QuestCard.js"
+    },
+    "./components/SparkCircle": {
+      "types": "./dist/components/SparkCircle.d.ts",
+      "import": "./dist/components/SparkCircle.mjs",
+      "require": "./dist/components/SparkCircle.js"
+    },
+    "./components/StreakVortex": {
+      "types": "./dist/components/StreakVortex.d.ts",
+      "import": "./dist/components/StreakVortex.mjs",
+      "require": "./dist/components/StreakVortex.js"
+    },
+    "./components/TeamChat": {
+      "types": "./dist/components/TeamChat.d.ts",
+      "import": "./dist/components/TeamChat.mjs",
+      "require": "./dist/components/TeamChat.js"
     }
   },
   "scripts": {
