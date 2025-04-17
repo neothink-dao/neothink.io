@@ -23,6 +23,7 @@
     "rls:docs": "python3 scripts/generate_rls_policies_md.py",
     "launch-check": "node scripts/launch-check.js",
     "generate:types": "ts-node scripts/generate-types.ts",
+    "generate:supabase-types": "supabase gen types typescript --project-id dlmpxgzxdtqxyzsmpaxx --schema public > packages/types/supabase.ts",
     "e2e": "playwright test"
   },
   "devDependencies": {

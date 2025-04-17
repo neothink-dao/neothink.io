@@ -47,5 +47,10 @@ This repository contains proprietary software. By submitting this pull request, 
 ## Additional Notes
 [Any additional information that reviewers should know]
 
+## Code and Documentation Sync
+- [ ] I have verified that all code, database schema, and documentation changes are in sync (types, migrations, docs)
+- [ ] If I changed the schema, I ran `pnpm generate:types` and committed the result
+- [ ] I updated or created documentation for any schema/code changes
+
 ---
 By submitting this pull request, I confirm that my contributions are made under the terms of the Neothink Platform License. 

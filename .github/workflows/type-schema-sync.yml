@@ -1,0 +1,32 @@
+name: Type and Schema Sync
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  check-types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: pnpm install
+      - name: Generate Supabase types
+        run: pnpm generate:supabase-types
+      - name: Check for unstaged changes (type drift)
+        run: |
+          if [[ -n $(git status --porcelain packages/types/supabase.ts) ]]; then
+            echo '❌ Supabase types are out of sync with the database schema. Run pnpm generate:supabase-types and commit the changes.'
+            exit 1
+          else
+            echo '✅ Supabase types are in sync.'
+          fi
