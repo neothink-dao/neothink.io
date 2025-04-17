@@ -1,14 +1,14 @@
-# Contributing to Neothink+
+# Contributing to Neothink DAO
 
-Thank you for your interest in contributing to the Neothink+ ecosystem! This document provides a brief overview of how to contribute. For detailed information, please refer to our [comprehensive contribution guide](docs/contributing/README.md).
+Thank you for your interest in contributing to the Neothink DAO ecosystem! This document provides a brief overview of how to contribute. For detailed information, please refer to our [comprehensive contribution guide](docs/contributing/README.md).
 
 ## Quick Start
 
 1. **Prerequisites**
-   - Node.js 18.x or later
-   - pnpm 8.x or later
+   - Node.js 22.x or later
+   - pnpm 9.x or later
    - Git
-   - Valid Neothink+ team credentials
+   - Valid Neothink DAO team credentials
    - Signed NDA on file
 
 2. **Setup**

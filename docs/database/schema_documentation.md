@@ -7,15 +7,15 @@
 > - Update this file after every migration (see [Migrations Guide](./MIGRATIONS.md))
 > - Ensure all new/removed tables and columns are documented
 > - Reference the latest ERD in [database_diagram.md](./database_diagram.md)
-> - Link this documentation in onboarding and developer guides ([Getting Started](../getting-started/README.md))
+> - Link this documentation in onboarding and developer guides ([Getting Started](../getting-started/README.md), [Onboarding Checklist](../getting-started/README.md#onboarding-checklist), [Admin Guide](../admin/CONTINUOUS_IMPROVEMENT.md))
 
 ![Neothink Schema](https://assets.neothink.io/docs/schema-banner.png)
 
 ## 📋 Overview
 
-The Neothink platform ecosystem is built on a sophisticated multi-tenant architecture with a comprehensive database design that supports cross-platform authentication, content management, and user engagement features. This document provides detailed specifications of the database schema design, relationships, and key components.
+The Neothink platform ecosystem is built on a sophisticated multi-tenant architecture with a comprehensive database design that supports cross-platform authentication, content management, and user engagement features. This document provides detailed specifications of the database schema design, relationships, and key components, and is intended for both developers and admins seeking to understand or extend the platform.
 
-> **Note for Developers**: This schema documentation is regularly updated to reflect the latest database structure. Ensure you're viewing the most recent version before implementing changes. See also: [Migrations Guide](./MIGRATIONS.md), [Supabase Integration](./SUPABASE-INTEGRATION.md), [ERD](./database_diagram.md), [Security Guide](../security/security.md).
+> **Note for Developers & Admins**: This schema documentation is regularly updated to reflect the latest database structure. Ensure you're viewing the most recent version before implementing changes. See also: [Migrations Guide](./MIGRATIONS.md), [Supabase Integration](./SUPABASE-INTEGRATION.md), [ERD](./database_diagram.md), [Security Guide](../security/security.md), [Troubleshooting](../troubleshooting/README.md), [Support](../support/README.md).
 
 ## 📊 Database Schema Organization
 
@@ -54,6 +54,8 @@ Each tenant implements a role-based access control system with the following cor
 | **Viewer** | Limited | Read-only access to content |
 
 ## 📝 Database Tables Reference
+
+> **Tip:** For each table, see also the [per-table documentation](./tables/) for detailed columns, RLS policies, and usage examples.
 
 ### User Management
 
@@ -766,7 +768,7 @@ The database schema evolves through a controlled migration process:
 3. **Backward Compatibility**: Changes maintain backward compatibility where possible
 4. **Testing**: Migrations are tested in development before production deployment
 
-> After every migration, update this documentation and the [ERD](./database_diagram.md). See [Getting Started](../getting-started/README.md) for onboarding steps.
+> After every migration, update this documentation and the [ERD](./database_diagram.md). See [Getting Started](../getting-started/README.md), [Onboarding Checklist](../getting-started/README.md#onboarding-checklist), [Admin Guide](../admin/CONTINUOUS_IMPROVEMENT.md) for onboarding steps.
 
 ## ✅ Conclusion
 
@@ -779,7 +781,11 @@ The Neothink database is architected as a comprehensive, multi-tenant system sup
 - [Supabase Integration](./SUPABASE-INTEGRATION.md)
 - [Database Diagram (ERD)](./database_diagram.md)
 - [Getting Started](../getting-started/README.md)
+- [Onboarding Checklist](../getting-started/README.md#onboarding-checklist)
+- [Admin Guide](../admin/CONTINUOUS_IMPROVEMENT.md)
 - [Security Guide](../security/security.md)
+- [Troubleshooting](../troubleshooting/README.md)
+- [Support](../support/README.md)
 
 *Last updated: June 2025*
 
@@ -788,4 +794,4 @@ The Neothink database is architected as a comprehensive, multi-tenant system sup
 > - [ ] Update this file after every migration
 > - [ ] Ensure all new/removed tables and columns are documented
 > - [ ] Reference the latest ERD in [database_diagram.md](./database_diagram.md)
-> - [ ] Link this documentation in onboarding and developer guides ([Getting Started](../getting-started/README.md)) 
+> - [ ] Link this documentation in onboarding and developer guides ([Getting Started](../getting-started/README.md), [Onboarding Checklist](../getting-started/README.md#onboarding-checklist), [Admin Guide](../admin/CONTINUOUS_IMPROVEMENT.md)) 

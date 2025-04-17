@@ -64,25 +64,25 @@ neothink-platform/
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 15
-- **Language:** TypeScript
-- **Database:** Supabase (PostgreSQL)
-- **Authentication:** Supabase Auth
-- **UI:** React 19, Tailwind CSS 4
-- **State Management:** React Context, Zustand
-- **Build Tool:** Turborepo
-- **Package Manager:** pnpm
-- **Deployment:** Vercel
-- **Monitoring:** PostHog, custom logging/monitoring
-- **Testing:** Vitest, React Testing Library
+- **Framework:** Next.js (latest)
+- **Language:** TypeScript (latest)
+- **Database:** Supabase (PostgreSQL, latest)
+- **Authentication:** Supabase Auth (latest)
+- **UI:** React (latest), Tailwind CSS (latest)
+- **State Management:** React Context, Zustand (latest)
+- **Build Tool:** Turborepo (latest)
+- **Package Manager:** pnpm (latest)
+- **Deployment:** Vercel (latest)
+- **Monitoring:** PostHog (latest), custom logging/monitoring
+- **Testing:** Vitest (latest), React Testing Library (latest)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js >= 18
-- pnpm >= 8
-- Supabase CLI (for local development)
+- Node.js >= 22 (LTS, recommended)
+- pnpm >= 9
+- Supabase CLI (latest, for local development)
 
 ### Installation
 
@@ -302,8 +302,8 @@ To set up GitHub Actions for deployment, add the following secrets to your repos
 Welcome to the Neothink monorepo! This repo contains all apps, packages, and shared types for the Neothink platform.
 
 ### Prerequisites
-- Node.js 20+
-- pnpm 8+
+- Node.js 22+
+- pnpm 9+
 - GitHub account with access to this repo
 
 ### 1. Clone the Repo

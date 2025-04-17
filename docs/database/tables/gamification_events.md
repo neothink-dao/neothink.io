@@ -10,7 +10,7 @@ related_tables:
 
 # gamification_events Table
 
-Tracks all user interactions and gamification-related events for analytics, engagement, and rewards.
+Tracks all user interactions and gamification-related events for analytics, engagement, and rewards. This table is append-only for auditability and is protected by strict RLS policies.
 
 ## Fields
 | Column             | Type      | Constraints                | Description                                     |
@@ -32,9 +32,11 @@ select * from public.gamification_events where user_id = '...';
 ```
 
 ## RLS Policy Summary
-- **select:** Any authenticated user
-- **insert:** Authenticated users, amount >= 0
+- **select:** Any authenticated user (see [RLS Policy Documentation](../../security/authorization.md))
+- **insert:** Authenticated users, amount >= 0 (see [Security Guide](../../security/security.md))
 - **update/delete:** Not allowed (append-only)
+
+> **Tip:** For troubleshooting or support, see [Troubleshooting](../../troubleshooting/README.md) or [Support](../../support/README.md).
 
 ## Related Docs
 - [Database Schema](../schema_documentation.md)

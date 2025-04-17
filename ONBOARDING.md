@@ -12,8 +12,8 @@ Welcome to the Neothink DAO monorepo! This guide will help you get started as a 
 ## 2. Getting Started
 1. **Clone the repo**
    ```sh
-   git clone https://github.com/NeothinkDAO/your-repo.git
-   cd your-repo
+   git clone https://github.com/neothink-dao/neothink.io.git
+   cd neothink.io
    ```
 2. **Install dependencies**
    ```sh

@@ -7,8 +7,8 @@ The Immortals app is one of four Vercel projects in the Neothink monorepo, all s
 
 ### 1. Clone the Monorepo
 ```sh
-git clone https://github.com/your-org/neothink-dao.git
-cd neothink-dao
+git clone https://github.com/neothink-dao/neothink.io.git
+cd neothink.io
 ```
 
 ### 2. Install Dependencies

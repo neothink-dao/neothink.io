@@ -7,11 +7,11 @@ Welcome! This guide will help you get started with development in the Neothink P
 
 ## Prerequisites
 
-- Node.js 18.x or later
-- pnpm 8.x or later
+- Node.js 22.x or later
+- pnpm 9.x or later
 - Git
 - VS Code (recommended)
-- Supabase CLI (for local development)
+- Supabase CLI (latest, for local development)
 - Docker (optional, for local Supabase)
 
 ## Quick Start
@@ -49,6 +49,8 @@ Welcome! This guide will help you get started with development in the Neothink P
 - [ ] Set up your `.env` from `.env.example`
 - [ ] Run migrations locally before development (`pnpm db:push`)
 - [ ] See [core concepts](./core-concepts.md) and [architecture overview](../architecture/README.md)
+- [ ] Review the [Launch Checklist](../deployment/launch-checklist.md) for production readiness
+- [ ] If you're an admin, see [Admin & Continuous Improvement](../admin/CONTINUOUS_IMPROVEMENT.md) and [Security Guide](../security/security.md)
 
 ## Project Structure
 
@@ -72,6 +74,8 @@ Welcome! This guide will help you get started with development in the Neothink P
    ```
 2. **Make Changes**
    - Follow our [coding standards](../contributing/code-style.md) and [best practices](../architecture/standards.md).
+   - See [FAQ & Troubleshooting](../troubleshooting/README.md) for common issues.
+   - For help, check [Support](../support/README.md).
 3. **Run Tests**
    ```bash
    pnpm test

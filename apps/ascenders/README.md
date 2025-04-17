@@ -7,8 +7,8 @@ The Ascenders app is part of the Neothink monorepo, sharing a Supabase backend w
 
 ### 1. Clone the Monorepo
 ```sh
-git clone https://github.com/your-org/neothink-dao.git
-cd neothink-dao
+git clone https://github.com/neothink-dao/neothink.io.git
+cd neothink.io
 ```
 
 ### 2. Install Dependencies

@@ -3,7 +3,7 @@
 > **Proprietary Notice:**  
 > This project and all related documentation are proprietary software owned and controlled by Neothink DAO and the Mark Hamilton Family. All rights reserved. Unauthorized use, distribution, or reproduction is strictly prohibited. See the [LICENSE](../../LICENSE) file for details.
 
-This document provides a comprehensive overview of security best practices implemented across the Neothink Platform ecosystem. It serves as both a reference for current implementations and a checklist for ongoing security reviews.
+This document provides a comprehensive overview of security best practices implemented across the Neothink Platform ecosystem. It serves as both a reference for current implementations and a checklist for ongoing security reviews. **It is intended for both users and admins: users should review authentication and personal security sections, while admins should use the full checklist for audits and continuous improvement.**
 
 ## Authentication & Authorization
 
@@ -19,7 +19,7 @@ This document provides a comprehensive overview of security best practices imple
 - [x] **Session Monitoring**: Real-time tracking of user sessions with suspicious activity detection
 - [x] **Rate Limiting**: API rate limiting via shared middleware
 
-See also: [Architecture Overview](../architecture/README.md), [Onboarding Guide](../getting-started/README.md)
+See also: [Architecture Overview](../architecture/README.md), [Onboarding Guide](../getting-started/README.md), [Admin Guide](../admin/CONTINUOUS_IMPROVEMENT.md), [Troubleshooting](../troubleshooting/README.md), [Support](../support/README.md)
 
 ### Implementation Details
 
@@ -255,76 +255,26 @@ export function useSecureForm<T extends z.ZodType<any, any>>(schema: T) {
 }
 ```
 
-## Ongoing Security Measures
+## 🛡️ Security Checklist for Admins
+- [ ] Review all implemented security measures quarterly ([Continuous Improvement](../admin/CONTINUOUS_IMPROVEMENT.md))
+- [ ] Test authentication and RLS flows for all apps
+- [ ] Review and update RLS and RBAC policies ([RLS Policy Documentation](./authorization.md), [RBAC Implementation](./RBAC-IMPLEMENTATION.md))
+- [ ] Confirm all sensitive data is encrypted at rest and in transit
+- [ ] Ensure all endpoints are rate-limited and monitored
+- [ ] Review security headers and CSP on all deployed sites
+- [ ] Run external vulnerability scans before launch
+- [ ] Ensure all admins know how to report and respond to incidents ([Support](../support/README.md))
 
-### Regular Security Tasks
+## 🔐 How to Report a Security Issue
+- Users and admins should report vulnerabilities or suspicious activity via [Support](../support/README.md) or by contacting the core team directly (see [SECURITY.md](../../SECURITY.md)).
 
-- [ ] **Dependency Updates**: Monthly updates of all dependencies to latest secure versions
-- [ ] **Security Scans**: Bi-weekly automated security scans
-- [ ] **Penetration Testing**: Quarterly penetration testing
-- [ ] **Security Code Reviews**: Security-focused code reviews for all PRs
-- [ ] **Security Training**: Regular security training for all developers
-- [ ] **Vulnerability Disclosure Policy**: Clear process for reporting security issues
-- [ ] **Incident Response Plan**: Documented plan for security incidents
+## 📚 Additional Resources
+- [Security Guide](../security/security.md)
+- [RLS Policy Documentation](./authorization.md)
+- [RBAC Implementation](./RBAC-IMPLEMENTATION.md)
+- [Data Protection](./data-protection.md)
+- [Troubleshooting](../troubleshooting/README.md)
+- [Support](../support/README.md)
 
-### Security Monitoring
-
-- [ ] **Login Activity**: Monitor and alert on suspicious login activities
-- [ ] **API Usage**: Track and alert on unusual API patterns
-- [ ] **Error Rates**: Monitor for spikes in error rates that might indicate attacks
-- [ ] **Database Access**: Monitor for unusual database access patterns
-- [ ] **Authentication Failures**: Track and alert on authentication failure spikes
-
-## Security Checklist for New Features
-
-When implementing new features, verify the following:
-
-1. **Authentication & Authorization**
-   - [ ] Does the feature require authentication?
-   - [ ] Are proper role-based permissions enforced?
-   - [ ] Are RLS policies created for any new database tables?
-
-2. **Data Protection**
-   - [ ] Is all user input properly validated?
-   - [ ] Is sensitive data properly encrypted?
-   - [ ] Are database queries properly parameterized?
-   - [ ] Is user-generated content properly sanitized before display?
-
-3. **API Security**
-   - [ ] Are all API endpoints properly validated?
-   - [ ] Is rate limiting applied where necessary?
-   - [ ] Is proper error handling implemented?
-   - [ ] Are security headers set correctly?
-
-4. **Frontend Security**
-   - [ ] Is the UI designed to prevent XSS?
-   - [ ] Are forms properly validated on the client side?
-   - [ ] Is CSRF protection implemented?
-   - [ ] Are secure components used for all user interactions?
-
-## Security Contacts
-
-- **Security Team**: security@neothink.io
-- **Bug Bounty Program**: https://neothink.io/security/bounty
-- **Security Documentation**: Internal wiki at https://wiki.neothink.io/security
-
-## Vulnerability Response
-
-If you discover a security vulnerability in the Neothink platform ecosystem:
-
-1. **Do not** disclose it publicly
-2. Email details to security@neothink.io
-3. Include steps to reproduce, impact, and suggested mitigation if possible
-4. Our security team will acknowledge receipt within 24 hours
-5. We aim to resolve critical vulnerabilities within 7 days
-
-## Compliance and Standards
-
-The Neothink platform security measures align with:
-
-- OWASP Top 10 (2021)
-- GDPR requirements
-- NIST Cybersecurity Framework
-- CIS Benchmarks for web applications
-
-This security documentation is regularly updated to reflect the current state of security implementations across the Neothink platform ecosystem. 
+---
+> Security is a shared responsibility. All users and admins are empowered to help keep Neothink safe, resilient, and delightful.
