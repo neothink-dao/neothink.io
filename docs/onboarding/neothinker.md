@@ -48,6 +48,44 @@ Welcome, Neothinker! Your journey is about unlocking happiness and genius-level 
 - Need help? Ask in the community or open a support ticket.
 - Want to improve the game? [Suggest an improvement](https://github.com/NeothinkDAO/your-repo/issues/new/choose).
 
+## ✨ Neothinker Guide: User & Admin (2025)
+
+**For Users:**
+- Begin as a Neothinker with learning modules, quizzes, and knowledge integration.
+- Earn XP, points, and badges for progress and mastery.
+- Unlock advanced modules and participate in collaborative learning.
+- Track your educational journey and rewards in your dashboard.
+
+**For Admins:**
+- Review and optimize Neothinker onboarding and learning flows.
+- Tune reward logic, module unlocks, and analytics for educational progress.
+- Monitor engagement, quiz results, and collaborative activities.
+- Enforce RLS and audit logs for Neothinker-specific actions.
+
+## 🚀 What’s New in 2025?
+- Learning modules and progressive unlocks.
+- Collaborative learning and analytics.
+- Enhanced admin controls and feedback loops.
+
+## 📚 Quick Links
+- [Onboarding Index](./README.md)
+- [Admin Overview](../admin/ADMIN-OVERVIEW.md)
+- [Gamification API](../api/gamification.md)
+- [Database & Schema](../architecture/database.md)
+
+## 🗺️ Neothinker Journeys
+- **Users:**
+  1. Complete modules and earn rewards
+  2. Unlock advanced content and collaborate
+  3. Track progress and mastery
+- **Admins:**
+  1. Review and optimize modules
+  2. Tune rewards and monitor analytics
+  3. Enforce RLS and audit logs
+
+## 🔄 Continuous Improvement
+- Neothinker flows and docs are reviewed and improved regularly based on analytics and feedback.
+
 ---
 
 > Earn Your Happiness by thinking in integrations. Welcome to the Neothinkers!

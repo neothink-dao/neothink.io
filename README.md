@@ -13,6 +13,30 @@ This monorepo/turborepo contains 4 Vercel apps/sites, all sharing a single produ
 - **Code/DB Sync:** TypeScript types, schema, and documentation are always kept in sync.
 - **User/Admin Delight:** The stack is designed for maximum engagement, clarity, and security for both users and admins.
 
+## ✨ User & Admin Experience (2025 Update)
+
+**For Users:**
+- Enjoy a seamless onboarding journey with progressive challenges and rewards.
+- Track your progress, XP, points, and badges across all apps from a unified dashboard.
+- Participate in cross-app challenges, earn bonuses, and climb the leaderboard.
+- Transparent governance: vote, propose, and contribute to DAO decisions.
+- Access clear guides, FAQs, and support for every step.
+
+**For Admins:**
+- Manage users, roles, and permissions with actionable dashboards.
+- Configure and tune gamification rewards and multipliers per app.
+- Monitor engagement, analytics, and system health in real time.
+- Enforce and audit RLS, security, and compliance policies.
+- Use migration and schema tools to evolve the platform safely.
+
+## 🚀 What’s New in 2025?
+- Partitioned audit/event tables for scalability and performance.
+- Centralized reward engine and dynamic multipliers (per app, per action).
+- Enhanced onboarding and progressive disclosure for new users.
+- New governance flows: quadratic voting, delegated voting, Council rotation, and vetoes.
+- App-specific guides and admin controls for unique challenges and rewards.
+- Real-time analytics and feedback loops for continuous improvement.
+
 ## 🚀 Quickstart / Core Path (Summary)
 1. **Clone the repo**
 2. **Install dependencies**
@@ -187,14 +211,34 @@ pnpm test
 pnpm --filter <package-name> test
 ```
 
-## 📚 Documentation
+## 📚 Documentation (User & Admin Quick Links)
 
-- [Architecture](./docs/architecture/README.md)
-- [Getting Started](./docs/getting-started/README.md)
-- [Authentication](./docs/development/AUTHENTICATION-STATUS.md)
-- [Database](./docs/database/README.md)
-- [Deployment](./docs/deployment/VERCEL-DEPLOYMENT.md)
-- [Contributing](./CONTRIBUTING.md)
+- [User Onboarding & Game Guides](./docs/onboarding/README.md)
+- [Admin Guide & Continuous Improvement](./docs/admin/ADMIN-OVERVIEW.md)
+- [Gamification & Tokenomics API (User/Admin)](./docs/api/gamification.md)
+- [Governance & Voting (User/Admin)](./DAO_GOVERNANCE.md)
+- [Database & Schema (Admin)](./docs/architecture/database.md)
+- [Security & RLS (User/Admin)](./SECURITY.md)
+- [Monitoring & Analytics (User/Admin)](./docs/monitoring/README.md)
+- [Feedback & Support](./docs/support/README.md)
+
+## 🗺️ User & Admin Journeys
+
+- **Users:**
+  1. Onboard via personalized, app-specific flows
+  2. Complete challenges, earn XP/points, unlock features
+  3. Participate in governance and community events
+  4. Get help and track progress from unified dashboard
+
+- **Admins:**
+  1. Monitor onboarding, engagement, and system health
+  2. Tune reward logic and multipliers per app
+  3. Manage user roles, permissions, and content
+  4. Review analytics, feedback, and iterate
+
+## 🔄 Continuous Improvement
+- All docs, flows, and features are reviewed regularly based on analytics and user/admin feedback.
+- See [Continuous Improvement Guide](./docs/admin/CONTINUOUS_IMPROVEMENT.md).
 
 ## 🤝 Contributing
 

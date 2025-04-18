@@ -48,6 +48,44 @@ This page documents the core endpoints powering XP, tokens, badges, streaks, onb
 
 ---
 
+## ✨ Gamification & Tokenomics: User & Admin Guide (2025)
+
+### For Users
+- **How to Earn Points:** Complete actions, challenges, referrals, and cross-app events. See your progress in your dashboard.
+- **How to Spend Points:** Vote, unlock features, make purchases, and participate in crowdfunding.
+- **Level Up:** Progress through tiers and earn badges for milestones.
+- **Transparency:** All actions are logged and auditable.
+- **Support:** FAQs and troubleshooting are available in the support docs.
+
+### For Admins
+- **Configure Rewards:** Tune multipliers, onboarding rewards, and app-specific challenges in the admin dashboard.
+- **Audit Logs:** Review all point transactions and event logs for compliance.
+- **Analytics:** Monitor engagement, leaderboards, and cross-app synergy.
+- **Security:** Enforce RLS, positive-sum logic, and review function logs.
+- **Continuous Improvement:** Use analytics and feedback to iterate reward logic.
+
+## 🆕 What’s New in 2025?
+- Partitioned event/audit tables for scale.
+- Centralized reward engine and dynamic multipliers.
+- Cross-app bonuses and Vortex Math logic.
+- Enhanced onboarding and challenge tracking.
+- Real-time analytics for admins.
+
+## 📚 Quick Links
+- [User Game Guides](../onboarding/README.md)
+- [Admin Guide](../admin/ADMIN-OVERVIEW.md)
+- [Database Schema](../architecture/database.md)
+- [Security & RLS](../../SECURITY.md)
+
+## 🗺️ User & Admin Flows
+- **Users:** Earn points, complete challenges, participate in governance, get support.
+- **Admins:** Configure rewards, monitor analytics, audit logs, improve mechanics.
+
+## 🔄 Continuous Improvement
+- Docs and APIs are reviewed and updated regularly based on user/admin feedback and analytics.
+
+---
+
 ## Example Usage
 
 ```ts

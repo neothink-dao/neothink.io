@@ -4,11 +4,12 @@ Welcome to the Neothink Platform administration guide. This comprehensive docume
 
 ## Quick Navigation
 
-- [Security Management](security.md)
-- [User Management](user-management.md)
-- [Content Management](content-management.md)
-- [Analytics & Reporting](analytics.md)
-- [System Health](health.md)
+- [Admin Continuous Improvement](CONTINUOUS_IMPROVEMENT.md)
+- [Security & RLS](../../SECURITY.md)
+- [Gamification & Tokenomics API](../api/gamification.md)
+- [Database & Schema](../architecture/database.md)
+- [Monitoring & Analytics](../monitoring/README.md)
+- [Feedback & Support](../support/README.md)
 
 ## Platform Overview
 
@@ -37,6 +38,39 @@ The Neothink Platform consists of four integrated applications:
    - Thought exercises
    - Progress tracking
    - Knowledge integration
+
+## ✨ Admin Experience (2025 Update)
+
+**For Admins:**
+- Access actionable dashboards for user, content, and reward management.
+- Tune gamification multipliers, onboarding rewards, and app-specific challenges.
+- Monitor engagement, analytics, and system health in real time.
+- Review audit logs, enforce RLS, and manage compliance.
+- Leverage continuous improvement rituals and analytics for platform evolution.
+
+**For Users:**
+- Transparent admin actions: see how governance, content, and rewards are managed.
+- Clear escalation paths for support, feedback, and issue resolution.
+
+## 🚀 What’s New?
+- Centralized admin controls for all apps and shared Supabase database.
+- Enhanced analytics and monitoring tools.
+- Step-by-step guides for onboarding, tuning, and compliance.
+- Real-time feedback and audit trails.
+
+## 🗺️ Admin & User Journeys
+- **Admins:**
+  1. Monitor onboarding, engagement, and analytics
+  2. Tune reward logic and multipliers
+  3. Manage users, permissions, and content
+  4. Review feedback, compliance, and iterate
+- **Users:**
+  1. See transparent admin actions
+  2. Escalate issues and provide feedback
+
+## 🔄 Continuous Improvement
+- Admin practices and docs are regularly updated based on analytics and feedback.
+- See [Continuous Improvement Guide](CONTINUOUS_IMPROVEMENT.md).
 
 ## Administrative Responsibilities
 

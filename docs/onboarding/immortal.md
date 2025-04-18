@@ -44,6 +44,44 @@ Welcome, Immortal! Your journey is about maximizing longevity, health, and freed
 - Need help? Ask in the community or open a support ticket.
 - Want to improve the game? [Suggest an improvement](https://github.com/NeothinkDAO/your-repo/issues/new/choose).
 
+## ✨ Immortal Guide: User & Admin (2025)
+
+**For Users:**
+- Begin as an Immortal by tracking health metrics, streaks, and wellness challenges.
+- Earn XP, points, and badges for daily actions and health milestones.
+- Unlock new health features and participate in cross-app wellness challenges.
+- View your health journey and rewards in your dashboard.
+
+**For Admins:**
+- Review and optimize Immortal onboarding and health flows.
+- Tune reward logic, streak tracking, and analytics for health engagement.
+- Monitor health metrics, challenge participation, and feedback.
+- Enforce RLS and audit logs for Immortal-specific actions.
+
+## 🚀 What’s New in 2025?
+- Health metric tracking and streaks.
+- Wellness challenges and cross-app integration.
+- Enhanced analytics and admin controls.
+
+## 📚 Quick Links
+- [Onboarding Index](./README.md)
+- [Admin Overview](../admin/ADMIN-OVERVIEW.md)
+- [Gamification API](../api/gamification.md)
+- [Database & Schema](../architecture/database.md)
+
+## 🗺️ Immortal Journeys
+- **Users:**
+  1. Track health metrics and earn rewards
+  2. Join wellness challenges and streaks
+  3. Unlock features and monitor progress
+- **Admins:**
+  1. Review and optimize onboarding
+  2. Tune rewards and monitor analytics
+  3. Enforce RLS and audit logs
+
+## 🔄 Continuous Improvement
+- Immortal flows and docs are reviewed and improved regularly based on analytics and feedback.
+
 ---
 
 > Prime Your Longevity by becoming a self-leader. Welcome to the Immortals!

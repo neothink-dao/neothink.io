@@ -10,6 +10,23 @@
 
 Welcome to the Neothink Platform documentation. This monorepo contains four interconnected applications sharing a common Supabase backend and a set of shared packages.
 
+## ✨ User & Admin Documentation Experience (2025 Update)
+
+**For Users:**
+- Start with personalized onboarding and game guides for each app.
+- Access clear, actionable guides for earning points, leveling up, and participating in governance.
+- Find FAQs, troubleshooting, and support channels for every journey stage.
+
+**For Admins:**
+- Centralized access to admin guides, best practices, and continuous improvement rituals.
+- Step-by-step instructions for managing users, rewards, analytics, and security.
+- Direct links to compliance, migration, and monitoring docs.
+
+## 🚀 What’s New?
+- Unified documentation structure for both users and admins.
+- Expanded app-specific guides and admin controls.
+- New sections for feedback, analytics, and security best practices.
+
 ## 📚 Documentation Structure
 
 ### 🏗️ Architecture
@@ -60,6 +77,7 @@ Welcome to the Neothink Platform documentation. This monorepo contains four inte
 
 ### 🛡️ Admin & Continuous Improvement
   - [Ritual Audits & Continuous Improvement](./admin/CONTINUOUS_IMPROVEMENT.md) — Admin rituals, audits, and continuous improvement cycles.
+  - [Admin Overview](./admin/ADMIN-OVERVIEW.md) — Centralized access to admin guides, best practices, and continuous improvement rituals.
 
 ### 🔒 Security
 - [Security Guide](../docs/security/security.md) — Security principles, reporting, and best practices.
@@ -80,6 +98,35 @@ Welcome to the Neothink Platform documentation. This monorepo contains four inte
 
 ### 🤝 Contributing
 - [Contributing Guide](../CONTRIBUTING.md) — How to contribute and our code of conduct.
+
+## 📚 Documentation Structure (Quick Links)
+
+- [User Onboarding & Game Guides](./onboarding/README.md)
+- [Admin & Continuous Improvement](./admin/ADMIN-OVERVIEW.md)
+- [Gamification & Tokenomics API](./api/gamification.md)
+- [Governance & Voting](../DAO_GOVERNANCE.md)
+- [Database & Schema](./architecture/database.md)
+- [Security & RLS](../SECURITY.md)
+- [Monitoring & Analytics](./monitoring/README.md)
+- [Feedback & Support](./support/README.md)
+
+## 🗺️ User & Admin Journeys
+
+- **Users:**
+  1. Onboard via tailored guides per app
+  2. Complete challenges, earn points, unlock features
+  3. Join governance and community events
+  4. Access support and track progress
+
+- **Admins:**
+  1. Monitor onboarding, engagement, and analytics
+  2. Tune reward logic and multipliers
+  3. Manage users, permissions, and content
+  4. Review feedback, compliance, and iterate
+
+## 🔄 Continuous Improvement
+- All docs and guides are reviewed and updated regularly based on analytics and feedback.
+- See [Continuous Improvement Guide](./admin/CONTINUOUS_IMPROVEMENT.md).
 
 ## 🎯 Quick Links
 

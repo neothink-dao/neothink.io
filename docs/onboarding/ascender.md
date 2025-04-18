@@ -45,6 +45,44 @@ Welcome, Ascender! As a value creator, your journey is about building prosperity
 - Need help? Reach out in the community or open a support ticket.
 - Want to improve the game? [Suggest an improvement](https://github.com/NeothinkDAO/your-repo/issues/new/choose).
 
+## ✨ Ascender Guide: User & Admin (2025)
+
+**For Users:**
+- Start your journey as an Ascender with stepwise onboarding and initial challenges.
+- Earn XP, points, and badges by completing tasks, referrals, and group actions.
+- Access the leaderboard, unlock new features, and participate in cross-app challenges.
+- See your progress, rewards, and next steps in your dashboard.
+
+**For Admins:**
+- Review and optimize Ascender onboarding for clarity and engagement.
+- Tune reward logic, onboarding multipliers, and challenge mechanics.
+- Monitor analytics for user progress, group actions, and referrals.
+- Enforce RLS and audit logs for Ascender-specific tables and actions.
+
+## 🚀 What’s New in 2025?
+- Progressive onboarding and feature unlocks.
+- Group actions, referral tracking, and cross-app synergy.
+- Enhanced analytics and admin controls.
+
+## 📚 Quick Links
+- [Onboarding Index](./README.md)
+- [Admin Overview](../admin/ADMIN-OVERVIEW.md)
+- [Gamification API](../api/gamification.md)
+- [Database & Schema](../architecture/database.md)
+
+## 🗺️ Ascender Journeys
+- **Users:**
+  1. Complete onboarding and earn initial rewards
+  2. Join group actions and referrals
+  3. Unlock features and climb the leaderboard
+- **Admins:**
+  1. Review and optimize onboarding
+  2. Tune rewards and monitor analytics
+  3. Enforce RLS and audit logs
+
+## 🔄 Continuous Improvement
+- Ascender flows and docs are reviewed and improved regularly based on analytics and feedback.
+
 ---
 
 > Prosper Happily Forever by being a value creator. Welcome to the Ascenders!

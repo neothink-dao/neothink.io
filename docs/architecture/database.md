@@ -168,7 +168,46 @@ SELECT
   ROUND(COUNT(*) FILTER (WHERE endgame_views > 0)::numeric / NULLIF(COUNT(*) FILTER (WHERE progress_views > 0), 0)::numeric * 100, 2) as progress_to_endgame_rate
 FROM journey_steps
 GROUP BY platform;
-```
+
+## ✨ Database & Schema: User & Admin Guide (2025)
+
+**For Users:**
+- Transparent data handling: your progress, points, and actions are securely tracked.
+- Learn how your data is used for gamification, rewards, and governance.
+- Data privacy and security are enforced via RLS and best practices.
+
+**For Admins:**
+- Partitioned and indexed event/audit tables for scale and performance.
+- Centralized reward logic in database functions, with dynamic multipliers.
+- Clear schema documentation for all core and app-specific tables.
+- Step-by-step migration and analytics guides.
+- Granular RLS policies for every table and action.
+
+## 🚀 What’s New in 2025?
+- Partitioned audit/event tables and new indexes for large-scale analytics.
+- Reward engine and pending/issued points logic centralized in DB functions.
+- Expanded schema for governance, onboarding, and cross-app challenges.
+- Enhanced schema docs and ERDs for admins.
+
+## 📚 Quick Links
+- [Gamification & Tokenomics API](../api/gamification.md)
+- [Admin Overview](../admin/ADMIN-OVERVIEW.md)
+- [Security & RLS](../../SECURITY.md)
+- [Migrations](../database/MIGRATIONS.md)
+- [Feedback & Support](../support/README.md)
+
+## 🗺️ Database Journeys
+- **Users:**
+  1. Data is securely tracked for progress, rewards, and governance
+  2. Access privacy and security docs
+- **Admins:**
+  1. Review schema and ERDs
+  2. Apply migrations and tune indexes
+  3. Monitor analytics and audit logs
+  4. Enforce RLS and compliance
+
+## 🔄 Continuous Improvement
+- Schema, migrations, and docs are reviewed and improved regularly based on analytics and feedback.
 
 ## Key Features
 
