@@ -2,6 +2,7 @@
 import middleware from '@neothink/auth/src/utils/middleware';
 export default middleware;
 import { createServerClient } from '@supabase/ssr';
+import { NextResponse } from 'next/server';
 export async function middleware(request) {
     let response = NextResponse.next({
         request: {

@@ -1,14 +1,8 @@
-export function AuthForm({ children, onSubmit, error, loading }) {
-    return (<form onSubmit={onSubmit} className="space-y-4 w-full max-w-md">
-      {error && (<div className="bg-red-50 text-red-500 p-4 rounded-lg text-sm">
-          {error}
-        </div>)}
-      <div className="space-y-4">
-        {children}
-      </div>
-      {loading && (<div className="text-center text-gray-500">
-          Processing...
-        </div>)}
+export function AuthForm({ onSubmit, loading, error, submitted, children }) {
+    return (<form onSubmit={onSubmit} className="space-y-4">
+      {error && <div className="text-red-600">{error}</div>}
+      {submitted && <div className="text-green-600">Check your email for instructions.</div>}
+      {children}
     </form>);
 }
 //# sourceMappingURL=AuthForm.js.map

@@ -1,23 +1,11 @@
-import { SecurityEventTypes } from './types';
+import { SecurityEventTypes } from '@neothink/database';
 import { createPlatformClient } from '@neothink/database';
 /**
  * Logs a security event to the security_events table
  */
 export const logSecurityEvent = async (supabaseAdmin, event) => {
     try {
-        const { error } = await supabaseAdmin.from('security_events').insert({
-            platform_slug: event.platformSlug,
-            event_type: event.eventType,
-            severity: event.severity,
-            user_id: event.userId || null,
-            request_ip: event.requestIp || null,
-            request_path: event.requestPath || null,
-            request_method: event.requestMethod || null,
-            request_headers: event.requestHeaders || null,
-            context: event.context || {},
-            details: event.details || {},
-            suspicious_activity: event.suspiciousActivity || false,
-        });
+        const { error } = await supabaseAdmin.from('security_events').insert(event);
         if (error) {
             console.error('Error logging security event:', error);
         }
@@ -28,98 +16,80 @@ export const logSecurityEvent = async (supabaseAdmin, event) => {
 };
 /**
  * Helper function to create a security event
+ * Uses canonical type shape from @neothink/database
  */
-export function createSecurityEvent(platformSlug, eventType, severity, context = {}, details = {}) {
+export function createSecurityEvent(platform_slug, event, severity, context = {}, details = {}, user_id) {
     return {
-        platformSlug,
-        eventType,
+        event,
         severity,
+        platform_slug,
+        user_id,
         context,
         details,
-        suspiciousActivity: false
+        suspicious_activity: false
     };
-}
-/**
- * Helper function to create a rate limit exceeded event
- */
-export function createRateLimitEvent(platformSlug, identifier, context) {
-    return createSecurityEvent(platformSlug, SecurityEventTypes.RATE_LIMIT_EXCEEDED, 'medium', context, { identifier });
 }
 /**
  * Helper function to create a suspicious activity event
+ * Uses canonical type shape from @neothink/database
  */
-export function createSuspiciousActivityEvent(platformSlug, details, context) {
+export function createSuspiciousActivityEvent(platform_slug, details, context, user_id) {
     return {
-        platformSlug,
-        eventType: SecurityEventTypes.SUSPICIOUS_ACTIVITY,
+        event: SecurityEventTypes.SUSPICIOUS_ACTIVITY,
         severity: 'high',
+        platform_slug,
+        user_id,
         context,
         details,
-        suspiciousActivity: true
+        suspicious_activity: true
     };
-}
-/**
- * Helper function to create an auth failure event
- */
-export function createAuthFailureEvent(platformSlug, reason, context) {
-    return createSecurityEvent(platformSlug, SecurityEventTypes.AUTH_FAILURE, 'medium', context, { reason });
-}
-/**
- * Helper function to log suspicious activity
- */
-export async function logSuspiciousActivity(supabase, platformSlug, activityType, context, details) {
-    await logSecurityEvent(supabase, {
-        platformSlug,
-        eventType: `suspicious_activity.${activityType}`,
-        severity: 'medium',
-        context,
-        details,
-        suspiciousActivity: true
-    });
 }
 /**
  * Helper function to log authentication events
  */
-export async function logAuthEvent(supabase, platformSlug, eventType, context, details) {
+export async function logAuthEvent(supabase, platform_slug, event, context, details, user_id) {
     await logSecurityEvent(supabase, {
-        platformSlug,
-        eventType: `auth.${eventType}`,
+        event: `auth.${event}`,
         severity: 'low',
+        platform_slug,
+        user_id,
         context,
         details: details || {},
-        suspiciousActivity: false
+        suspicious_activity: false
     });
 }
 /**
- * Log a security event using an options object
+ * Log a security event using an options object (canonical shape)
  */
-export async function logSecurityEventFromOptions({ platformSlug, eventType, severity, userId, context = {}, details = {}, request, }) {
-    const supabase = createPlatformClient(platformSlug);
+export async function logSecurityEventFromOptions({ platform_slug, event, severity, user_id, context = {}, details = {}, request, suspicious_activity = false }) {
+    const supabase = createPlatformClient(platform_slug);
     // Extract request information if provided
     const requestInfo = request ? {
-        requestIp: request.ip || request.headers.get('x-forwarded-for') || 'unknown',
-        requestPath: request.nextUrl.pathname,
-        requestMethod: request.method,
-        requestHeaders: Object.fromEntries(request.headers.entries()),
+        ip_address: request.headers.get('x-forwarded-for') || 'unknown',
+        request_path: request.nextUrl.pathname,
+        request_method: request.method,
+        request_headers: Object.fromEntries(request.headers.entries()),
     } : {};
     try {
-        await logSecurityEvent(supabase, Object.assign(Object.assign({ platformSlug,
-            eventType,
+        await logSecurityEvent(supabase, Object.assign({ event,
             severity,
-            userId,
+            platform_slug,
+            user_id,
             context,
-            details }, requestInfo), { suspiciousActivity: false }));
+            details,
+            suspicious_activity }, requestInfo));
     }
     catch (error) {
         // Log to console if database logging fails
         console.error('Failed to log security event:', {
             error,
-            event: Object.assign({ platformSlug,
-                eventType,
+            event: Object.assign({ event,
                 severity,
-                userId,
+                platform_slug,
+                user_id,
                 context,
-                details }, requestInfo),
+                details,
+                suspicious_activity }, requestInfo),
         });
     }
 }

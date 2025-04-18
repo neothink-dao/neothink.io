@@ -1,5 +1,4 @@
 import { createPlatformClient } from '@neothink/database';
-import { SecurityEventTypes } from './types';
 import crypto from 'crypto';
 import { logSecurityEvent } from './security-logger';
 import { validateCsrfToken } from './csrf';
@@ -65,10 +64,10 @@ function isSuspiciousRequest(req) {
  * Checks rate limits for the request
  */
 async function checkRateLimit(req, platformSlug) {
-    var _a;
+    var _a, _b;
     const supabase = createPlatformClient(platformSlug);
     const path = req.nextUrl.pathname;
-    const clientIp = ((_a = req.headers.get('x-forwarded-for')) === null || _a === void 0 ? void 0 : _a.split(',')[0]) || req.ip;
+    const clientIp = ((_b = (_a = req.headers.get('x-forwarded-for')) === null || _a === void 0 ? void 0 : _a.split(',')[0]) === null || _b === void 0 ? void 0 : _b.trim()) || 'unknown';
     // Determine rate limit based on endpoint
     let config = rateLimitConfig.default;
     if (path.startsWith('/api/auth')) {
@@ -109,6 +108,7 @@ export function setSecurityHeaders(req, res) {
     });
 }
 export default async function middleware(req) {
+    var _a, _b, _c, _d, _e, _f;
     try {
         const platformSlug = getPlatformFromHost(req.headers.get('host'));
         if (!platformSlug) {
@@ -119,31 +119,34 @@ export default async function middleware(req) {
         const isRateLimited = await checkRateLimit(req, platformSlug);
         if (isRateLimited) {
             await logSecurityEvent(supabase, {
-                platformSlug,
-                eventType: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
+                event: 'RATE_LIMIT_EXCEEDED',
                 severity: 'medium',
-                userId: undefined,
-                requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
-                requestPath: req.nextUrl.pathname,
-                requestMethod: req.method,
-                requestHeaders: Object.fromEntries(req.headers),
-                context: { path: req.nextUrl.pathname },
-                suspiciousActivity: true
+                platform_slug: platformSlug,
+                user_id: undefined,
+                ip_address: ((_b = (_a = req.headers.get('x-forwarded-for')) === null || _a === void 0 ? void 0 : _a.split(',')[0]) === null || _b === void 0 ? void 0 : _b.trim()) || '',
+                request_path: req.nextUrl.pathname,
+                request_method: req.method,
+                request_headers: Object.fromEntries(req.headers),
+                context: {},
+                details: {},
+                suspicious_activity: true
             });
             return new Response('Too Many Requests', { status: 429 });
         }
         // Check for suspicious activity
         if (isSuspiciousRequest(req)) {
             await logSecurityEvent(supabase, {
-                platformSlug,
-                eventType: SecurityEventTypes.SUSPICIOUS_ACTIVITY,
+                event: 'SUSPICIOUS_ACTIVITY',
                 severity: 'high',
-                requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
-                requestPath: req.nextUrl.pathname,
-                requestMethod: req.method,
-                requestHeaders: Object.fromEntries(req.headers),
+                platform_slug: platformSlug,
+                user_id: undefined,
+                ip_address: ((_d = (_c = req.headers.get('x-forwarded-for')) === null || _c === void 0 ? void 0 : _c.split(',')[0]) === null || _d === void 0 ? void 0 : _d.trim()) || '',
+                request_path: req.nextUrl.pathname,
+                request_method: req.method,
+                request_headers: Object.fromEntries(req.headers),
+                context: {},
                 details: { path: req.nextUrl.pathname, headers: Object.fromEntries(req.headers) },
-                suspiciousActivity: true
+                suspicious_activity: true
             });
             return new Response('Bad Request', { status: 400 });
         }
@@ -152,15 +155,17 @@ export default async function middleware(req) {
             const csrfResult = await validateCsrfToken(req);
             if (!csrfResult) {
                 await logSecurityEvent(supabase, {
-                    platformSlug,
-                    eventType: SecurityEventTypes.CSRF_FAILURE,
+                    event: 'CSRF_FAILURE',
                     severity: 'high',
-                    requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
-                    requestPath: req.nextUrl.pathname,
-                    requestMethod: req.method,
-                    requestHeaders: Object.fromEntries(req.headers),
+                    platform_slug: platformSlug,
+                    user_id: undefined,
+                    ip_address: ((_f = (_e = req.headers.get('x-forwarded-for')) === null || _e === void 0 ? void 0 : _e.split(',')[0]) === null || _f === void 0 ? void 0 : _f.trim()) || '',
+                    request_path: req.nextUrl.pathname,
+                    request_method: req.method,
+                    request_headers: Object.fromEntries(req.headers),
+                    context: {},
                     details: { message: 'Invalid CSRF Token' },
-                    suspiciousActivity: true
+                    suspicious_activity: true
                 });
                 return new Response('Invalid CSRF Token', { status: 403 });
             }
@@ -175,37 +180,45 @@ export default async function middleware(req) {
     }
 }
 export async function handleRateLimit(req, res, platform, supabase) {
+    var _a, _b;
     const rateLimited = await checkRateLimit(req, platform);
     const rateLimitResponse = rateLimited ? new Response('Too Many Requests', { status: 429 }) : null;
     if (rateLimited) {
         // Log security event
         await logSecurityEvent(supabase, {
-            platformSlug: platform,
-            eventType: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
+            event: 'RATE_LIMIT_EXCEEDED',
             severity: 'medium',
-            requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
-            requestPath: req.nextUrl.pathname,
-            requestMethod: req.method,
-            requestHeaders: Object.fromEntries(req.headers),
-            suspiciousActivity: true
+            platform_slug: platform,
+            user_id: undefined,
+            ip_address: ((_b = (_a = req.headers.get('x-forwarded-for')) === null || _a === void 0 ? void 0 : _a.split(',')[0]) === null || _b === void 0 ? void 0 : _b.trim()) || '',
+            request_path: req.nextUrl.pathname,
+            request_method: req.method,
+            request_headers: Object.fromEntries(req.headers),
+            context: {},
+            details: {},
+            suspicious_activity: true
         });
         return rateLimitResponse;
     }
     return null;
 }
 export function ensureCsrfToken(req, platform, csrfOptions = {}, supabase) {
+    var _a, _b;
     const valid = validateCsrfToken(req);
     if (!valid) {
         // Log security event
         logSecurityEvent(supabase, {
-            platformSlug: platform,
-            eventType: SecurityEventTypes.CSRF_FAILURE,
+            event: 'CSRF_FAILURE',
             severity: 'high',
-            requestIp: req.ip || req.headers.get('x-forwarded-for') || '',
-            requestPath: req.nextUrl.pathname,
-            requestMethod: req.method,
-            requestHeaders: Object.fromEntries(req.headers),
-            suspiciousActivity: true
+            platform_slug: platform,
+            user_id: undefined,
+            ip_address: ((_b = (_a = req.headers.get('x-forwarded-for')) === null || _a === void 0 ? void 0 : _a.split(',')[0]) === null || _b === void 0 ? void 0 : _b.trim()) || '',
+            request_path: req.nextUrl.pathname,
+            request_method: req.method,
+            request_headers: Object.fromEntries(req.headers),
+            context: {},
+            details: { message: 'Invalid CSRF Token' },
+            suspicious_activity: true
         }).catch(error => console.error('Failed to log CSRF security event:', error));
         return false;
     }

@@ -1,16 +1,33 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { PlatformSlug } from '@neothink/database';
-import type { SecurityEvent, SecurityEventSeverity } from '../types/index';
+import type { SecurityEvent, SecurityEventSeverity, SecurityLog, PlatformSlug } from '@neothink/database';
 
 /**
- * Security event severity levels
+ * Predefined security event types for consistency
  */
-// Removed: export type SecurityEventSeverity = 'low' | 'medium' | 'high' | 'critical';
+export const SecurityEventTypes = {
+  LOGIN_SUCCESS: 'login_success',
+  LOGIN_FAILURE: 'login_failure',
+  RATE_LIMIT_EXCEEDED: 'rate_limit_exceeded',
+  SUSPICIOUS_ACTIVITY: 'suspicious_activity',
+  ACCESS_DENIED: 'access_denied',
+  CSRF_VALIDATION_FAILURE: 'csrf_validation_failure',
+  SQL_INJECTION_ATTEMPT: 'sql_injection_attempt',
+  XSS_ATTEMPT: 'xss_attempt',
+  PATH_TRAVERSAL_ATTEMPT: 'path_traversal_attempt',
+  ADMIN_ACTION: 'admin_action',
+  PASSWORD_CHANGE: 'password_change',
+  ACCOUNT_LOCKOUT: 'account_lockout',
+  ACCOUNT_RECOVERY: 'account_recovery',
+  SESSION_HIJACKING_ATTEMPT: 'session_hijacking_attempt',
+  INVALID_AUTH_ATTEMPT: 'invalid_auth_attempt',
+  CSRF_TOKEN_INVALID: 'csrf_token_invalid',
+  SUSPICIOUS_IP_DETECTED: 'suspicious_ip_detected',
+  CSRF_TOKEN_MISMATCH: 'csrf_token_mismatch',
+  CSRF_TOKEN_EXPIRED: 'csrf_token_expired',
+  CSRF_TOKEN_USER_AGENT_MISMATCH: 'csrf_token_user_agent_mismatch',
+} as const;
 
-/**
- * Security event data structure
- */
-// Removed: export interface SecurityEvent { ... }
+export type SecurityEventType = typeof SecurityEventTypes[keyof typeof SecurityEventTypes];
 
 /**
  * Log a security event to the Supabase database
@@ -48,28 +65,3 @@ export async function logSecurityEvent(
     return false;
   }
 }
-
-/**
- * Predefined security event types for consistency
- */
-export const SecurityEventTypes = {
-  LOGIN_SUCCESS: 'login_success',
-  LOGIN_FAILURE: 'login_failure',
-  RATE_LIMIT_EXCEEDED: 'rate_limit_exceeded',
-  SUSPICIOUS_ACTIVITY: 'suspicious_activity',
-  ACCESS_DENIED: 'access_denied',
-  CSRF_VALIDATION_FAILURE: 'csrf_validation_failure',
-  SQL_INJECTION_ATTEMPT: 'sql_injection_attempt',
-  XSS_ATTEMPT: 'xss_attempt',
-  PATH_TRAVERSAL_ATTEMPT: 'path_traversal_attempt',
-  ADMIN_ACTION: 'admin_action',
-  PASSWORD_CHANGE: 'password_change',
-  ACCOUNT_LOCKOUT: 'account_lockout',
-  ACCOUNT_RECOVERY: 'account_recovery',
-  SESSION_HIJACKING_ATTEMPT: 'session_hijacking_attempt',
-  INVALID_AUTH_ATTEMPT: 'invalid_auth_attempt',
-  CSRF_TOKEN_INVALID: 'csrf_token_invalid',
-  SUSPICIOUS_IP_DETECTED: 'suspicious_ip_detected'
-} as const;
-
-export type SecurityEventType = typeof SecurityEventTypes[keyof typeof SecurityEventTypes]; 

@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
+// DEPRECATED: Use PlatformSlug from @neothink/database instead
+// export type PlatformSlug = 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
 // Create a Supabase client (will be initialized lazily)
 const getSupabaseClient = () => {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

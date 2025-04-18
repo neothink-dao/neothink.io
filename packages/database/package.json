@@ -3,23 +3,12 @@
   "version": "0.0.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./SecurityLog": {
-      "import": "./dist/SecurityLog.mjs",
-      "require": "./dist/SecurityLog.js",
-      "types": "./dist/SecurityLog.d.ts"
-    },
-    "./SecurityEventSeverity": {
-      "import": "./dist/SecurityEventSeverity.mjs",
-      "require": "./dist/SecurityEventSeverity.js",
-      "types": "./dist/SecurityEventSeverity.d.ts"
     }
   },
   "files": [
@@ -46,12 +35,5 @@
     "supabase": "^2.20.12",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/index.d.ts"
-      ]
-    }
   }
 }

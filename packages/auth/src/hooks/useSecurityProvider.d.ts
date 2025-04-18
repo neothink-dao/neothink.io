@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
 import type { PlatformSlug } from '@neothink/database';
-// DEPRECATED: Use PlatformSlug from @neothink/database instead
-// Remove any local PlatformSlug type definition.
 interface SecurityContextType {
     csrfToken: string;
     refreshCsrfToken: () => Promise<string>;

@@ -1,4 +1,4 @@
-import { FeedbackDialog } from '@neothink/ui/components/feedback/FeedbackDialog';
+// TODO: Refactor to use Shadcn/ui Dialog primitives. FeedbackDialog has been removed.
 
 export default function NeothinkersDashboard() {
   return (
@@ -35,7 +35,6 @@ export default function NeothinkersDashboard() {
 
       {/* Feedback Button for Continuous Improvement */}
       <div className="flex justify-end mt-8">
-        <FeedbackDialog />
       </div>
     </div>
   )

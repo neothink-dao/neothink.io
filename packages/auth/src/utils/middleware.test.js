@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { middleware, getPlatformFromHost } from './middleware';
+import middleware from './middleware';
+import { getPlatformFromHost } from './middleware';
 import { createPlatformClient } from '@neothink/database';
 // Mock Supabase client
 vi.mock('@neothink/database', () => ({

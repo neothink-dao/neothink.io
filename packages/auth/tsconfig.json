@@ -7,31 +7,27 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": ["vitest/globals", "node"],
-    "composite": true
+    "types": ["vitest/globals", "node", "jest", "@testing-library/jest-dom"],
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@neothink/database": ["../database/dist/index.d.ts"]
+    },
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/components/AuthForm.tsx",
-    "src/components/SignInForm.tsx",
-    "src/components/SignUpForm.tsx",
-    "src/components/ForgotPasswordForm.tsx",
-    "src/components/UpdatePasswordForm.tsx",
-    "src/components/ErrorPage.tsx",
-    "src/components/LoginForm.tsx",
-    "src/components/SecurityDashboard.tsx",
-    "src/hooks/useSecurityProvider.tsx",
-    "src/hooks/use-user.ts",
-    "src/hooks/useAuth.ts",
-    "src/hooks/useProtectedRoute.ts"
+    "src/**/*.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "references": [
+    { "path": "../database" }
+  ]
 }

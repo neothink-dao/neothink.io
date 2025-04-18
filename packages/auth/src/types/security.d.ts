@@ -1,7 +1,4 @@
-import { NextRequest } from 'next/server';
-// DEPRECATED: All security event types must be imported from @neothink/database
-// Remove any local definitions below.
-
+import type { NextRequest } from 'next/server';
 /**
  * Configuration for rate limiting
  */

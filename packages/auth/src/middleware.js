@@ -1,7 +1,8 @@
-import { createClient } from './lib/supabase/client';
+import { createPlatformClient } from './lib/supabase/client';
+import { NextResponse } from 'next/server';
 export async function middleware(request) {
     // Create authenticated Supabase client
-    const supabase = createClient();
+    const supabase = createPlatformClient();
     // Refresh session if expired
     const { data: { session }, error } = await supabase.auth.getSession();
     // Handle path matching
@@ -28,15 +29,6 @@ export async function middleware(request) {
     return NextResponse.next();
 }
 export const config = {
-    matcher: [
-        /*
-         * Match all request paths except:
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         * - public folder
-         */
-        '/((?!_next/static|_next/image|favicon.ico|public/).*)',
-    ],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
 //# sourceMappingURL=middleware.js.map

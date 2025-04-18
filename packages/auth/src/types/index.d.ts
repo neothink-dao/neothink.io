@@ -1,15 +1,7 @@
-import type { SecurityEvent, SecurityEventSeverity, SecurityEventType } from '@neothink/database';
-import { SecurityEventTypes } from '@neothink/database';
+// All security event types must be imported from @neothink/database
+// Deprecated type definitions and re-exports have been removed.
 
-// All security event types should now be imported from @neothink/database
-
-export interface SecurityEventOptions {
-  event: SecurityEventType;
-  severity: SecurityEventSeverity;
-  context?: Record<string, any>;
-  details?: Record<string, any>;
-  userId?: string;
-}
+// Only keep interfaces/types unique to this package, if any.
 
 export interface RateLimitOptions {
   identifier: string;

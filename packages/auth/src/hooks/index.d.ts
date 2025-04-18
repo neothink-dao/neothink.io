@@ -1,7 +1,6 @@
-import { User, Session, AuthError, AuthResponse, UserResponse } from '@supabase/supabase-js';
+import { User, Session, AuthError, AuthResponse } from '@supabase/supabase-js';
 import type { PlatformSlug } from '@neothink/database';
-// DEPRECATED: Use PlatformSlug from @neothink/database instead
-// export type PlatformSlug = 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
+import type { UserResponse } from './useAuth';
 /**
  * Custom hook for Supabase authentication
  * @param platformSlug The platform to authenticate against (for metadata)

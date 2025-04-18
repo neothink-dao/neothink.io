@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import { checkRateLimit } from '../database/client';
 // Content Security Policy

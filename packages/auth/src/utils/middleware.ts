@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createPlatformClient } from '@neothink/database';
-import { PlatformSlug } from '@neothink/database';
-import { SecurityEvent, SecurityEventTypes, CsrfOptions } from './types';
+import type { SecurityEvent, SecurityEventSeverity, SecurityEventType, PlatformSlug } from '@neothink/database';
 import crypto from 'crypto';
 import { logSecurityEvent } from './security-logger';
 import { SupabaseClient } from '@supabase/supabase-js';
@@ -146,8 +145,8 @@ export default async function middleware(req: NextRequest) {
     const isRateLimited = await checkRateLimit(req, platformSlug);
     if (isRateLimited) {
       await logSecurityEvent(supabase, {
-        event: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
-        severity: 'medium',
+        event: 'RATE_LIMIT_EXCEEDED' as SecurityEventType,
+        severity: 'medium' as SecurityEventSeverity,
         platform_slug: platformSlug,
         user_id: undefined,
         ip_address: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
@@ -164,8 +163,8 @@ export default async function middleware(req: NextRequest) {
     // Check for suspicious activity
     if (isSuspiciousRequest(req)) {
       await logSecurityEvent(supabase, {
-        event: SecurityEventTypes.SUSPICIOUS_ACTIVITY,
-        severity: 'high',
+        event: 'SUSPICIOUS_ACTIVITY' as SecurityEventType,
+        severity: 'high' as SecurityEventSeverity,
         platform_slug: platformSlug,
         user_id: undefined,
         ip_address: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
@@ -184,8 +183,8 @@ export default async function middleware(req: NextRequest) {
       const csrfResult = await validateCsrfToken(req);
       if (!csrfResult) {
         await logSecurityEvent(supabase, {
-          event: SecurityEventTypes.CSRF_FAILURE,
-          severity: 'high',
+          event: 'CSRF_FAILURE' as SecurityEventType,
+          severity: 'high' as SecurityEventSeverity,
           platform_slug: platformSlug,
           user_id: undefined,
           ip_address: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
@@ -221,8 +220,8 @@ export async function handleRateLimit(
   if (rateLimited) {
     // Log security event
     await logSecurityEvent(supabase, {
-      event: SecurityEventTypes.RATE_LIMIT_EXCEEDED,
-      severity: 'medium',
+      event: 'RATE_LIMIT_EXCEEDED' as SecurityEventType,
+      severity: 'medium' as SecurityEventSeverity,
       platform_slug: platform,
       user_id: undefined,
       ip_address: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
@@ -243,7 +242,7 @@ export async function handleRateLimit(
 export function ensureCsrfToken(
   req: NextRequest,
   platform: PlatformSlug,
-  csrfOptions: CsrfOptions = {},
+  csrfOptions: any = {},
   supabase: SupabaseClient
 ) {
   const valid = validateCsrfToken(req);
@@ -251,8 +250,8 @@ export function ensureCsrfToken(
   if (!valid) {
     // Log security event
     logSecurityEvent(supabase, {
-      event: SecurityEventTypes.CSRF_FAILURE,
-      severity: 'high',
+      event: 'CSRF_FAILURE' as SecurityEventType,
+      severity: 'high' as SecurityEventSeverity,
       platform_slug: platform,
       user_id: undefined,
       ip_address: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',

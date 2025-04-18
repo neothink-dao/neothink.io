@@ -1,12 +1,4 @@
 /**
- * Security event severity levels
- */
-// Removed: export type SecurityEventSeverity = 'low' | 'medium' | 'high' | 'critical';
-/**
- * Security event data structure
- */
-// Removed: export interface SecurityEvent { ... }
-/**
  * Log a security event to the Supabase database
  *
  * @param supabase Supabase client instance

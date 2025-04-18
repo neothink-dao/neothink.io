@@ -1,7 +1,5 @@
 import React from 'react';
-import type { PlatformSlug } from '@neothink/database';
-// DEPRECATED: Use PlatformSlug from @neothink/database instead
-// export type PlatformSlug = 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
+import { PlatformSlug } from '@neothink/database';
 export interface LoginFormProps extends React.ComponentPropsWithoutRef<'div'> {
     /**
      * Platform identifier

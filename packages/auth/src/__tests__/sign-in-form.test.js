@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, vi } from 'vitest';
-import { SignInForm } from '../components/sign-in-form';
+import { SignInForm } from '../components/SignInForm';
 import { supabase } from '../lib/supabase';
 vi.mock('../lib/supabase', () => ({
     supabase: {

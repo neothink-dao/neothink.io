@@ -1,6 +1,7 @@
 import React from 'react';
 import { PointsCircle } from '@neothink/ui/src/components/PointsCircle';
-import { platformColors } from '@neothink/ui/src/components/QuestCard';
+// TODO: Refactor to use getPlatformColors from @neothink/ui and Shadcn/ui primitives
+import { getPlatformColors } from '@neothink/ui';
 // Assume other necessary imports
 
 export default function FlowPage() {
@@ -9,9 +10,9 @@ export default function FlowPage() {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-         <h1 className="text-3xl font-bold" style={{ color: platformColors.flow }}>Flow State</h1>
+         <h1 className="text-3xl font-bold" style={{ color: getPlatformColors().flow }}>Flow State</h1>
          {/* Display current Flow points? */}
-         <PointsCircle points="Flow" platformColor={platformColors.flow} size={50} />
+         <PointsCircle points="Flow" platformColor={getPlatformColors().flow} size={50} />
       </div>
 
 

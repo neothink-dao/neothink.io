@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { 
   Session, 
   User, 
-  UserResponse, 
   AuthError,
   AuthResponse
 } from '@supabase/supabase-js';
@@ -24,14 +23,14 @@ export interface UseAuthProps {
   redirectUrl?: string;
 }
 
-type AuthState = {
-  user: any;
-  session: any;
+export interface AuthState {
+  user: User | null;
+  session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  error: any;
+  error: AuthError | null;
   loginAttempts: number;
-  lastLoginAttempt: any;
+  lastLoginAttempt: number | null;
 };
 
 /**
@@ -50,7 +49,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
     lastLoginAttempt: null,
   };
 
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<AuthState>(initialState);
 
   // Initialize Supabase client with the platform slug
   const supabase = createPlatformClient(platformSlug);
@@ -125,7 +124,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
             loginAttempts: prev.loginAttempts,
             lastLoginAttempt: prev.lastLoginAttempt
           }));
-          return response;
+          return { data: { user: null, session: null }, error: response.error };
         }
         
         // Reset login attempts on successful login
@@ -261,11 +260,11 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
         setState((prev: AuthState) => ({ 
           ...prev, 
           isLoading: false, 
-          error,
+          error: error as AuthError,
           loginAttempts: prev.loginAttempts,
           lastLoginAttempt: prev.lastLoginAttempt
         }));
-        return { error };
+        return { error: error as AuthError };
       }
       
       setState({
@@ -280,15 +279,14 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
       
       return { error: null };
     } catch (error) {
-      const authError = error as AuthError;
       setState((prev: AuthState) => ({ 
         ...prev, 
         isLoading: false, 
-        error: authError,
+        error: null,
         loginAttempts: prev.loginAttempts,
         lastLoginAttempt: prev.lastLoginAttempt
       }));
-      return { error: authError };
+      return { error: null };
     }
   }, [supabase.auth]);
 
@@ -312,22 +310,21 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
         setState((prev: AuthState) => ({ 
           ...prev, 
           isLoading: false, 
-          error,
+          error: error as AuthError,
           loginAttempts: prev.loginAttempts,
           lastLoginAttempt: prev.lastLoginAttempt
         }));
         
-        return { error };
+        return { error: error as AuthError };
       } catch (error) {
-        const authError = error as AuthError;
         setState((prev: AuthState) => ({ 
           ...prev, 
           isLoading: false, 
-          error: authError,
+          error: null,
           loginAttempts: prev.loginAttempts,
           lastLoginAttempt: prev.lastLoginAttempt
         }));
-        return { error: authError };
+        return { error: null };
       }
     },
     [supabase.auth, redirectUrl]
@@ -337,7 +334,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
    * Update user password
    */
   const updatePassword = useCallback(
-    async (password: string): Promise<UserResponse> => {
+    async (password: string): Promise<{ data: { user: User | null }; error: AuthError | null }> => {
       setState((prev: AuthState) => ({ 
         ...prev, 
         isLoading: true, 
@@ -374,7 +371,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
             loginAttempts: prev.loginAttempts,
             lastLoginAttempt: prev.lastLoginAttempt
           }));
-          return response;
+          return { data: { user: null }, error: response.error };
         }
         
         setState((prev: AuthState) => ({ 
@@ -386,17 +383,16 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
           lastLoginAttempt: prev.lastLoginAttempt
         }));
         
-        return response;
+        return { data: { user: response.data.user }, error: null };
       } catch (error) {
-        const authError = error as AuthError;
         setState((prev: AuthState) => ({ 
           ...prev, 
           isLoading: false, 
-          error: authError,
+          error: null,
           loginAttempts: prev.loginAttempts,
           lastLoginAttempt: prev.lastLoginAttempt
         }));
-        return { data: { user: null }, error: authError };
+        return { data: { user: null }, error: null };
       }
     },
     [supabase.auth]
@@ -406,7 +402,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
    * Update user email
    */
   const updateEmail = useCallback(
-    async (email: string): Promise<UserResponse> => {
+    async (email: string): Promise<{ data: { user: User | null }; error: AuthError | null }> => {
       setState((prev: AuthState) => ({ 
         ...prev, 
         isLoading: true, 
@@ -429,17 +425,20 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
           lastLoginAttempt: prev.lastLoginAttempt
         }));
         
-        return response;
+        if (response.error) {
+          return { data: { user: null }, error: response.error };
+        }
+        
+        return { data: { user: response.data.user }, error: null };
       } catch (error) {
-        const authError = error as AuthError;
         setState((prev: AuthState) => ({ 
           ...prev, 
           isLoading: false, 
-          error: authError,
+          error: null,
           loginAttempts: prev.loginAttempts,
           lastLoginAttempt: prev.lastLoginAttempt
         }));
-        return { data: { user: null }, error: authError };
+        return { data: { user: null }, error: null };
       }
     },
     [supabase.auth, redirectUrl]
@@ -469,7 +468,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
             session: null,
             isLoading: false,
             isAuthenticated: false,
-            error,
+            error: error as AuthError,
             loginAttempts: 0,
             lastLoginAttempt: null
           });
@@ -504,7 +503,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
           session: null,
           isLoading: false,
           isAuthenticated: false,
-          error: error as Error,
+          error: null,
           loginAttempts: 0,
           lastLoginAttempt: null
         });
@@ -515,7 +514,7 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
 
     // Subscribe to auth changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: string, session: Session | null) => {
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           const { data: userData } = await supabase.auth.getUser();
           setState({
@@ -558,5 +557,12 @@ export const useAuth = ({ platformSlug, redirectUrl }: UseAuthProps) => {
     updateEmail,
   };
 };
+
+// --- BEGIN: Inline UserResponse type for runtime and export ---
+export type UserResponse = {
+  data: { user: User | null };
+  error: AuthError | null;
+};
+// --- END: Inline UserResponse type for runtime and export ---
 
 export default useAuth;

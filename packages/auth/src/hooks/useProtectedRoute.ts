@@ -36,7 +36,11 @@ export const useProtectedRoute = ({
   redirectTo = '/auth/login',
   authenticatedRedirectTo,
   checkPlatformAccess = true,
-}: UseProtectedRouteProps) => {
+}: UseProtectedRouteProps): {
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  user: any;
+} => {
   const router = useRouter();
   const { 
     isLoading, 
@@ -45,7 +49,7 @@ export const useProtectedRoute = ({
   } = useAuth({ platformSlug });
 
   useEffect(() => {
-    const handleRouteAccess = async () => {
+    const handleRouteAccess = async (): Promise<void> => {
       // Wait for auth state to be determined
       if (isLoading) return;
 

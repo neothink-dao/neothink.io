@@ -16,20 +16,22 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsup",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@neothink/core": "workspace:*",
-    "@neothink/database": "file:neothink-database-0.0.0.tgz",
+    "@neothink/database": "workspace:*",
     "@supabase/ssr": "^0.2.0",
     "@supabase/supabase-js": "^2.43.3",
     "next": "^15.2.3"
   },
   "devDependencies": {
     "@neothink/ui": "workspace:^",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.12.7",
     "@types/testing-library__react": "^10.2.0",
     "@vitest/coverage-v8": "^1.6.1",

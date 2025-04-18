@@ -71,7 +71,7 @@ async function validateToken(req, supabase, config = DEFAULT_CONFIG) {
     // Check if both tokens exist and match (double submit cookie validation)
     if (!headerToken || !cookieToken || headerToken !== cookieToken) {
         await logCsrfViolation(supabase, req, {
-            event: headerToken ? 'csrf_token_mismatch' : 'csrf_token_missing',
+            type: 'csrf_token_mismatch',
             severity: 'high',
             context: {
                 path: req.nextUrl.pathname,
@@ -94,7 +94,7 @@ async function validateToken(req, supabase, config = DEFAULT_CONFIG) {
         .single();
     if (error || !data) {
         await logCsrfViolation(supabase, req, {
-            event: 'csrf_token_invalid',
+            type: 'csrf_token_invalid',
             severity: 'high',
             context: {
                 path: req.nextUrl.pathname,
@@ -109,7 +109,7 @@ async function validateToken(req, supabase, config = DEFAULT_CONFIG) {
     // Check expiration
     if (new Date(data.expires_at) < new Date()) {
         await logCsrfViolation(supabase, req, {
-            event: 'csrf_token_expired',
+            type: 'csrf_token_expired',
             severity: 'medium',
             context: {
                 path: req.nextUrl.pathname,
@@ -125,7 +125,7 @@ async function validateToken(req, supabase, config = DEFAULT_CONFIG) {
     const currentUserAgent = req.headers.get('user-agent');
     if (data.user_agent && currentUserAgent !== data.user_agent) {
         await logCsrfViolation(supabase, req, {
-            event: 'csrf_token_user_agent_mismatch',
+            type: 'csrf_token_user_agent_mismatch',
             severity: 'high',
             context: {
                 path: req.nextUrl.pathname,
@@ -156,7 +156,7 @@ function requiresCsrfCheck(req) {
  */
 async function logCsrfViolation(supabase, req, details) {
     const securityEvent = {
-        event: details.event,
+        type: details.type,
         severity: details.severity,
         context: Object.assign(Object.assign({}, details.context), { ip: req.headers.get('x-forwarded-for') || 'unknown', userAgent: req.headers.get('user-agent') || 'unknown' }),
         details: details.details,

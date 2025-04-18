@@ -1,7 +1,7 @@
 import middleware from '@neothink/auth/src/utils/middleware';
 export default middleware;
-import { type NextRequest } from 'next/server';
-export declare function middleware(request: NextRequest): Promise<any>;
+import { NextResponse, type NextRequest } from 'next/server';
+export declare function middleware(request: NextRequest): Promise<NextResponse<unknown>>;
 export declare const config: {
     matcher: string[];
 };

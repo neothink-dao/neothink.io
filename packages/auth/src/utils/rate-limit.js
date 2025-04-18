@@ -7,7 +7,9 @@ export const rateLimitConfig = {
     default: { limit: 2000, window: 3600 } // 2000 requests per hour
 };
 export async function checkRateLimit(request) {
-    const identifier = request.ip || 'unknown';
+    var _a, _b;
+    // Use x-forwarded-for header to get IP
+    const identifier = ((_b = (_a = request.headers.get('x-forwarded-for')) === null || _a === void 0 ? void 0 : _a.split(',')[0]) === null || _b === void 0 ? void 0 : _b.trim()) || 'unknown';
     const path = request.nextUrl.pathname;
     // Determine which rate limit config to use based on path
     let config = rateLimitConfig.default;

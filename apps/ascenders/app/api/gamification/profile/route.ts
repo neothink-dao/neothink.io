@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
-import { getUser } from '@neothink/hooks/api';
-import { getSupabaseServerClient } from '@neothink/database/src/serverClient';
+import { getUser } from '@neothink/hooks';
+import { getSupabaseServerClient } from '@neothink/database';
 
 export async function GET(req: NextRequest) {
   try {

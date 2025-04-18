@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 // @ts-expect-error: monorepo import may be valid in deployment context
-import { getUser } from '@neothink/hooks/api';
+import { getUser } from '@neothink/hooks';
 
 export async function POST(req: NextRequest) {
   try {

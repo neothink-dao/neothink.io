@@ -2,8 +2,9 @@ import React from 'react';
 import { platformColors } from '@neothink/ui';
 import { PointsCircle } from '@neothink/ui';
 import { Card, CardHeader, CardTitle, CardContent } from '@neothink/ui';
-import { FeedbackDialog } from '@neothink/ui/components/feedback/FeedbackDialog';
 // Assume other necessary imports
+
+// TODO: Refactor to use Shadcn/ui Dialog primitives. FeedbackDialog has been removed.
 
 // Example User Data
 const MOCK_USER = {
@@ -51,7 +52,6 @@ export default function HubDashboardPage() {
 
       {/* Feedback Button for Continuous Improvement */}
       <div className="flex justify-end mt-8">
-        <FeedbackDialog />
       </div>
 
     </div>

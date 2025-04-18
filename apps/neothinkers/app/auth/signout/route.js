@@ -1,4 +1,5 @@
 import { signOut } from '@neothink/auth';
+import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         await signOut();

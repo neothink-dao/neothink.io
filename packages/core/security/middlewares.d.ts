@@ -6,9 +6,9 @@ export declare function rateLimit(req: NextRequest, maxRequests?: number, window
 /**
  * Main security middleware
  */
-export declare function securityMiddleware(req: NextRequest, res: NextResponse): any;
+export declare function securityMiddleware(req: NextRequest, res: NextResponse): NextResponse<unknown>;
 /**
  * Security middleware with rate limiting
  */
-export declare function securityMiddlewareWithRateLimit(req: NextRequest): Promise<any>;
+export declare function securityMiddlewareWithRateLimit(req: NextRequest): Promise<NextResponse<unknown>>;
 //# sourceMappingURL=middlewares.d.ts.map

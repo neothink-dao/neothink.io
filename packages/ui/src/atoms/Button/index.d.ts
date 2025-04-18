@@ -1,7 +1,7 @@
 import React from 'react';
 import { type VariantProps } from 'class-variance-authority';
 export declare const buttonVariants: (props?: ({
-    variant?: "ascenders" | "neothinkers" | "immortals" | "success" | "link" | "outline" | "secondary" | "ghost" | "destructive" | "primary" | null | undefined;
+    variant?: "ascenders" | "neothinkers" | "immortals" | "link" | "success" | "outline" | "secondary" | "ghost" | "destructive" | "primary" | null | undefined;
     size?: "lg" | "sm" | "icon" | "xs" | "md" | "xl" | "2xl" | null | undefined;
     width?: "auto" | "full" | null | undefined;
 } & import("class-variance-authority/dist/types").ClassProp) | undefined) => string;

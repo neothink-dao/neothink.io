@@ -1,19 +1,9 @@
-import type { 
-  PlatformSlug, 
-  SecurityEvent, 
-  SecurityEventSeverity, 
-  SecurityEventType, 
-  SecurityEventTypes 
-} from '@neothink/database';
+import type { PlatformSlug } from '@neothink/database';
 
-// All security event types should now be imported from @neothink/database
-// Deprecated type definitions have been removed.
+// All security event types must be imported from @neothink/database
+// Deprecated type definitions and re-exports have been removed.
 
 /**
  * CSRF protection options
  */
-export interface CsrfOptions {
-  headerName?: string;
-  cookieName?: string;
-  tokenTtlHours?: number;
-}
+// Only keep interfaces/types unique to this package, if any.

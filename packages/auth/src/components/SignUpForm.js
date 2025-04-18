@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { createClient } from '../lib/supabase/client';
+import { createPlatformClient } from '../lib/supabase/client';
 import { AuthForm } from './AuthForm';
 export function SignUpForm() {
     const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ export function SignUpForm() {
         setError(undefined);
         setLoading(true);
         try {
-            const supabase = createClient();
+            const supabase = createPlatformClient();
             const { error } = await supabase.auth.signUp({
                 email,
                 password,

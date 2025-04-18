@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 // @ts-expect-error: monorepo import may be valid in deployment context
-import { getUser } from '@neothink/hooks/api';
-import { getSupabaseServerClient } from '@neothink/database/src/serverClient';
+import { getUser } from '@neothink/hooks';
+import { getSupabaseServerClient } from '@neothink/database';
 import { getLevelFromXP, getXPMultiplier } from '@neothink/gamification-utils';
 
 export async function POST(req: NextRequest) {

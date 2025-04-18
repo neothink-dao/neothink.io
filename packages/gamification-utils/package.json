@@ -10,5 +10,8 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts"
   }
 }

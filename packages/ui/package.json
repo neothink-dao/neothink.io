@@ -40,17 +40,24 @@
       "types": "./dist/components/TeamChat.d.ts",
       "import": "./dist/components/TeamChat.mjs",
       "require": "./dist/components/TeamChat.js"
+    },
+    "./components/marketing": {
+      "types": "./dist/components/marketing.d.ts",
+      "import": "./dist/components/marketing.mjs",
+      "require": "./dist/components/marketing.js"
     }
   },
   "scripts": {
-    "build": "pnpm run build:types && pnpm run build:js",
+    "build": "pnpm run build:types && pnpm run build:js && pnpm run build:components",
     "build:types": "pnpm exec tsc --project tsconfig.build.json --declaration --emitDeclarationOnly",
     "build:js": "tsup src/index.ts --format esm,cjs",
+    "build:components": "tsc --project tsconfig.build.components.json",
     "dev": "tsup --watch",
     "lint": "eslint src/",
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@neothink/types": "workspace:*",
     "@radix-ui/react-progress": "^1.1.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

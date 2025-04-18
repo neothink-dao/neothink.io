@@ -3,6 +3,7 @@ export const Constants = {
         Enums: {
             ascender_focus: ["ascender", "ascension", "flow", "ascenders"],
             experience_phase: ["discover", "onboard", "progress", "endgame"],
+            feedback_status: ["pending", "reviewed", "implemented", "rejected"],
             immortal_focus: ["immortal", "immortalis", "project_life", "immortals"],
             neothinker_focus: [
                 "neothinker",
@@ -14,6 +15,7 @@ export const Constants = {
                 "mark_hamilton",
                 "neothinkers",
             ],
+            platform_slug: ["hub", "ascenders", "neothinkers", "immortals"],
             platform_type: [
                 "neothink_hub",
                 "ascender",
@@ -25,6 +27,7 @@ export const Constants = {
                 "immortals",
             ],
             token_type: ["live", "love", "life"],
+            user_role: ["subscriber", "participant", "contributor"],
         },
     },
 };

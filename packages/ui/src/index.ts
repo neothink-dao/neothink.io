@@ -10,3 +10,4 @@ export { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 export * from './ui/skeleton';
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
+export * from './theme';

@@ -3,9 +3,8 @@
  * Enhanced security features for Neothink applications
  */
 import middleware, { getPlatformFromHost } from './utils/middleware';
-export * from './types/security';
+import type { SecurityEvent, SecurityEventSeverity } from '@neothink/database';
 import { logSecurityEvent, SecurityEventTypes } from './utils/securityLogging';
-import type { SecurityEvent, SecurityEventSeverity } from './types/index';
 import { applyRateLimit, cleanupRateLimits } from './utils/rateLimit';
 import { getRecentSecurityLogs, getRateLimitRecords, generateTestSecurityLogs, clearTestSecurityLogs } from './utils/securityTestingHelpers';
 import SecurityDashboard from './components/SecurityDashboard';

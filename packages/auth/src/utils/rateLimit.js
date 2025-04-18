@@ -11,14 +11,20 @@ const AUTH_RATE_LIMIT = {
 };
 async function logRateLimitViolation(supabase, req, details) {
     const securityEvent = {
-        type: 'rate_limit_exceeded',
+        event: 'rate_limit_exceeded',
         severity: 'medium',
+        platform_slug: req.headers.get('host') || 'unknown',
+        ip_address: req.headers.get('x-forwarded-for') || 'unknown',
+        request_path: req.nextUrl.pathname,
+        request_method: req.method,
+        request_headers: Object.fromEntries(req.headers),
         context: {
             path: req.nextUrl.pathname,
             method: req.method,
             ip: req.headers.get('x-forwarded-for') || 'unknown',
         },
         details,
+        suspicious_activity: true
     };
     await supabase.from('security_events').insert(securityEvent);
 }

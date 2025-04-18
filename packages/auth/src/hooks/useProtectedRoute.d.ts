@@ -1,6 +1,4 @@
-// DEPRECATED: Use PlatformSlug from @neothink/database instead
-// export type PlatformSlug = 'hub' | 'ascenders' | 'immortals' | 'neothinkers';
-import type { PlatformSlug } from '@neothink/database';
+import { PlatformSlug } from '@neothink/database';
 export interface UseProtectedRouteProps {
     /**
      * Platform identifier
@@ -26,8 +24,8 @@ export interface UseProtectedRouteProps {
  * @returns Authentication state to help with conditional rendering
  */
 export declare const useProtectedRoute: ({ platformSlug, redirectTo, authenticatedRedirectTo, checkPlatformAccess, }: UseProtectedRouteProps) => {
-    isLoading: any;
-    isAuthenticated: any;
+    isLoading: boolean;
+    isAuthenticated: boolean;
     user: any;
 };
 export default useProtectedRoute;

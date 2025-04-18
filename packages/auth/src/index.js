@@ -4,7 +4,6 @@
  */
 // Export all types and functions
 import middleware, { getPlatformFromHost } from './utils/middleware';
-export * from './types/security';
 // Export security logging utilities
 import { logSecurityEvent, SecurityEventTypes } from './utils/securityLogging';
 // Export rate limiting utilities

@@ -2,8 +2,9 @@ import { NextRequest } from 'next/server';
 // @ts-expect-error: monorepo import may be valid in deployment context
 import { analytics } from '@neothink/analytics';
 // @ts-expect-error: monorepo import may be valid in deployment context
-import { getUser } from '@neothink/hooks/api';
-import { getSupabaseServerClient } from '@neothink/database/src/serverClient';
+import { getUser } from '@neothink/hooks';
+// @ts-expect-error: monorepo import may be valid in deployment context
+import { getSupabaseServerClient } from '@neothink/database';
 
 // GET /api/achievements
 export async function GET(req: NextRequest) {

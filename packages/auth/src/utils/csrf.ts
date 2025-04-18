@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
-import { SecurityEvent, SecurityEventSeverity } from '../index';
+import { SecurityEventTypes, SecurityEventType, logSecurityEvent } from './securityLogging';
 import { createPlatformClient } from '@neothink/database';
 import crypto from 'crypto';
 
@@ -19,7 +19,7 @@ interface CsrfConfig {
   cookieOptions: {
     httpOnly: boolean;
     secure: boolean;
-    sameSite: 'Strict' | 'Lax' | 'None';
+    sameSite: 'strict' | 'lax' | 'none';
     path: string;
     domain?: string;
   };
@@ -32,7 +32,7 @@ const DEFAULT_CONFIG: Required<CsrfConfig> = {
   cookieOptions: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'Strict',
+    sameSite: 'strict',
     path: '/',
     domain: process.env.COOKIE_DOMAIN
   }
@@ -121,7 +121,7 @@ async function validateToken(
   // Check if both tokens exist and match (double submit cookie validation)
   if (!headerToken || !cookieToken || headerToken !== cookieToken) {
     await logCsrfViolation(supabase, req, {
-      type: 'csrf_token_mismatch',
+      type: SecurityEventTypes.CSRF_TOKEN_MISMATCH as SecurityEventType,
       severity: 'high',
       context: {
         path: req.nextUrl.pathname,
@@ -147,7 +147,7 @@ async function validateToken(
     
   if (error || !data) {
     await logCsrfViolation(supabase, req, {
-      type: 'csrf_token_invalid',
+      type: SecurityEventTypes.CSRF_TOKEN_INVALID as SecurityEventType,
       severity: 'high',
       context: {
         path: req.nextUrl.pathname,
@@ -163,7 +163,7 @@ async function validateToken(
   // Check expiration
   if (new Date(data.expires_at) < new Date()) {
     await logCsrfViolation(supabase, req, {
-      type: 'csrf_token_expired',
+      type: SecurityEventTypes.CSRF_TOKEN_EXPIRED as SecurityEventType,
       severity: 'medium',
       context: {
         path: req.nextUrl.pathname,
@@ -180,7 +180,7 @@ async function validateToken(
   const currentUserAgent = req.headers.get('user-agent');
   if (data.user_agent && currentUserAgent !== data.user_agent) {
     await logCsrfViolation(supabase, req, {
-      type: 'csrf_token_user_agent_mismatch',
+      type: SecurityEventTypes.CSRF_TOKEN_USER_AGENT_MISMATCH as SecurityEventType,
       severity: 'high',
       context: {
         path: req.nextUrl.pathname,
@@ -213,32 +213,24 @@ function requiresCsrfCheck(req: NextRequest): boolean {
 /**
  * Logs CSRF violation attempts
  */
+type LogCsrfViolationDetails = {
+  type: SecurityEventType;
+  severity: string;
+  context: Record<string, any>;
+  details?: Record<string, any>;
+};
+
 async function logCsrfViolation(
-  supabase: SupabaseClient,
-  req: NextRequest,
-  details: {
-    type: string;
-    severity: SecurityEventSeverity;
-    context: Record<string, any>;
-    details: Record<string, any>;
-  }
+  supabase: any,
+  req: any,
+  details: LogCsrfViolationDetails
 ): Promise<void> {
-  const securityEvent: SecurityEvent = {
+  // Only pass required properties to logSecurityEvent, let it handle timestamps and IDs internally
+  await logSecurityEvent(supabase, {
     type: details.type,
     severity: details.severity,
-    context: {
-      ...details.context,
-      ip: req.headers.get('x-forwarded-for') || 'unknown',
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    },
-    details: details.details,
-  };
-
-  try {
-    await supabase.from('security_events').insert(securityEvent);
-  } catch (error) {
-    console.error('Failed to log CSRF violation:', error);
-  }
+    context: details.context,
+  } as any);
 }
 
 // Generate a CSRF token
@@ -298,4 +290,4 @@ export {
   requiresCsrfCheck,
   setCsrfCookie,
   type CsrfConfig,
-}; 
+};

@@ -1,16 +1,4 @@
-import type { SecurityEvent, SecurityEventSeverity, SecurityEventType } from '@neothink/database';
-import { SecurityEventTypes } from '@neothink/database';
-
-/**
- * Structure of a security event
- */
-export interface SecurityEventOptions {
-  event: SecurityEvent;
-  severity: SecurityEventSeverity;
-  context?: Record<string, any>;
-  details?: Record<string, any>;
-  userId?: string;
-}
+import type { NextRequest } from 'next/server';
 
 /**
  * Configuration for rate limiting

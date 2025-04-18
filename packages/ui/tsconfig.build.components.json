@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "dist/components",
+    "rootDir": "src/components",
+    "declaration": true,
+    "declarationDir": "dist/components",
+    "emitDeclarationOnly": false,
+    "composite": false,
+    "module": "esnext",
+    "target": "esnext",
+    "jsx": "react-jsx"
+  },
+  "include": ["src/components/**/*.tsx", "src/components/**/*.ts"],
+  "exclude": ["**/*.test.tsx", "**/*.test.ts", "**/__tests__/**"]
+}

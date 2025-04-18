@@ -1,10 +1,11 @@
 import { FormEvent, ReactNode } from 'react';
 interface AuthFormProps {
+    onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+    loading: boolean;
+    error?: string | null;
+    submitted?: boolean;
     children: ReactNode;
-    onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-    error?: string;
-    loading?: boolean;
 }
-export declare function AuthForm({ children, onSubmit, error, loading }: AuthFormProps): import("react").JSX.Element;
+export declare function AuthForm({ onSubmit, loading, error, submitted, children }: AuthFormProps): import("react").JSX.Element;
 export {};
 //# sourceMappingURL=AuthForm.d.ts.map

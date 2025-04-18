@@ -5,14 +5,13 @@
 
 // Export all types and functions
 import middleware, { getPlatformFromHost } from './utils/middleware';
-export * from './types/security';
+import type { SecurityEvent, SecurityEventSeverity, SecurityEventType, SecurityLog, PlatformSlug } from '@neothink/database';
 
 // Export security logging utilities
 import { 
   logSecurityEvent, 
   SecurityEventTypes
 } from './utils/securityLogging';
-import type { SecurityEvent, SecurityEventSeverity } from './types/index';
 
 // Export rate limiting utilities
 import { 

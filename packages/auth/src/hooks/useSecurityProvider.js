@@ -1,6 +1,7 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { createPlatformClient } from '@neothink/database';
+// DEPRECATED: Use PlatformSlug from @neothink/database instead
 import { logSecurityEvent } from '../utils/securityLogging';
 // Create context
 const SecurityContext = createContext(null);

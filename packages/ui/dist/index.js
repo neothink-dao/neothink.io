@@ -451,6 +451,7 @@ var NODES = [
   "nav",
   "ol",
   "p",
+  "select",
   "span",
   "svg",
   "ul"

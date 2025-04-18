@@ -5,8 +5,8 @@
  * DO NOT include this in production builds!
  */
 
-import { createPlatformClient, PlatformSlug } from '@neothink/database';
-import type { SecurityEventSeverity } from '../types/index';
+import type { SecurityEvent, SecurityEventSeverity, SecurityEventType, SecurityLog, PlatformSlug } from '@neothink/database';
+import { createPlatformClient } from '@neothink/database';
 
 /**
  * Get recent security logs for testing and development
