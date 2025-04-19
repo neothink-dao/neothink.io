@@ -1,5 +1,72 @@
 # Neothink DAO Monorepo
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/neothink-dao/neothink.io/ci.yml?branch=main)](https://github.com/neothink-dao/neothink.io/actions)
+[![License](https://img.shields.io/github/license/neothink-dao/neothink.io)](./LICENSE)
+[![Join the Community](https://img.shields.io/badge/Join-Community-blue)](https://github.com/neothink-dao/neothink.io/discussions)
+
+---
+
+> **Neothink DAO is building the world’s first open, positive-sum network state platform—magnetically attracting, engaging, and delighting users and admins through gamified, transparent, and collaborative systems.**
+
+---
+
+## 🏆 Executive Summary
+
+Neothink DAO is the world’s first open, positive-sum network state platform. We unite four flagship apps—Ascenders, Neothinkers, Immortals, and Hub—on a single, production-grade Supabase database. Our mission: magnetically attract, engage, and delight users and admins through gamified, transparent, and collaborative systems for prosperity, happiness, longevity, and luckiness. Governed by the community, powered by open research, and designed for scalability, Neothink DAO is building the blueprint for digital societies in 2025 and beyond.
+
+---
+
+## 📋 Table of Contents
+
+- [Company Purpose](#-company-purpose)
+- [Problem](#-problem)
+- [Solution](#-solution)
+- [Why Now?](#-why-now)
+- [Market Potential](#-market-potential)
+- [Competition / Alternatives](#-competition--alternatives)
+- [Business Model](#-business-model)
+- [Team](#-team)
+- [Financials](#-financials)
+- [Vision](#-vision)
+- [Universal Onboarding](#-start-here-universal-onboarding)
+- [Apps/Sites](#-appssites-in-this-monorepo)
+- [Shared Supabase Database](#-shared-supabase-database)
+- [Contributing & Feedback](#-contributing--feedback)
+- [Production Readiness](#-production-readiness-checklist)
+- [Getting Started](#-getting-started)
+- [Documentation](#-documentation-user--admin-quick-links)
+- [User & Admin Journeys](#-user--admin-journeys)
+- [Continuous Improvement](#-continuous-improvement)
+- [License](#-license)
+- [Acknowledgments](#-acknowledgments)
+- [Developer Docs](#-key-developer-documentation)
+
+---
+
+## 🧑‍💻 Quick Start
+
+**Clone, install, and launch in minutes:**
+
+```bash
+# 1. Clone the repository
+ git clone https://github.com/neothink-dao/neothink.io.git
+ cd neothink.io
+
+# 2. Install dependencies
+ pnpm install
+
+# 3. Copy environment variables
+ cp .env.example .env
+
+# 4. Start all apps
+ pnpm dev
+```
+
+- See [ONBOARDING.md](./ONBOARDING.md) for a step-by-step guide.
+- For production, see [DEPLOYMENT.md](./docs/deployment/README.md).
+
+---
+
 # 🏢 Company Purpose
 
 Neothink DAO is building the world’s first open, positive-sum network state platform—magnetically attracting, engaging, and delighting users and admins through gamified, transparent, and collaborative systems for prosperity, happiness, longevity, and luckiness.
@@ -82,6 +149,34 @@ Neothink DAO uses:
 
 ---
 
+## 🛠️ Tech Stack & Architecture
+
+- **Framework:** Next.js (latest)
+- **Language:** TypeScript (strict, latest)
+- **Database:** Supabase (PostgreSQL, RLS, migrations)
+- **UI:** React, Tailwind CSS
+- **State Management:** Zustand, React Context
+- **Build Tool:** Turborepo
+- **Package Manager:** pnpm
+- **Deployment:** Vercel
+- **Monitoring:** PostHog, custom logging
+- **Testing:** Vitest, React Testing Library
+
+**Monorepo Structure:**
+
+```
+neothink-platform/
+├── apps/         # Four Vercel apps (hub, ascenders, neothinkers, immortals)
+├── packages/     # Shared code: core, ui, utils, types, hooks, analytics, etc.
+├── supabase/     # Database schema, migrations, RLS, docs
+├── docs/         # All documentation, guides, and standards
+├── results/      # Open data and experiment logs
+├── papers/       # Research, flagship papers, and experiment logs
+└── ...           # CI, scripts, config, etc.
+```
+
+---
+
 ## 🛠️ Apps/Sites in This Monorepo
 
 - **Ascenders** ([apps/ascenders](./apps/ascenders)) — For prosperity-focused users
@@ -98,11 +193,14 @@ Neothink DAO uses:
 
 ---
 
-## 🤝 Contributing & Feedback
+## 🤝 Community & Contribution
 
-- [How to contribute or review papers](./papers/README.md#how-to-contribute-or-give-feedback)
-- [Contributor Guide](./CONTRIBUTORS.md)
-- Open a [GitHub Issue](https://github.com/neothink-dao/neothink.io/issues) or [Pull Request](https://github.com/neothink-dao/neothink.io/pulls)
+- **Start here:** [CONTRIBUTING.md](./CONTRIBUTING.md), [ONBOARDING.md](./ONBOARDING.md)
+- **Peer review:** [GitHub Issues](https://github.com/neothink-dao/neothink.io/issues), [Discussions](https://github.com/neothink-dao/neothink.io/discussions)
+- **Add papers/data:** See `/papers/README.md` and `/results/`
+- **Admin/DAO governance:** [DAO_GOVERNANCE.md](./DAO_GOVERNANCE.md)
+
+**All contributions are welcome—new users, researchers, and admins!**
 
 ---
 
@@ -209,193 +307,6 @@ Neothink DAO thrives on open feedback and collaboration:
 - **Peer Review:** Use [GitHub Issues](../../issues) or [Discussions](../../discussions) to comment on papers, propose new research, or suggest improvements.
 - **Pull Requests:** Submit new experiments, data, or documentation via PRs.
 - **Cross-Linking:** Papers and data are interlinked for discoverability and context.
-
-## 📚 Repo Map (Research & Docs)
-
-- [Papers, Case Studies & Experiment Logs](./papers/README.md)
-- [Open Data & Results](./results/)
-- [User Onboarding & Game Guides](./docs/onboarding/README.md)
-- [Admin Guide & Continuous Improvement](./docs/admin/ADMIN-OVERVIEW.md)
-- [Gamification & Tokenomics API (User/Admin)](./docs/api/gamification.md)
-- [Governance & Voting (User/Admin)](./DAO_GOVERNANCE.md)
-- [Database & Schema (Admin)](./docs/architecture/database.md)
-- [Security & RLS (User/Admin)](./SECURITY.md)
-- [Monitoring & Analytics (User/Admin)](./docs/monitoring/README.md)
-
-## 📝 How to Contribute/Review
-
-1. Read or propose papers in `/papers/` (see template in `/papers/README.md`).
-2. Add open data or results to `/results/` and link from your papers.
-3. Use Issues/Discussions for feedback or to propose new research.
-4. Submit improvements via Pull Request—see [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## 🧭 Navigation & Best Practices
-
-- All research and documentation is open, iterative, and peer-reviewed.
-- Cross-linking ensures context and discoverability.
-- New contributors are welcome—see [ONBOARDING.md](./ONBOARDING.md).
-
-## 🚀 Overview
-
-The Neothink Platform consists of four main applications that share a common infrastructure:
-
-- **Hub** (`apps/hub`): The main platform and entry point
-- **Ascenders** (`apps/ascenders`): Advanced learning and growth
-- **Neothinkers** (`apps/neothinkers`): Community and collaboration
-- **Immortals** (`apps/immortals`): Premium features and experiences
-
-All applications share:
-- A single Supabase project for data and authentication
-- Common UI components and utilities
-- Shared authentication and security
-- Unified monitoring and analytics
-
-## 🏗️ Architecture
-
-```
-neothink-platform/
-├── apps/                    # Application packages
-│   ├── hub/                # Main platform
-│   ├── ascenders/          # Ascenders app
-│   ├── neothinkers/        # Neothinkers app
-│   └── immortals/          # Immortals app
-├── packages/               # Shared packages
-│   ├── core/              # Core functionality
-│   ├── ui/                # Shared UI components
-│   ├── auth/              # Authentication
-│   ├── database/          # Database utilities
-│   ├── ai-integration/    # AI features
-│   ├── utils/             # Shared utilities
-│   ├── types/             # Shared TypeScript types
-│   ├── monitoring/        # Monitoring utilities
-│   ├── config/            # Shared configuration
-│   └── testing/           # Testing utilities
-├── docs/                  # Documentation
-└── scripts/               # Build and deployment scripts
-```
-
-## 🛠️ Tech Stack
-
-- **Framework:** Next.js (latest)
-- **Language:** TypeScript (latest)
-- **Database:** Supabase (PostgreSQL, latest)
-- **Authentication:** Supabase Auth (latest)
-- **UI:** React (latest), Tailwind CSS (latest)
-- **State Management:** React Context, Zustand (latest)
-- **Build Tool:** Turborepo (latest)
-- **Package Manager:** pnpm (latest)
-- **Deployment:** Vercel (latest)
-- **Monitoring:** PostHog (latest), custom logging/monitoring
-- **Testing:** Vitest (latest), React Testing Library (latest)
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js >= 22 (LTS, recommended)
-- pnpm >= 9
-- Supabase CLI (latest, for local development)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/neothink-dao/neothink.io.git
-   cd neothink.io
-   ```
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-3. Copy environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-4. Start the development server:
-   ```bash
-   # Start all apps
-   pnpm dev
-
-   # Start a specific app
-   pnpm dev:hub
-   pnpm dev:ascenders
-   pnpm dev:neothinkers
-   pnpm dev:immortals
-   ```
-
-## 📦 Package Management
-
-We use pnpm workspaces to manage dependencies across the monorepo. Key commands:
-
-```bash
-# Install dependencies
-pnpm install
-
-# Add dependency to all packages
-pnpm add -w <package>
-
-# Add dependency to a specific package
-pnpm add <package> --filter <package-name>
-
-# Run command in all packages
-pnpm -r <command>
-
-# Run command in a specific package
-pnpm --filter <package-name> <command>
-```
-
-## 🔧 Development
-
-### Running Apps
-
-```bash
-# Development
-pnpm dev
-
-# Production
-pnpm build
-pnpm start
-
-# Specific app
-pnpm dev:hub
-pnpm dev:ascenders
-pnpm dev:neothinkers
-pnpm dev:immortals
-```
-
-### Database
-
-```bash
-# Generate types
-pnpm db:generate
-
-# Push migrations
-pnpm db:push
-
-# Open Supabase Studio
-pnpm db:studio
-```
-
-### Testing
-
-```bash
-# Run all tests
-pnpm test
-
-# Run tests in a specific package
-pnpm --filter <package-name> test
-```
-
-## 📚 Documentation (User & Admin Quick Links)
-
-- [User Onboarding & Game Guides](./docs/onboarding/README.md)
-- [Admin Guide & Continuous Improvement](./docs/admin/ADMIN-OVERVIEW.md)
-- [Gamification & Tokenomics API (User/Admin)](./docs/api/gamification.md)
-- [Governance & Voting (User/Admin)](./DAO_GOVERNANCE.md)
-- [Database & Schema (Admin)](./docs/architecture/database.md)
-- [Security & RLS (User/Admin)](./SECURITY.md)
-- [Monitoring & Analytics (User/Admin)](./docs/monitoring/README.md)
-- [Feedback & Support](./docs/support/README.md)
 
 ## 🗺️ User & Admin Journeys
 
