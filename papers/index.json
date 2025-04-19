@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Tokenomics Launch Simulation",
+    "authors": ["Neothink DAO Core Team"],
+    "date": "2025-04-19",
+    "summary": "A simulation of user onboarding and token flow across four Neothink DAO apps, validating positive-sum game theory and cross-app consistency.",
+    "tags": ["tokenomics", "simulation", "gamification", "cross-app"],
+    "peerReviewed": false,
+    "reproducible": true,
+    "file": "tokenomics-launch-simulation.md"
+  }
+]

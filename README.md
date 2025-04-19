@@ -60,6 +60,58 @@ For full details, see [ONBOARDING.md](./ONBOARDING.md).
 ## DAO Governance & Policies
 - See [`DAO_GOVERNANCE.md`](./DAO_GOVERNANCE.md) for details on how the DAO manages this project, voting, and contributor onboarding.
 
+## 🏆 Neothink DAO Executive Summary
+
+Neothink DAO is an open, positive-sum research and innovation collective. Our mission is to pioneer gamified, transparent, and scalable systems that delight users and empower admins—combining real-world experiments, open data, and collaborative governance. This monorepo is both our codebase and our living portfolio: it documents our journey, showcases experiments, and invites the world to peer review, contribute, and learn with us.
+
+- **Mission:** Build and share breakthrough systems for positive-sum engagement, learning, and governance.
+- **Vision:** Open, iterative research with real-world impact—by and for the community.
+- **Audience:** Builders, researchers, DAO members, open-source contributors, and curious peers.
+
+## ⭐ Featured Papers & Case Studies
+
+Explore our most impactful experiments and research:
+
+- [Tokenomics Launch Simulation](./papers/tokenomics-launch-simulation.md)
+- [All Papers, Case Studies & Experiment Logs](./papers/README.md)
+
+## 📂 Open Data & Results
+
+- [Simulation Results (Sample)](./results/)
+- [Add your own data: see `/papers/README.md` for how to contribute]
+
+## 🤝 Peer Review & Collaboration
+
+Neothink DAO thrives on open feedback and collaboration:
+- **Peer Review:** Use [GitHub Issues](../../issues) or [Discussions](../../discussions) to comment on papers, propose new research, or suggest improvements.
+- **Pull Requests:** Submit new experiments, data, or documentation via PRs.
+- **Cross-Linking:** Papers and data are interlinked for discoverability and context.
+
+## 📚 Repo Map (Research & Docs)
+
+- [Papers, Case Studies & Experiment Logs](./papers/README.md)
+- [Open Data & Results](./results/)
+- [User Onboarding & Game Guides](./docs/onboarding/README.md)
+- [Admin Guide & Continuous Improvement](./docs/admin/ADMIN-OVERVIEW.md)
+- [Gamification & Tokenomics API (User/Admin)](./docs/api/gamification.md)
+- [Governance & Voting (User/Admin)](./DAO_GOVERNANCE.md)
+- [Database & Schema (Admin)](./docs/architecture/database.md)
+- [Security & RLS (User/Admin)](./SECURITY.md)
+- [Monitoring & Analytics (User/Admin)](./docs/monitoring/README.md)
+
+## 📝 How to Contribute/Review
+
+1. Read or propose papers in `/papers/` (see template in `/papers/README.md`).
+2. Add open data or results to `/results/` and link from your papers.
+3. Use Issues/Discussions for feedback or to propose new research.
+4. Submit improvements via Pull Request—see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## 🧭 Navigation & Best Practices
+
+- All research and documentation is open, iterative, and peer-reviewed.
+- Cross-linking ensures context and discoverability.
+- New contributors are welcome—see [ONBOARDING.md](./ONBOARDING.md).
+
 ## 🚀 Overview
 
 The Neothink Platform consists of four main applications that share a common infrastructure:
@@ -266,4 +318,4 @@ This project is proprietary software owned by Neothink DAO and the Mark Hamilton
 
 ---
 
-For more details, see the `/docs` directory or ask in the team Slack. 
+For more details, see the `/docs` directory or ask in the team Slack.
