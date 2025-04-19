@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 interface ZoomAttendanceProps {
@@ -19,8 +19,14 @@ export function ZoomAttendance({
   onLeave
 }: ZoomAttendanceProps) {
   const [attendanceId, setAttendanceId] = useState<string | null>(null);
+  const attendanceIdRef = useRef<string | null>(null);
   const [isPresent, setIsPresent] = useState(false);
   const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    attendanceIdRef.current = attendanceId;
+  }, [attendanceId]);
 
   useEffect(() => {
     // Record join time when component mounts
@@ -46,10 +52,11 @@ export function ZoomAttendance({
 
     // Record leave time when component unmounts
     return () => {
-      if (attendanceId) {
+      const id = attendanceIdRef.current;
+      if (id) {
         supabase
           .rpc('update_zoom_attendance', {
-            p_attendance_id: attendanceId
+            p_attendance_id: id
           })
           .then(() => {
             setIsPresent(false);
@@ -70,4 +77,4 @@ export function ZoomAttendance({
       </span>
     </div>
   );
-} 
+}

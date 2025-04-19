@@ -1,7 +1,7 @@
 import React from 'react';
 import { type VariantProps } from 'class-variance-authority';
 export declare const inputVariants: (props?: ({
-    inputSize?: "sm" | "md" | "lg" | null | undefined;
+    inputSize?: "sm" | "lg" | "md" | null | undefined;
     state?: "error" | "default" | "success" | null | undefined;
 } & import("class-variance-authority/dist/types").ClassProp) | undefined) => string;
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>, VariantProps<typeof inputVariants> {

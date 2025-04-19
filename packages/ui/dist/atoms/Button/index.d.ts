@@ -1,8 +1,8 @@
 import React from 'react';
 import { type VariantProps } from 'class-variance-authority';
 export declare const buttonVariants: (props?: ({
-    variant?: "ascenders" | "immortals" | "neothinkers" | "link" | "primary" | "secondary" | "outline" | "ghost" | "destructive" | "success" | null | undefined;
-    size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "icon" | null | undefined;
+    variant?: "ascenders" | "immortals" | "neothinkers" | "link" | "outline" | "destructive" | "secondary" | "ghost" | "primary" | "success" | null | undefined;
+    size?: "sm" | "lg" | "icon" | "xs" | "md" | "xl" | "2xl" | null | undefined;
     width?: "auto" | "full" | null | undefined;
 } & import("class-variance-authority/dist/types").ClassProp) | undefined) => string;
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
