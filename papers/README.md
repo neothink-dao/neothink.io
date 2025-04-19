@@ -48,15 +48,15 @@ summary: "Short summary of the experiment, outcomes, and learnings."
 
 | Title & Link | Author(s) | Year | Abstract | Status / Version | Citation / DOI | Peer Review / Feedback |
 |:------------ |:----------|:-----|:---------|:-----------------|:---------------|:----------------------|
-| **[Tokenomics Launch Simulation](./tokenomics-launch-simulation.md)** ![Open Access](https://img.shields.io/badge/open%20access-✓-brightgreen) ![v1.0](https://img.shields.io/badge/version-1.0-blue) | Neothink DAO Core Team | 2025 | Simulation of onboarding and token flow across four apps, validating positive-sum game theory and cross-app consistency. | Published / v1.0 | See below | [Give Feedback](https://github.com/neothink-dao/neothink.io/issues/new?title=Peer+Review:+Tokenomics+Launch+Simulation&body=Please+provide+your+feedback+or+review+of+the+paper+here.) |
+| **[Flawless Positive-Sum Tokenomics & Gamification: A Living Field Study Across Neothink DAO’s Multi-App Ecosystem](./flawless-positive-sum-tokenomics.md)** ![Open Access](https://img.shields.io/badge/open%20access-✓-brightgreen) ![WIP](https://img.shields.io/badge/status-WIP-orange) | Joshua Seymour, Neothink DAO | 2025 | _A real-time, living log of the design, implementation, and continuous evolution of flawless, positive-sum tokenomics and gamification across four interconnected Neothink DAO Next.js applications._ | Work in Progress / Living Document | See below | [Give Feedback](https://github.com/neothink-dao/neothink.io/issues/new?title=Peer+Review:+Flawless+Positive-Sum+Tokenomics&body=Please+provide+your+feedback+or+review+of+the+paper+here.) |
 
 ---
 
 ## Citations
 
-**Tokenomics Launch Simulation**
+**Flawless Positive-Sum Tokenomics & Gamification: A Living Field Study Across Neothink DAO’s Multi-App Ecosystem**
 
-> Neothink DAO Core Team. (2025). Tokenomics Launch Simulation. *Neothink DAO Papers & Case Studies*. Version 1.0. https://github.com/neothink-dao/neothink.io/blob/main/papers/tokenomics-launch-simulation.md
+> Joshua Seymour & Neothink DAO. (2025). Flawless Positive-Sum Tokenomics & Gamification: A Living Field Study Across Neothink DAO’s Multi-App Ecosystem. *Neothink DAO Papers & Case Studies*. Living Document. https://github.com/neothink-dao/neothink.io/blob/main/papers/flawless-positive-sum-tokenomics.md
 
 ---
 

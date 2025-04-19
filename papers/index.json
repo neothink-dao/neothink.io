@@ -1,12 +1,13 @@
 [
   {
-    "title": "Tokenomics Launch Simulation",
-    "authors": ["Neothink DAO Core Team"],
+    "title": "Flawless Positive-Sum Tokenomics & Gamification: A Living Field Study Across Neothink DAO’s Multi-App Ecosystem",
+    "authors": ["Joshua Seymour", "Neothink DAO"],
     "date": "2025-04-19",
-    "summary": "A simulation of user onboarding and token flow across four Neothink DAO apps, validating positive-sum game theory and cross-app consistency.",
-    "tags": ["tokenomics", "simulation", "gamification", "cross-app"],
+    "summary": "A real-time, living log of the design, implementation, and continuous evolution of flawless, positive-sum tokenomics and gamification across four interconnected Neothink DAO Next.js applications. Updated as experiments and user onboarding unfold.",
+    "tags": ["tokenomics", "gamification", "positive-sum", "DAO", "Next.js", "Supabase", "living document"],
     "peerReviewed": false,
     "reproducible": true,
-    "file": "tokenomics-launch-simulation.md"
+    "status": "WIP",
+    "file": "flawless-positive-sum-tokenomics.md"
   }
 ]

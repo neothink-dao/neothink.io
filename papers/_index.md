@@ -2,9 +2,9 @@
 
 Welcome to the living, peer-reviewed research index for Neothink DAO. Every entry here is a real-world experiment, case study, or research log—open for review, replication, and collaboration.
 
-| Title | Authors | Date | Tags | Peer Reviewed | Reproducible | Link |
-|-------|---------|------|------|--------------|--------------|------|
-| Tokenomics Launch Simulation | Neothink DAO Core Team | 2025-04-19 | tokenomics, simulation, gamification, cross-app | ❌ | ✅ | [View Paper](./tokenomics-launch-simulation.md) |
+| Title | Authors | Date | Tags | Status | Reproducible | Link |
+|-------|---------|------|------|--------|--------------|------|
+| Flawless Positive-Sum Tokenomics & Gamification: A Living Field Study Across Neothink DAO’s Multi-App Ecosystem | Joshua Seymour, Neothink DAO | 2025-04-19 | tokenomics, gamification, positive-sum, DAO, Next.js, Supabase | WIP | ✅ | [View Paper](./flawless-positive-sum-tokenomics.md) |
 
 ---
 
