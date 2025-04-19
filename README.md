@@ -37,6 +37,8 @@ Neothink DAO is the world’s first open, positive-sum network state platform. W
 - [Documentation](#-documentation-user--admin-quick-links)
 - [User & Admin Journeys](#-user--admin-journeys)
 - [Continuous Improvement](#-continuous-improvement)
+- [Security & Compliance](#-security--compliance)
+- [FAQ](#-frequently-asked-questions-faq)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
 - [Developer Docs](#-key-developer-documentation)
@@ -225,114 +227,43 @@ For more details, see the README in each app/site and the [docs/](./docs) direct
 
 This monorepo/turborepo contains 4 Vercel apps/sites, all sharing a single production-grade Supabase database. **All code, schema, and documentation are owned, governed, and managed by the Neothink DAO.**
 
-## Key Principles
-- **DAO Governance:** All changes are subject to DAO approval and transparent governance.
-- **Database as Code:** All schema changes are managed via migrations and version-controlled.
-- **Code/DB Sync:** TypeScript types, schema, and documentation are always kept in sync.
-- **User/Admin Delight:** The stack is designed for maximum engagement, clarity, and security for both users and admins.
+## 🔒 Security & Compliance
 
-## ✨ User & Admin Experience (2025 Update)
+- **Database:** All schema changes use audited migrations and are tracked in version control.
+- **RLS:** Row Level Security is enabled and enforced for all tables—see [SECURITY.md](./SECURITY.md).
+- **Governance:** All changes are peer-reviewed and subject to DAO approval.
+- **Compliance:** We follow best practices for privacy, data protection, and open research.
 
-**For Users:**
-- Enjoy a seamless onboarding journey with progressive challenges and rewards.
-- Track your progress, XP, points, and badges across all apps from a unified dashboard.
-- Participate in cross-app challenges, earn bonuses, and climb the leaderboard.
-- Transparent governance: vote, propose, and contribute to DAO decisions.
-- Access clear guides, FAQs, and support for every step.
+[⬆️ Back to Top](#table-of-contents)
 
-**For Admins:**
-- Manage users, roles, and permissions with actionable dashboards.
-- Configure and tune gamification rewards and multipliers per app.
-- Monitor engagement, analytics, and system health in real time.
-- Enforce and audit RLS, security, and compliance policies.
-- Use migration and schema tools to evolve the platform safely.
+---
 
-## 🚀 What’s New in 2025?
-- Partitioned audit/event tables for scalability and performance.
-- Centralized reward engine and dynamic multipliers (per app, per action).
-- Enhanced onboarding and progressive disclosure for new users.
-- New governance flows: quadratic voting, delegated voting, Council rotation, and vetoes.
-- App-specific guides and admin controls for unique challenges and rewards.
-- Real-time analytics and feedback loops for continuous improvement.
+## ❓ Frequently Asked Questions (FAQ)
 
-## 🚀 Quickstart / Core Path (Summary)
-1. **Clone the repo**
-2. **Install dependencies**
-3. **Set up `.env` from `.env.example`**
-4. **Generate and sync Supabase types** (`pnpm generate:supabase-types`)
-5. **(Optional) Run local dev server**
+**Q: Who can participate in Neothink DAO?**
+A: Anyone! Builders, researchers, admins, and curious users are all welcome. See [ONBOARDING.md](./ONBOARDING.md) to get started.
 
-For full details, see [ONBOARDING.md](./ONBOARDING.md).
+**Q: How do I contribute research or data?**
+A: Open a Pull Request or GitHub Issue, or follow the instructions in `/papers/README.md` and `/results/`.
 
-## Security & RLS Checklist
-- All new tables must have RLS enabled and documented.
-- All schema changes must use migrations; never modify applied migrations.
-- Always sync and regenerate TypeScript types after schema changes.
-- See [SECURITY.md](./SECURITY.md) for the full checklist.
+**Q: How is the DAO governed?**
+A: See [DAO_GOVERNANCE.md](./DAO_GOVERNANCE.md) for full details on voting, proposals, and contributor onboarding.
 
-## Database Schema & ER Diagram
-- See [`supabase/schema/schema.sql`](./supabase/schema/schema.sql) for the full authoritative DDL.
-- See [`supabase/schema/er_diagram.dbml`](./supabase/schema/er_diagram.dbml) for a visual ER diagram (import to [dbdiagram.io](https://dbdiagram.io)).
-- All tables, relationships, and RLS policies are documented in migrations and the schema folder.
+**Q: Is my data secure?**
+A: Yes! All user/admin data is protected by Supabase RLS, audited migrations, and strict security policies.
 
-## DAO Governance & Policies
-- See [`DAO_GOVERNANCE.md`](./DAO_GOVERNANCE.md) for details on how the DAO manages this project, voting, and contributor onboarding.
+**Q: Where can I get help?**
+A: Open a [GitHub Issue](https://github.com/neothink-dao/neothink.io/issues), join our [Discussions](https://github.com/neothink-dao/neothink.io/discussions), or see [Feedback & Support](./docs/support/README.md).
 
-## 🏆 Neothink DAO Executive Summary
+[⬆️ Back to Top](#table-of-contents)
 
-Neothink DAO is an open, positive-sum research and innovation collective. Our mission is to pioneer gamified, transparent, and scalable systems that delight users and empower admins—combining real-world experiments, open data, and collaborative governance. This monorepo is both our codebase and our living portfolio: it documents our journey, showcases experiments, and invites the world to peer review, contribute, and learn with us.
-
-- **Mission:** Build and share breakthrough systems for positive-sum engagement, learning, and governance.
-- **Vision:** Open, iterative research with real-world impact—by and for the community.
-- **Audience:** Builders, researchers, DAO members, open-source contributors, and curious peers.
-
-## ⭐ Featured Papers & Case Studies
-
-Explore our most impactful experiments and research:
-
-- [Luckiness Network State Experiment (LUCK)](papers/luckiness-network-state-experiment.md)
-- [Prosperity Network State Experiment (LIVE)](papers/prosperity-network-state-experiment.md)
-- [Happiness Network State Experiment (LOVE)](papers/happiness-network-state-experiment.md)
-- [Longevity Network State Experiment (LIFE)](papers/longevity-network-state-experiment.md)
-- [All Papers, Case Studies & Experiment Logs](./papers/README.md)
-
-## 📂 Open Data & Results
-
-- [Simulation Results (Sample)](./results/)
-- [Add your own data: see `/papers/README.md` for how to contribute]
-
-## 🤝 Peer Review & Collaboration
-
-Neothink DAO thrives on open feedback and collaboration:
-- **Peer Review:** Use [GitHub Issues](../../issues) or [Discussions](../../discussions) to comment on papers, propose new research, or suggest improvements.
-- **Pull Requests:** Submit new experiments, data, or documentation via PRs.
-- **Cross-Linking:** Papers and data are interlinked for discoverability and context.
-
-## 🗺️ User & Admin Journeys
-
-- **Users:**
-  1. Onboard via personalized, app-specific flows
-  2. Complete challenges, earn XP/points, unlock features
-  3. Participate in governance and community events
-  4. Get help and track progress from unified dashboard
-
-- **Admins:**
-  1. Monitor onboarding, engagement, and system health
-  2. Tune reward logic and multipliers per app
-  3. Manage user roles, permissions, and content
-  4. Review analytics, feedback, and iterate
-
-## 🔄 Continuous Improvement
-- All docs, flows, and features are reviewed regularly based on analytics and user/admin feedback.
-- See [Continuous Improvement Guide](./docs/admin/CONTINUOUS_IMPROVEMENT.md).
-
-## 🤝 Contributing
-
-Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+---
 
 ## 📄 License
 
 This project is proprietary software owned by Neothink DAO and the Mark Hamilton Family. All rights reserved. See the [LICENSE](./LICENSE) file for details.
+
+---
 
 ## 🙏 Acknowledgments
 
@@ -340,6 +271,8 @@ This project is proprietary software owned by Neothink DAO and the Mark Hamilton
 - [Supabase](https://supabase.io/)
 - [Turborepo](https://turbo.build/)
 - [Vercel](https://vercel.com/)
+
+---
 
 ## 🗂️ Key Developer Documentation
 
@@ -353,3 +286,5 @@ This project is proprietary software owned by Neothink DAO and the Mark Hamilton
 ---
 
 For more details, see the README in each app/site and the [docs/](./docs) directory.
+
+[⬆️ Back to Top](#table-of-contents)
