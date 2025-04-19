@@ -68,9 +68,54 @@ The Neothink Platform consists of four integrated applications:
   1. See transparent admin actions
   2. Escalate issues and provide feedback
 
+## 🧭 User vs. Admin Comparison Table
+
+| Feature/Capability      | Users (Players)                                                                                   | Admins (Game Masters)                                                                                 |
+|------------------------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| Earn Points/Tokens     | Complete actions, challenges, referrals, cross-app events                                         | Configure/tune rewards, add new event types                                                          |
+| Spend Points/Tokens    | Unlock features, vote, participate in crowdfunding, make purchases                                | Monitor token sinks, approve large spends, refund/adjust in rare cases                               |
+| Level Up/Progress      | Progress through tiers, earn badges, see dashboard/leaderboard                                    | Set progression rules, define badge criteria, monitor leaderboards                                   |
+| View Badges/Rewards    | See earned badges, streaks, and rewards in profile                                                | Create/manage badge types, audit badge issuance, handle disputes                                     |
+| Privacy & Data Rights  | Data protected by RLS, can request corrections, see audit logs for own actions                    | Enforce RLS, review all event logs, handle data requests, manage incident response                   |
+| Support & Troubleshoot | Access FAQ, troubleshooting, and support channels                                                 | Respond to support tickets, investigate user issues, monitor system health                           |
+| Analytics/Insights     | See personal stats, progress, and rankings                                                        | Access full analytics, engagement dashboards, and cohort analysis                                    |
+| Governance             | Vote, propose ideas, participate in DAO/Coop governance                                           | Set up proposals, manage voting, enforce quadratic/delegated voting, handle vetoes                   |
+| Feedback               | Submit feedback, suggest improvements, participate in surveys                                     | Review feedback, iterate reward logic, update docs, communicate changes                              |
+
+## 🏆 How It Works: Admin Journey Example
+
+1. **Configure Rewards:** Use the admin dashboard to set up new rewards, multipliers, and onboarding flows.
+2. **Monitor Events:** Review all logs in the gamification_events and related tables for audit and analytics.
+3. **Tune & Improve:** Use analytics to iterate reward logic, optimize engagement, and address feedback.
+4. **Handle Incidents:** Respond to support tickets, investigate discrepancies, and enforce RLS/security.
+5. **Governance:** Set up proposals, manage voting, and oversee DAO/Coop operations.
+6. **Continuous Improvement:** Update docs, policies, and flows based on analytics and user/admin input.
+
+## ❓ FAQ & Troubleshooting (Expanded)
+
+**For Admins:**
+- How do I add a new event/reward type?
+- How do I tune multipliers or streaks?
+- How do I audit a user’s actions or investigate a support ticket?
+- How do I manage badge criteria and disputes?
+- How do I enforce RLS and security best practices?
+- How do I use analytics to improve engagement?
+
+## 📈 Visual Diagram: Admin Action Flow (Markdown)
+
+```mermaid
+graph TD;
+  A[Admin Configures Reward/Event] --> B[Event Type Added to System];
+  B --> C[User Actions Logged];
+  C --> D[XP/Token/Badge Awarded];
+  D --> E[Dashboard/Leaderboard Updated];
+  E --> F[Admin Reviews Analytics & Logs];
+  F --> G[Support & Feedback Loop];
+```
+
 ## 🔄 Continuous Improvement
-- Admin practices and docs are regularly updated based on analytics and feedback.
-- See [Continuous Improvement Guide](CONTINUOUS_IMPROVEMENT.md).
+- Admin docs, dashboards, and flows are reviewed and updated regularly based on feedback and analytics.
+- All changes are tracked in the [Changelog](../../CHANGELOG.md).
 
 ## Administrative Responsibilities
 
@@ -194,6 +239,28 @@ async function lockUserAccount(userId: string, reason: string) {
     .match({ id: userId });
 }
 ```
+
+## Simulation Management
+
+Admins can use the simulation feature to test changes to gamification and tokenomics before deploying them live. This enables data-driven decisions and continuous improvement.
+
+### How to Run a Simulation
+1. Go to the Simulation Dashboard (or use API).
+2. Select or create a scenario (e.g., onboarding XP multiplier).
+3. Adjust parameters and run the simulation (batch/Monte Carlo supported).
+4. Review results in the `simulation_runs` table.
+5. Capture learnings and iterate on platform logic.
+
+### Best Practices
+- Use scenario templates for repeatable tests.
+- Compare results across multiple runs.
+- Document learnings in the `notes` field.
+- Use analytics to identify trends and outliers.
+
+### Security & Compliance
+- All simulation data is protected by RLS.
+- Only authorized admins can view all simulation runs.
+- Simulation results are auditable and can be exported for analysis.
 
 ## Troubleshooting
 
