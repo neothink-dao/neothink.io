@@ -1,5 +1,38 @@
 # Neothinkers App
 
+Welcome to the Neothinkers app—your gateway to optimizing happiness, integration, and fulfillment through collaborative meritocracy in the Neothink DAO ecosystem.
+
+---
+
+## 🧭 Start Here
+- **Who is this for?** Neothinkers and anyone seeking to optimize happiness using the LOVE token.
+- [Universal onboarding & glossary](../../README.md#start-here-universal-onboarding)
+- [Flagship papers & research](../../papers/README.md)
+- [Governance model](../../DAO_GOVERNANCE.md)
+
+---
+
+## 🌟 Key Features
+- Peer-driven, sociocratic, and meritocratic advancement
+- Collaborative research and feedback
+- Seamless integration with the DAO ecosystem
+
+---
+
+## 🤝 How to Contribute or Give Feedback
+- [Contribution guide](../../CONTRIBUTERS.md)
+- [Open a GitHub Issue](https://github.com/neothink-dao/neothink.io/issues)
+
+---
+
+## 🟢 Production Readiness Checklist
+- [x] Onboarding and branding aligned
+- [x] Research and feedback links present
+- [x] Linting, formatting, and type-checking enforced
+- [x] CI/CD green
+
+---
+
 ## Overview
 The Neothinkers app is part of a four-app Vercel monorepo, sharing a single Supabase backend. It is optimized for engagement, security, and ease of onboarding, with robust documentation and best practices throughout.
 

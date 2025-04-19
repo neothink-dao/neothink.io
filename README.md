@@ -1,5 +1,81 @@
 # Neothink DAO Monorepo
 
+Welcome to the Neothink DAO monorepo—a unified codebase powering four Vercel apps/sites, a shared Supabase database, and a living research portal. This repository is designed to magnetically attract, engage, and delight users and admins through clarity, collaboration, and world-class best practices.
+
+---
+
+## 🧭 Start Here: Universal Onboarding
+
+- **What is Neothink DAO?**
+  - A collaborative, positive-sum ecosystem built on fractal, meritocratic, and sociocratic governance principles.
+- **Who are our users?**
+  - **Ascender:** Optimizing for prosperity (LIVE token)
+  - **Neothinker:** Optimizing for happiness (LOVE token)
+  - **Immortal:** Optimizing for longevity (LIFE token)
+  - **Superachiever:** Optimizing for luckiness (LUCK token)
+- **How to get involved?**
+  - [Read the flagship papers & research](./papers/README.md)
+  - [Explore the governance model](./DAO_GOVERNANCE.md)
+  - [See the contributor guide](./CONTRIBUTORS.md)
+
+---
+
+## 🏛️ Governance Model (Summary)
+
+Neothink DAO uses:
+- **Fractal:** Distributed, self-similar groups for decision-making
+- **Meritocratic:** Rewards and influence based on meaningful contribution
+- **Sociocratic:** Consent-based, peer-driven evolution of rules and structures
+
+[Full governance details →](./DAO_GOVERNANCE.md)
+
+---
+
+## 📚 Research & Papers
+
+- [Papers Portal: Token Purpose, Flagship Papers, and Contribution Guide](./papers/README.md)
+- Each app/site links to this portal for cross-app clarity and engagement.
+
+---
+
+## 🛠️ Apps/Sites in This Monorepo
+
+- **Ascenders** ([apps/ascenders](./apps/ascenders)) — For prosperity-focused users
+- **Neothinkers** ([apps/neothinkers](./apps/neothinkers)) — For happiness-focused users
+- **Immortals** ([apps/immortals](./apps/immortals)) — For longevity-focused users
+- **Hub** ([apps/hub](./apps/hub)) — Cross-app navigation, admin, and meta-governance
+
+---
+
+## 🗄️ Shared Supabase Database
+
+- Centralized schema, RLS policies, and migrations in [supabase/](./supabase)
+- [See schema documentation](./supabase/README.md)
+
+---
+
+## 🤝 Contributing & Feedback
+
+- [How to contribute or review papers](./papers/README.md#how-to-contribute-or-give-feedback)
+- [Contributor Guide](./CONTRIBUTORS.md)
+- Open a [GitHub Issue](https://github.com/neothink-dao/neothink.io/issues) or [Pull Request](https://github.com/neothink-dao/neothink.io/pulls)
+
+---
+
+## 🟢 Production Readiness Checklist
+
+- [x] Unified onboarding and branding
+- [x] Papers/research portal up to date and magnetic
+- [x] Governance model documented and accessible
+- [x] Supabase schema and RLS policies reviewed
+- [x] Linting, formatting, and type-checking enforced
+- [x] CI/CD pipelines green for all apps
+- [x] Feedback and peer review workflow in place
+
+---
+
+For more details, see the README in each app/site and the [docs/](./docs) directory.
+
 > **New to the project? Start here:** See our [ONBOARDING.md](./ONBOARDING.md) for a fast, frustration-free setup and contribution guide.
 
 > **Current Governance:**
@@ -72,7 +148,10 @@ Neothink DAO is an open, positive-sum research and innovation collective. Our mi
 
 Explore our most impactful experiments and research:
 
-- [Tokenomics Launch Simulation](./papers/tokenomics-launch-simulation.md)
+- [Luckiness Network State Experiment (LUCK)](papers/luckiness-network-state-experiment.md)
+- [Prosperity Network State Experiment (LIVE)](papers/prosperity-network-state-experiment.md)
+- [Happiness Network State Experiment (LOVE)](papers/happiness-network-state-experiment.md)
+- [Longevity Network State Experiment (LIFE)](papers/longevity-network-state-experiment.md)
 - [All Papers, Case Studies & Experiment Logs](./papers/README.md)
 
 ## 📂 Open Data & Results
@@ -318,4 +397,4 @@ This project is proprietary software owned by Neothink DAO and the Mark Hamilton
 
 ---
 
-For more details, see the `/docs` directory or ask in the team Slack.
+For more details, see the README in each app/site and the [docs/](./docs) directory.

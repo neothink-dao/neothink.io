@@ -1,7 +1,37 @@
-# Neothink Ascenders App
+# Ascenders App
 
-## Overview
-The Ascenders app is part of the Neothink monorepo, sharing a Supabase backend with three other Vercel apps. It is designed for high engagement and seamless user experience, following best practices for onboarding, security, and deployment.
+Welcome to the Ascenders app—your portal to maximizing prosperity, value creation, and entrepreneurial success in the Neothink DAO ecosystem.
+
+---
+
+## 🧭 Start Here
+- **Who is this for?** Ascenders and anyone seeking to optimize prosperity using the LIVE token.
+- [Universal onboarding & glossary](../../README.md#start-here-universal-onboarding)
+- [Flagship papers & research](../../papers/README.md)
+- [Governance model](../../DAO_GOVERNANCE.md)
+
+---
+
+## 🌟 Key Features
+- Real-time tracking of prosperity journeys
+- Fractal, meritocratic, and sociocratic governance
+- Seamless feedback and peer review integration
+
+---
+
+## 🤝 How to Contribute or Give Feedback
+- [Contribution guide](../../CONTRIBUTORS.md)
+- [Open a GitHub Issue](https://github.com/neothink-dao/neothink.io/issues)
+
+---
+
+## 🟢 Production Readiness Checklist
+- [x] Onboarding and branding aligned
+- [x] Research and feedback links present
+- [x] Linting, formatting, and type-checking enforced
+- [x] CI/CD green
+
+---
 
 ## Getting Started
 

@@ -1,7 +1,37 @@
-# Neothink Hub App
+# Hub App
 
-## Overview
-The Neothink Hub is one of four Vercel apps in the monorepo, sharing a single Supabase backend. This app is designed for seamless user and admin experiences, leveraging modern best practices for security, performance, and onboarding.
+Welcome to the Hub app—your command center for navigating all Neothink DAO sites, managing meta-governance, and accessing research and admin features.
+
+---
+
+## 🧭 Start Here
+- **Who is this for?** All users, admins, and contributors seeking to connect across the DAO ecosystem.
+- [Universal onboarding & glossary](../../README.md#start-here-universal-onboarding)
+- [Flagship papers & research](../../papers/README.md)
+- [Governance model](../../DAO_GOVERNANCE.md)
+
+---
+
+## 🌟 Key Features
+- Cross-app navigation and user management
+- Meta-governance dashboard
+- Research and feedback aggregation
+
+---
+
+## 🤝 How to Contribute or Give Feedback
+- [Contribution guide](../../CONTRIBUTORS.md)
+- [Open a GitHub Issue](https://github.com/neothink-dao/neothink.io/issues)
+
+---
+
+## 🟢 Production Readiness Checklist
+- [x] Onboarding and branding aligned
+- [x] Research and feedback links present
+- [x] Linting, formatting, and type-checking enforced
+- [x] CI/CD green
+
+---
 
 ## Getting Started
 

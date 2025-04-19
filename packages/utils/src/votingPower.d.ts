@@ -1,7 +1,6 @@
-/**
- * Calculates voting power based on staked amount.
- * Formula: w = sqrt(s)
- * Capped at 34.
- */
-export declare const calculateVotingPower: (stakedAmount: number) => number;
+// This file previously declared token-weighted voting logic. It is now deprecated and should not be used.
+// All governance logic should be based on fractal, meritocratic, and sociocratic principles as per Neothink DAO's model.
+
+// No voting power is calculated from token balances. This file is intentionally left blank.
+
 //# sourceMappingURL=votingPower.d.ts.map

@@ -1,7 +1,37 @@
-# Neothink Immortals App
+# Immortals App
 
-## Overview
-The Immortals app is one of four Vercel projects in the Neothink monorepo, all sharing a single Supabase backend. This app is built for user delight, security, and scalability, following best practices for onboarding and deployment.
+Welcome to the Immortals app—your portal to maximizing health, lifespan, and self-leadership through advanced governance and incentives in the Neothink DAO ecosystem.
+
+---
+
+## 🧭 Start Here
+- **Who is this for?** Immortals and anyone seeking to optimize longevity using the LIFE token.
+- [Universal onboarding & glossary](../../README.md#start-here-universal-onboarding)
+- [Flagship papers & research](../../papers/README.md)
+- [Governance model](../../DAO_GOVERNANCE.md)
+
+---
+
+## 🌟 Key Features
+- Real-time longevity and health tracking
+- Fractal, sociocratic, and collaborative governance
+- Feedback and peer review integration
+
+---
+
+## 🤝 How to Contribute or Give Feedback
+- [Contribution guide](../../CONTRIBUTORS.md)
+- [Open a GitHub Issue](https://github.com/neothink-dao/neothink.io/issues)
+
+---
+
+## 🟢 Production Readiness Checklist
+- [x] Onboarding and branding aligned
+- [x] Research and feedback links present
+- [x] Linting, formatting, and type-checking enforced
+- [x] CI/CD green
+
+---
 
 ## Getting Started
 
