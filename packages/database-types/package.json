@@ -1,0 +1,13 @@
+{
+  "name": "@neothink/database-types",
+  "version": "0.1.0",
+  "description": "TypeScript types generated from the shared Supabase database schema for use across all Neothink DAO apps.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "generate": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public > index.ts"
+  },
+  "keywords": ["supabase", "typescript", "types", "database", "schema", "dao"],
+  "author": "Neothink DAO",
+  "license": "MIT"
+}
