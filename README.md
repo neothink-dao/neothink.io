@@ -1,7 +1,7 @@
 # Neothink DAO Monorepo
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/neothink-dao/neothink.io/ci.yml?branch=main)](https://github.com/neothink-dao/neothink.io/actions)
-[![License](https://img.shields.io/github/license/neothink-dao/neothink.io)](./LICENSE)
+[![License](https://img.shields.io/badge/License-Neothink%20DAO%20Proprietary-blue)](./LICENSE)
 [![Join the Community](https://img.shields.io/badge/Join-Community-blue)](https://github.com/neothink-dao/neothink.io/discussions)
 
 ---
@@ -18,7 +18,7 @@ Neothink DAO is the world’s first open, positive-sum network state platform. W
 
 ## 📋 Table of Contents
 
-- [Company Purpose](#-company-purpose)
+- [Purpose](#-purpose)
 - [Problem](#-problem)
 - [Solution](#-solution)
 - [Why Now?](#-why-now)
@@ -69,7 +69,7 @@ Neothink DAO is the world’s first open, positive-sum network state platform. W
 
 ---
 
-# 🏢 Company Purpose
+# 🎯 Purpose
 
 Neothink DAO is building the world’s first open, positive-sum network state platform—magnetically attracting, engaging, and delighting users and admins through gamified, transparent, and collaborative systems for prosperity, happiness, longevity, and luckiness.
 
@@ -261,7 +261,7 @@ A: Open a [GitHub Issue](https://github.com/neothink-dao/neothink.io/issues), jo
 
 ## 📄 License
 
-This project is proprietary software owned by Neothink DAO and the Mark Hamilton Family. All rights reserved. See the [LICENSE](./LICENSE) file for details.
+This project is proprietary software owned and controlled by Neothink DAO and the Mark Hamilton Family. All rights reserved. See the [LICENSE](./LICENSE) file for details.
 
 ---
 
