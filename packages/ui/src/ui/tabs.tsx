@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// This file uses React.HTMLAttributes and similar types, which may internally use 'any' for event handlers. This is safe and intentional.
-
 import * as React from "react";
 
 interface TabsProps {
