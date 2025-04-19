@@ -60,6 +60,9 @@ logs/
 *.sln
 *.sw?
 
+# Editor & collab state
+.cursor
+
 # Package managers
 package-lock.json
 yarn.lock
@@ -84,3 +87,7 @@ pnpm-lock 2.yaml
 *\ [0-9]*
 *\ [0-9]*.*
 *\ [0-9]*/* 
+
+# Husky & Changeset (if not used)
+.husky/
+.changeset/
